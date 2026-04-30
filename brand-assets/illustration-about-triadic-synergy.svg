@@ -1,0 +1,37 @@
+<svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="aboutShadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="3" dy="5" stdDeviation="4" flood-color="#1a2332" flood-opacity="0.12"/>
+                        </filter>
+                    </defs>
+                    <!-- Outer guide ring (system boundary) -->
+                    <circle cx="180" cy="160" r="138" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.1" stroke-dasharray="3 6"/>
+                    <!-- Inner core fill -->
+                    <circle cx="180" cy="160" r="32" fill="currentColor" opacity="0.04"/>
+                    <!-- 3 overlapping circles — triadic synergy, with subtle drop shadow -->
+                    <g fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55" stroke-linecap="round" filter="url(#aboutShadow)">
+                        <circle cx="138" cy="128" r="76"/>
+                        <circle cx="222" cy="128" r="76"/>
+                        <circle cx="180" cy="208" r="76"/>
+                    </g>
+                    <!-- Tangent dots on the circles (resonance) -->
+                    <g fill="currentColor" opacity="0.5">
+                        <circle cx="138" cy="52" r="2"/>
+                        <circle cx="222" cy="52" r="2"/>
+                        <circle cx="80" cy="170" r="2"/>
+                        <circle cx="280" cy="170" r="2"/>
+                        <circle cx="180" cy="284" r="2"/>
+                    </g>
+                    <!-- Center halo -->
+                    <circle cx="180" cy="155" r="14" fill="none" stroke="currentColor" stroke-width="0.7" opacity="0.3"/>
+                    <!-- Center synergy node -->
+                    <circle cx="180" cy="155" r="8" fill="white" stroke="currentColor" stroke-width="1.6" filter="url(#aboutShadow)"/>
+                    <circle cx="180" cy="155" r="3" fill="currentColor"/>
+                    <!-- Ambient corner dots -->
+                    <g fill="currentColor" opacity="0.35">
+                        <circle cx="40" cy="40" r="1.4"/>
+                        <circle cx="320" cy="50" r="1.6"/>
+                        <circle cx="340" cy="270" r="1.4"/>
+                        <circle cx="30" cy="280" r="1.6"/>
+                    </g>
+                </svg>

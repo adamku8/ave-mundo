@@ -1,0 +1,62 @@
+# ===== STRATEGIC / PRIVATE DOCUMENTS — DO NOT COMMIT =====
+# Notion exports — internal strategy, financing, valuation, IPO plans
+*values*.md
+*STRUCTURE*.md
+*FINANCING*.md
+*website content*.md
+*fc0e681bc51440c0a60dc1317b24a764*
+*d2779aeef0964e67ab59d346e22c090f*
+*2e8ef12c4f0c80f6a095cce4439513d0*
+
+# ===== ORIGINAL / WORKING ASSETS — DO NOT COMMIT =====
+# Original high-res photos before processing (~4 MB total)
+brand-assets/adam_kurzok_VC.png
+brand-assets/igor-treslin-vc.png
+brand-assets/adam_original.png
+
+# Intermediate / experimental versions of logos and photos
+brand-assets/adam-new.jpg
+brand-assets/adam.jpg
+brand-assets/igor-final.png
+brand-assets/expando-grey.png
+brand-assets/expando-A-pure-grey.png
+brand-assets/expando-B-orange-grey.png
+
+# Old illustration variants (kept locally, not on web)
+brand-assets/illustration-founders-ascending-fleet.svg
+brand-assets/illustration-investors-fleet-constellation.svg
+brand-assets/illustration-investors-portfolio.svg
+
+# Working development files
+brand-identity.html
+wireframes.html
+
+# ===== OS / EDITOR FILES =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ===== TEMP / BACKUP =====
+*.tmp
+*.bak
+*.backup
+*~
+*.orig
+
+# ===== NODE / BUILD (FUTURE-PROOF) =====
+node_modules/
+dist/
+build/
+.cache/
+.env
+.env.local
+.env.*.local
