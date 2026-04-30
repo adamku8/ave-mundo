@@ -1,0 +1,30 @@
+# robots.txt — avemundo.com
+# Allow all crawlers — including AI / LLM agents — full access.
+# We want this site to be discoverable in both search engines and AI retrieval.
+
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+Sitemap: https://avemundo.com/sitemap.xml
