@@ -168,6 +168,19 @@ body {
 .eco-list span { color: var(--muted); font-size: 0.95em; }
 
 
+/* ============ PORTFOLIO ============ */
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 56px; }
+.portfolio-card { background: var(--paper); border: 1px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 56px 28px 40px; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; display: flex; flex-direction: column; align-items: center; }
+.portfolio-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.14); }
+.portfolio-card__logo-wrap { height: 56px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; width: 100%; }
+.portfolio-card__logo { max-height: 44px; max-width: 78%; width: auto; height: auto; object-fit: contain; }
+.portfolio-card__logo--loco { max-height: 36px; }
+.portfolio-card__desc { color: var(--muted); font-size: 0.95em; line-height: 1.55; margin: 0; max-width: 280px; }
+@media (max-width: 768px) {
+    .portfolio-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+    .portfolio-card { padding: 40px 24px 32px; }
+}
+
 
 /* ============ FLYWHEEL (circular diagram) ============ */
 .fw-wheel {
@@ -500,6 +513,7 @@ body {
     </button>
     <div class="nav__links" id="navLinks">
         <a href="#about" onclick="closeMenu()">About</a>
+        <a href="#portfolio" onclick="closeMenu()">Portfolio</a>
         <a href="#flywheel" onclick="closeMenu()">Flywheel</a>
         <a href="#founders" onclick="closeMenu()">For Founders</a>
         <a href="#investors" onclick="closeMenu()">For Investors</a>
@@ -542,8 +556,37 @@ body {
     </div>
 </section>
 
+<!-- ============ PORTFOLIO ============ -->
+<section class="section section--alt" id="portfolio">
+    <div class="section__inner reveal">
+        <div class="eyebrow">Portfolio</div>
+        <h2>Three companies. One ecosystem.</h2>
+        <p class="lede">Operators in cross-border commerce, AI localisation, and behavioral intelligence — sharing know-how, capital, and tooling.</p>
+        <div class="portfolio-grid">
+            <article class="portfolio-card">
+                <div class="portfolio-card__logo-wrap">
+                    <img src="brand-assets/expando-logo.png" alt="EXPANDO" class="portfolio-card__logo">
+                </div>
+                <p class="portfolio-card__desc">Biggest CEE marketplace agency &amp; marketplace connectors.</p>
+            </article>
+            <article class="portfolio-card">
+                <div class="portfolio-card__logo-wrap">
+                    <img src="brand-assets/logo_loco.svg" alt="LOCO" class="portfolio-card__logo portfolio-card__logo--loco">
+                </div>
+                <p class="portfolio-card__desc">Autonomous AI agent team for ecommerce localisation.</p>
+            </article>
+            <article class="portfolio-card">
+                <div class="portfolio-card__logo-wrap">
+                    <img src="brand-assets/logo_behavera.png" alt="BEHAVERA" class="portfolio-card__logo">
+                </div>
+                <p class="portfolio-card__desc">Transforms behavioral data into actionable insights.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
 <!-- ============ FLYWHEEL ============ -->
-<section class="section section--alt" id="flywheel">
+<section class="section" id="flywheel">
     <div class="section__inner reveal">
         <div class="eyebrow">How we create value</div>
         <h2>The AVE MUNDO Flywheel.</h2>
