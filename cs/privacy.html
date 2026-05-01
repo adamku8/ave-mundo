@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zásady ochrany osobních údajů — AVE MUNDO</title>
+<meta name="description" content="Jak AVE MUNDO a.s. shromažďuje, používá a chrání osobní údaje — zásady GDPR.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#1a2332">
+
+<link rel="canonical" href="https://avemundo.com/cs/privacy.html">
+<link rel="alternate" hreflang="en" href="https://avemundo.com/privacy.html">
+<link rel="alternate" hreflang="cs" href="https://avemundo.com/cs/privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://avemundo.com/privacy.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/brand-assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/brand-assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<style>
+:root {
+    --ink-deep: #1a2332;
+    --ink: #2c3e50;
+    --paper: #ffffff;
+    --canvas: #f6f5f2;
+    --muted: #5a6a78;
+    --divider: rgba(0,0,0,0.08);
+    --grad: linear-gradient(135deg, #1a2332 0%, #2c3e50 50%, #1a2332 100%);
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); font-size: 17px; line-height: 1.65; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+
+.topbar { background: var(--grad); color: white; padding: 18px 40px; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; }
+.topbar a.brand { color: white; text-decoration: none; font-weight: 700; letter-spacing: 0.02em; font-size: 1.05em; display: flex; align-items: center; gap: 10px; }
+.topbar a.brand img { height: 22px; }
+.topbar nav { display: flex; gap: 22px; align-items: center; }
+.topbar nav a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.92em; font-weight: 500; transition: color 0.15s; }
+.topbar nav a:hover { color: white; }
+.lang-switch { display: inline-flex; align-items: center; gap: 2px; padding: 4px; border-radius: 6px; background: rgba(255,255,255,0.06); }
+.lang-switch a { padding: 4px 10px; border-radius: 4px; font-size: 0.82em; font-weight: 500; color: rgba(255,255,255,0.6) !important; text-decoration: none; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; line-height: 1; }
+.lang-switch a:hover { color: rgba(255,255,255,0.95) !important; }
+.lang-switch a.active { background: rgba(255,255,255,0.14); color: #fff !important; }
+
+main { max-width: 760px; margin: 0 auto; padding: 80px 32px 120px; }
+.eyebrow { display: inline-block; background: var(--ink); color: white; font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.18em; padding: 6px 12px; border-radius: 3px; margin-bottom: 24px; font-weight: 600; }
+h1 { font-size: clamp(2em, 4vw, 2.8em); font-weight: 700; line-height: 1.15; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 16px; }
+.lede { font-size: 1.15em; color: var(--muted); margin-bottom: 48px; }
+h2 { font-size: 1.4em; font-weight: 700; color: var(--ink); margin: 48px 0 16px; }
+h3 { font-size: 1.05em; font-weight: 600; color: var(--ink); margin: 28px 0 10px; }
+p { margin-bottom: 14px; color: #3d4a57; }
+ul { margin: 8px 0 16px 24px; }
+li { margin-bottom: 6px; color: #3d4a57; }
+strong { color: var(--ink); }
+a { color: var(--ink-deep); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: #000; }
+.meta { color: var(--muted); font-size: 0.92em; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--divider); }
+
+footer { background: var(--ink-deep); color: rgba(255,255,255,0.55); padding: 40px; text-align: center; font-size: 0.88em; }
+footer a { color: rgba(255,255,255,0.75); text-decoration: none; margin: 0 12px; }
+footer a:hover { color: white; }
+.footer-row { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+
+@media (max-width: 720px) {
+    .topbar { padding: 14px 20px; }
+    .topbar nav { gap: 12px; }
+    .topbar nav a:not(.lang-switch a) { display: none; }
+    main { padding: 48px 22px 80px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="/cs/" class="brand">
+        <img src="/brand-assets/favicon-192.png" alt="AVE MUNDO">
+        AVE MUNDO
+    </a>
+    <nav>
+        <a href="/cs/">Domů</a>
+        <a href="/cs/imprint.html">Tiráž</a>
+        <div class="lang-switch" role="group" aria-label="Jazyk">
+            <a href="/privacy.html" hreflang="en"><span aria-hidden="true">🇬🇧</span> EN</a>
+            <a href="/cs/privacy.html" class="active" hreflang="cs"><span aria-hidden="true">🇨🇿</span> CS</a>
+        </div>
+    </nav>
+</div>
+
+<main>
+    <div class="eyebrow">Právní informace</div>
+    <h1>Zásady ochrany osobních údajů</h1>
+    <p class="lede">Jak <strong>AVE MUNDO a.s.</strong> shromažďuje, zpracovává a chrání vaše osobní údaje. Aktualizováno: 1. května 2026.</p>
+
+    <h2>1. Kdo jsme</h2>
+    <p>Správcem osobních údajů je <strong>AVE MUNDO a.s.</strong>, akciová společnost se sídlem v České republice. Kontakt: <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>.</p>
+    <p>Úplné identifikační údaje firmy najdete v <a href="/cs/imprint.html">Tiráži</a>.</p>
+
+    <h2>2. Jaké údaje shromažďujeme</h2>
+    <p>Shromažďujeme záměrně jen nezbytné minimum. Web <strong>avemundo.com</strong> zpracovává pouze to, co nám aktivně pošlete:</p>
+
+    <h3>Pitch / kontaktní formulář</h3>
+    <p>Pokud nás kontaktujete přes pitch formulář, zpracováváme:</p>
+    <ul>
+        <li><strong>Identifikační údaje</strong> — jméno, e-mail, název společnosti</li>
+        <li><strong>Kontext</strong> — co stavíte nebo do čeho investujete, traction nebo investiční teze (volný text), co od nás potřebujete</li>
+        <li><strong>Zařazení</strong> — zda píšete jako zakladatel nebo investor</li>
+    </ul>
+
+    <h3>Server logy</h3>
+    <p>Jako každý web i náš poskytovatel hostingu (GitHub Pages) zaznamenává standardní metadata požadavků — IP adresu, user agent, čas, požadovanou URL — pro účely bezpečnosti, prevence zneužití a základního provozu infrastruktury. Tyto logy se uchovávají podle politiky GitHubu a my je nepoužíváme k profilování ani marketingu.</p>
+
+    <h3>Co <em>NE</em>shromažďujeme</h3>
+    <ul>
+        <li>Žádné analytické ani sledovací pixely (Google Analytics, Meta Pixel, atd.)</li>
+        <li>Žádné reklamní cookies</li>
+        <li>Žádné skripty třetích stran, které by vás profilovaly</li>
+        <li>Žádné cookies nastavené přímo doménou avemundo.com</li>
+    </ul>
+
+    <h2>3. Proč údaje zpracováváme (právní základ)</h2>
+    <ul>
+        <li><strong>Plnění smlouvy / předsmluvní jednání — čl. 6 odst. 1 písm. b) GDPR.</strong> Po odeslání pitch formuláře údaje použijeme k vyhodnocení potenciální spolupráce a k odpovědi.</li>
+        <li><strong>Oprávněný zájem — čl. 6 odst. 1 písm. f) GDPR.</strong> Server logy, bezpečnost a prevence zneužití.</li>
+    </ul>
+
+    <h2>4. Jak dlouho údaje uchováváme</h2>
+    <ul>
+        <li><strong>Pitch zprávy:</strong> až 24 měsíců od posledního kontaktu, nebo dle smlouvy, pokud z kontaktu vznikne spolupráce.</li>
+        <li><strong>Server logy:</strong> dle retenční politiky GitHubu (typicky do 12 měsíců).</li>
+        <li><strong>E-mailová korespondence:</strong> po dobu aktivní spolupráce a navazujících zákonných lhůt podle českého práva.</li>
+    </ul>
+
+    <h2>5. S kým údaje sdílíme</h2>
+    <p>Údaje sdílíme pouze s nezbytnými poskytovateli infrastruktury:</p>
+    <ul>
+        <li><strong>GitHub, Inc.</strong> (USA) — hosting webu přes GitHub Pages. Funguje pod EU-U.S. Data Privacy Framework.</li>
+        <li><strong>Náš poskytovatel e-mailu</strong> pro příjem a uchování pitch zpráv a korespondence.</li>
+        <li>Portfolio firmy nebo spoluinvestoři — pouze s vaším výslovným předchozím souhlasem.</li>
+    </ul>
+    <p>Osobní údaje nikdy neprodáváme. Nikdy je nesdílíme za účelem reklamy.</p>
+
+    <h2>6. Mezinárodní přenosy</h2>
+    <p>Někteří naši zpracovatelé působí mimo Evropský hospodářský prostor (zejména GitHub v USA). Tyto přenosy probíhají s odpovídajícími zárukami — především podle EU-U.S. Data Privacy Framework a Standard Contractual Clauses schválených Evropskou komisí.</p>
+
+    <h2>7. Vaše práva podle GDPR</h2>
+    <p>Máte právo:</p>
+    <ul>
+        <li><strong>Na přístup</strong> k osobním údajům, které o vás vedeme</li>
+        <li><strong>Na opravu</strong> nepřesných nebo neúplných údajů</li>
+        <li><strong>Na výmaz</strong> ("právo být zapomenut")</li>
+        <li><strong>Omezit zpracování</strong> nebo proti němu <strong>vznést námitku</strong></li>
+        <li><strong>Na přenositelnost</strong> — získat své údaje ve strukturovaném, strojově čitelném formátu</li>
+        <li><strong>Odvolat souhlas</strong> kdykoli, pokud zpracování stojí na souhlasu</li>
+        <li><strong>Podat stížnost</strong> u Úřadu pro ochranu osobních údajů — <a href="https://www.uoou.cz/">uoou.cz</a></li>
+    </ul>
+    <p>Pro uplatnění kteréhokoli z těchto práv nám napište na <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>. Reagujeme do 30 dnů.</p>
+
+    <h2>8. Zabezpečení</h2>
+    <p>Veškerý provoz běží přes HTTPS, přístup k pitch zprávám mají pouze pověření partneři a využíváme infrastrukturu (GitHub, e-mailový poskytovatel), která drží průmyslové standardy zabezpečení.</p>
+
+    <h2>9. Změny zásad</h2>
+    <p>Zásady můžeme aktualizovat s vývojem našeho zpracování nebo legislativy. Datum „Aktualizováno" v hlavičce odráží poslední revizi. Zásadní změny komunikujeme přes web nebo — pokud s vámi máme aktivní spolupráci — e-mailem.</p>
+
+    <h2>10. Kontakt</h2>
+    <p>Dotazy ke zpracování údajů nebo k těmto zásadám: <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>.</p>
+
+    <p class="meta">© 2026 AVE MUNDO a.s. — Aktualizováno 1. května 2026.</p>
+</main>
+
+<footer>
+    <div class="footer-row">
+        <a href="/cs/">Domů</a>
+        <a href="/cs/privacy.html">Soukromí</a>
+        <a href="/cs/imprint.html">Tiráž</a>
+        <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>
+        <div class="lang-switch" role="group" aria-label="Jazyk">
+            <a href="/privacy.html" hreflang="en"><span aria-hidden="true">🇬🇧</span> EN</a>
+            <a href="/cs/privacy.html" class="active" hreflang="cs"><span aria-hidden="true">🇨🇿</span> CS</a>
+        </div>
+    </div>
+    <div>© 2026 <strong style="color:rgba(255,255,255,0.85)">AVE MUNDO a.s.</strong> · Evropa / Globálně</div>
+</footer>
+
+</body>
+</html>
