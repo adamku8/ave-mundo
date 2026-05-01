@@ -8,6 +8,14 @@
 *d2779aeef0964e67ab59d346e22c090f*
 *2e8ef12c4f0c80f6a095cce4439513d0*
 
+# ===== CLAUDE / DEV INSTRUCTIONS — LOCAL ONLY =====
+# Project instructions for Claude (workflow, brand, MCP setup)
+CLAUDE.md
+# One-off setup / install / cleanup scripts (may contain infra references)
+install-*.sh
+redeploy-*.sh
+cleanup-*.sh
+
 # ===== ORIGINAL / WORKING ASSETS — DO NOT COMMIT =====
 # Original high-res photos before processing (~4 MB total)
 brand-assets/adam_kurzok_VC.png
