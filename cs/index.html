@@ -648,6 +648,10 @@ body {
     .footer__inner { flex-direction: column; text-align: center; }
     .not-card { position: static; }
 }
+
+/* If JS fails, force-reveal after 3s via animation fallback */
+@keyframes _safetyReveal { to { opacity:1; transform:none; } }
+.reveal { animation: _safetyReveal 0s ease-out 3s forwards; }
 </style>
 </head>
 <body>
@@ -905,7 +909,7 @@ body {
                 <ul class="team-bio">
                     <li><strong>20+ let</strong> ve startupech a e-commerce</li>
                     <li>Založil <strong>Lunchtime</strong>, <strong>Pizzatime</strong> — exit do Zomato a Delivery Hero</li>
-                    <li>Zakladatel <strong>EXPANDO</strong></li>
+                    <li>Zakladatel <strong>EXPANDO</strong> a <strong>DIGISMOOTHIE</strong></li>
                 </ul>
             </article>
             <article class="team-card">
@@ -915,6 +919,7 @@ body {
                 <ul class="team-bio">
                     <li><strong>20+ let</strong> v sales a C-level rolích</li>
                     <li>Založil <strong>Storyous</strong> — exit do Teya</li>
+                    <li>Práce pro investiční fondy <strong>Rockaway</strong> a <strong>Saltpay</strong></li>
                 </ul>
             </article>
         </div>
@@ -1132,7 +1137,7 @@ body {
 // ============= CONFIG =============
 const CONFIG = {
     submitEndpoint: '',  // Plug in Make.com / Formspree / Basin webhook URL here
-    fallbackE-mail: 'hello@avemundo.com'
+    fallbackEmail: 'hello@avemundo.com'
 };
 
 // ============= MENU =============
@@ -1219,7 +1224,7 @@ form.addEventListener('submit', async (e) => {
                     `K čemu se chcete dostat:\n${data.access || '—'}`
                 );
             }
-            window.location.href = `mailto:${CONFIG.fallbackE-mail}?subject=${subject}&body=${body}`;
+            window.location.href = `mailto:${CONFIG.fallbackEmail}?subject=${subject}&body=${body}`;
             await new Promise(r => setTimeout(r, 800));
         }
 
@@ -1227,7 +1232,7 @@ form.addEventListener('submit', async (e) => {
         successState.classList.add('show');
     } catch (err) {
         console.error('Submission failed:', err);
-        errorMsg.innerHTML = `Nepodařilo se odeslat. Zkuste to znovu — nebo nám napište na <a href="mailto:${CONFIG.fallbackE-mail}" style="color:white;">${CONFIG.fallbackE-mail}</a>.`;
+        errorMsg.innerHTML = `Nepodařilo se odeslat. Zkuste to znovu — nebo nám napište na <a href="mailto:${CONFIG.fallbackEmail}" style="color:white;">${CONFIG.fallbackEmail}</a>.`;
         form.style.display = 'none';
         errorState.classList.add('show');
     } finally {

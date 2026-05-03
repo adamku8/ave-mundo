@@ -648,6 +648,10 @@ body {
     .footer__inner { flex-direction: column; text-align: center; }
     .not-card { position: static; }
 }
+
+/* If JS fails, force-reveal after 3s via animation fallback */
+@keyframes _safetyReveal { to { opacity:1; transform:none; } }
+.reveal { animation: _safetyReveal 0s ease-out 3s forwards; }
 </style>
 </head>
 <body>
@@ -905,7 +909,7 @@ body {
                 <ul class="team-bio">
                     <li><strong>20+ years</strong> in startups and ecommerce</li>
                     <li>Founded <strong>Lunchtime</strong>, <strong>Pizzatime</strong> — exited to Zomato &amp; Delivery Hero</li>
-                    <li>Founder of <strong>EXPANDO</strong></li>
+                    <li>Founder of <strong>EXPANDO</strong> and <strong>DIGISMOOTHIE</strong></li>
                 </ul>
             </article>
             <article class="team-card">
@@ -915,6 +919,7 @@ body {
                 <ul class="team-bio">
                     <li><strong>20+ years</strong> in sales and C-level roles</li>
                     <li>Founded <strong>Storyous</strong> — exited to Teya</li>
+                    <li>Worked with <strong>Rockaway</strong> and <strong>Saltpay</strong> investment funds</li>
                 </ul>
             </article>
         </div>

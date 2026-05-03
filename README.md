@@ -47,24 +47,20 @@ CNAME              # avemundo.com
 
 ## Kontext pro AI (auto)
 
-**O čem:** Statická webová prezentace investičního holdingu **AVE MUNDO** (Adam Kurzok + Igor Třeslín) — vize, portfolio (EXPANDO, LOCO, BEHAVERA), tým, kontakt. Hosted on GitHub Pages s custom doménou `avemundo.com`. Obsahuje brand identity HTML mockupy a wireframes pro web. Sister knowledge base je [STAVANGER dividends/](../STAVANGER%20dividends/) (kvartální výplaty, finanční snapshoty).
+**O čem:** Live single-page website **avemundo.com** (statický HTML, GitHub Pages, repo `adamku8/ave-mundo`). EN master + CS mutace v `cs/`. Privacy + imprint stránky. Brand assety v `brand-assets/`. Tato složka `WEB/` má vlastní `.git` repo. Parent `AVE MUNDO/` drží meta soubory (`CLAUDE.md`, `_setup/` install skripty, `_archive/`, `sources/` Notion exporty, `backup/`).
 
-**Klíčové soubory:**
-- `index.html` (677 KB, 2026-05-01) — **live single-page website** (poslední úprava).
-- `imprint.html` (9 KB, 2026-05-01), `privacy.html` (11 KB, 2026-05-01) — právní stránky.
-- `brand-identity.html` (890 KB, 2026-04-27) — brand identity mockup; `wireframes.html` (451 KB, 2026-04-27) — wireframy.
-- `cs/` — česká jazyková mutace.
-- `brand-assets/` (32 souborů, 6,8 MB) — loga (`avemundo-logo.png`, `expando-logo.png`, `logo_behavera.png`, `logo_loco.svg`), faviconů, founders fotky (`adam.jpg`, `adam-new.jpg`, `igor.jpg`, `igor-final.png`, `adam_kurzok_VC.png` 2 MB, `igor-treslin-vc.png` 2 MB), 6× SVG ilustrace (founders/investors/about), `og-image.png`.
-- `CLAUDE.md` (9,4 KB, 2026-05-01) — instrukce pro AI ohledně tohoto repa.
-- `install-github-mcp.sh` (8,8 KB, 2026-05-01) — install skript pro GitHub MCP.
-- `sitemap.xml`, `robots.txt`, `site.webmanifest`, `favicon.ico`, `CNAME` — statické metadata.
-- `backup/index.html` (669 KB, 2026-04-30) — předchozí verze indexu pro rollback.
-- `_archive/` — vytvořeno 2026-05-01: `.gitignore 2`, `CNAME 2`, `expando-logo2 2.png` (sync-conflict duplicates s mezerou + číslem v názvu, bit-identické s kanonickými verzemi).
+**Klíčové soubory (WEB/):**
+- `index.html` (677 KB, 2026-05-01) — **live single-page website** s embedded base64 fotkami.
+- `imprint.html` (9 KB, 2026-05-01), `privacy.html` (11 KB, 2026-05-02) — právní stránky.
+- `cs/` (3 souborů) — česká jazyková mutace (`index.html`, `privacy.html`, `imprint.html`).
+- `brand-assets/` (32 souborů) — loga (`avemundo-logo.png`, `expando-logo.png`, `logo_behavera.png`, `logo_loco.svg`), favicony, founders fotky (`adam-new.jpg`, `igor-final.png`, `adam_kurzok_VC.png` 2 MB, `igor-treslin-vc.png` 2 MB), 6× SVG ilustrace, `og-image.png`.
+- `sitemap.xml` (2,4 KB, 2026-05-02), `robots.txt`, `site.webmanifest`, `favicon.ico`, `CNAME` (`avemundo.com`) — statické metadata.
+- `.git/` (vlastní git repo `adamku8/ave-mundo`, root je tento `WEB/` adresář).
 
-**Poslední aktivita:** 2026-05-01 (`index.html`, `imprint.html`, `privacy.html`, `CLAUDE.md` refresh; archivace sync-conflict duplicates).
+**Poslední aktivita:** 2026-05-02 (`privacy.html` + `sitemap.xml` refresh); 2026-05-01 (`index.html` + `imprint.html`).
 
-**Pro AI konverzace:** Když se řeší web `avemundo.com`, brand identity AVE MUNDO, nebo founders/investors visual library, jde sem. **Master content jsou HTML soubory** (`index.html`, `imprint.html`, `privacy.html`); brand identity mockupy a wireframes jsou referenční. Pro fotky founders použít `brand-assets/adam-new.jpg` + `igor-final.png` (nejnovější verze). Sister projekt: STAVANGER dividends (operační/finanční pohled).
+**Pro AI konverzace:** Master content webu `avemundo.com`. EN/CS jazykové verze drž synchronizované — když měníš text v `index.html`, paralelně updatuj i `cs/index.html`. Stejně u Privacy + Imprint. Před úpravami pull aktuální verzi z GitHub repa `adamku8/ave-mundo` (lokálka může být zastaralá). Pro fotky founders: `brand-assets/adam-new.jpg` + `igor-final.png`. Detailní workflow + git/push pravidla: `../CLAUDE.md` (v parent AVE MUNDO/ rootu).
 
-**To review:** prázdná podsložka `AVE MUNDO/AVE MUNDO/` (2026-05-01) — zřejmě artefakt nějaké operace; sandbox nedokáže smazat (FUSE blocks rmdir). Pokud nepatří do struktury, smazat z hosta.
+**To review:** prázdná podsložka `AVE MUNDO/AVE MUNDO/` (2026-05-01, persistující 2. týden) — sandbox nedokáže smazat (FUSE blocks rmdir). Pokud nepatří do struktury, smazat z hosta.
 
 <!-- AUTO-END -->

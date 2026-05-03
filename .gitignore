@@ -68,3 +68,8 @@ build/
 .env
 .env.local
 .env.*.local
+
+# ===== SECRETS / VIRTUALENVS (auto 2026-05-03) =====
+.venv/
+venv/
+client_secret*.json
