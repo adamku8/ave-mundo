@@ -89,6 +89,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .muta-bar .sep-thin{width:1px;height:24px;background:var(--border);align-self:center;margin:0 4px}
 .muta-meta{font-size:12px;color:var(--text-soft)}
 
+/* Period bar (sits right above metrics) */
+.period-bar{display:flex;align-items:center;gap:10px;margin:0 4px 10px;padding:6px 0}
+.period-bar .label{font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.10em;font-weight:700;margin-right:2px}
+.period-bar .period-hint{margin-left:auto;font-size:11px;color:var(--text-soft);font-weight:500}
+
+/* Date range selector */
 .date-select-wrap{position:relative}
 .date-select{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);font-family:inherit;transition:all .15s ease}
 .date-select:hover{border-color:var(--border-strong)}
@@ -390,7 +396,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
     <a class="sb-item"><span class="sb-ic">🔌</span>Integrace</a>
     <a class="sb-item"><span class="sb-ic">👥</span>Tým</a>
 
-    <div class="sb-foot">v0.5 · prototyp · 5 mutací</div>
+    <div class="sb-foot">v0.6 · prototyp · 5 mutací</div>
   </aside>
 
   <main class="main">
@@ -409,8 +415,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       <div class="muta" data-m="PL"><span class="flag">🇵🇱</span><span class="code">PL</span></div>
       <div class="muta" data-m="HU"><span class="flag">🇭🇺</span><span class="code">HU</span></div>
       <div class="muta" data-m="RO"><span class="flag">🇷🇴</span><span class="code">RO</span></div>
-      <span class="sep-thin"></span>
-      <span class="muta-label">Období</span>
+      <div class="sep"></div>
+      <div class="muta-meta" id="muta-meta">norda.cz · CZK · GMT+1</div>
+    </div>
+
+    <div class="period-bar">
+      <span class="label">Období</span>
       <div class="date-select-wrap">
         <button class="date-select" id="date-btn" type="button">
           <span>📅</span>
@@ -425,8 +435,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
           <a data-d="custom">Vlastní rozsah…</a>
         </div>
       </div>
-      <div class="sep"></div>
-      <div class="muta-meta" id="muta-meta">norda.cz · CZK · GMT+1</div>
+      <span class="period-hint">vs. předchozí období</span>
     </div>
 
     <div class="kpi-grid">
