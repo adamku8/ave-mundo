@@ -390,7 +390,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
     <a class="sb-item"><span class="sb-ic">🔌</span>Integrace</a>
     <a class="sb-item"><span class="sb-ic">👥</span>Tým</a>
 
-    <div class="sb-foot">v0.4 · prototyp · 5 mutací</div>
+    <div class="sb-foot">v0.5 · prototyp · 5 mutací</div>
   </aside>
 
   <main class="main">
@@ -431,7 +431,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 
     <div class="kpi-grid">
       <div class="kpi-card"><div class="label">Tržby</div><div class="num" data-k="revenue">— Kč</div><div class="delta up" data-k="revenueDelta">+12,4 %</div></div>
-      <div class="kpi-card"><div class="label">ROAS</div><div class="num" data-k="roas">—</div><div class="delta up" data-k="roasDelta">+0,4</div></div>
+      <div class="kpi-card"><div class="label">Návštěvnost</div><div class="num" data-k="visits">—</div><div class="delta up" data-k="visitsDelta">+9 %</div></div>
       <div class="kpi-card"><div class="label">Konverze</div><div class="num" data-k="cr">—</div><div class="delta up" data-k="crDelta">+0,3 pp</div></div>
       <div class="kpi-card"><div class="label">Prům. košík</div><div class="num" data-k="aov">—</div><div class="delta flat" data-k="aovDelta">+1,1 %</div></div>
     </div>
@@ -628,7 +628,7 @@ const CHANNELS = {
 
 const DATA = {
   CZ: {
-    biz:{revenue:"3 248 600 Kč",roas:"4,2",cr:"2,8 %",aov:"1 840 Kč",revenueDelta:"+12,4 %",roasDelta:"+0,4",crDelta:"+0,3 pp",aovDelta:"+1,1 %"},
+    biz:{revenue:"3 248 600 Kč",visits:"284 000",cr:"2,8 %",aov:"1 840 Kč",revenueDelta:"+12,4 %",visitsDelta:"+9 %",crDelta:"+0,3 pp",aovDelta:"+1,1 %",roas:"4,2",roasDelta:"+0,4"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"184"},{l:"Tržby dnes",v:"312 480 Kč"},{l:"Anomálie",v:"1",cls:"warn"}],
       products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"42",cls:"warn"},{l:"Bez fotky",v:"124",cls:"warn"}],
@@ -681,7 +681,7 @@ const DATA = {
     ]
   },
   SK:{
-    biz:{revenue:"118 240 €",roas:"3,8",cr:"2,5 %",aov:"72 €",revenueDelta:"+9,1 %",roasDelta:"+0,2",crDelta:"+0,1 pp",aovDelta:"+0,4 %"},
+    biz:{revenue:"118 240 €",visits:"102 000",cr:"2,5 %",aov:"72 €",revenueDelta:"+9,1 %",visitsDelta:"+5 %",crDelta:"+0,1 pp",aovDelta:"+0,4 %",roas:"3,8",roasDelta:"+0,2"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"62"},{l:"Tržby dnes",v:"11 280 €"},{l:"Anomálie",v:"0",cls:"good"}],
       products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"118",cls:"warn"},{l:"Bez fotky",v:"412",cls:"warn"}],
@@ -725,7 +725,7 @@ const DATA = {
     ]
   },
   PL:{
-    biz:{revenue:"428 600 zł",roas:"3,4",cr:"2,1 %",aov:"248 zł",revenueDelta:"+22,8 %",roasDelta:"+0,6",crDelta:"+0,4 pp",aovDelta:"-2,1 %"},
+    biz:{revenue:"428 600 zł",visits:"468 000",cr:"2,1 %",aov:"248 zł",revenueDelta:"+22,8 %",visitsDelta:"+28 %",crDelta:"+0,4 pp",aovDelta:"-2,1 %",roas:"3,4",roasDelta:"+0,6"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"128"},{l:"Tržby dnes",v:"42 480 zł"},{l:"Anomálie",v:"0",cls:"good"}],
       products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"280",cls:"warn"},{l:"Cenové diff.",v:"8",cls:"warn"}],
@@ -779,7 +779,7 @@ const DATA = {
     ]
   },
   HU:{
-    biz:{revenue:"42 800 000 Ft",roas:"2,9",cr:"1,8 %",aov:"32 400 Ft",revenueDelta:"+8,2 %",roasDelta:"+0,1",crDelta:"-0,1 pp",aovDelta:"+2,4 %"},
+    biz:{revenue:"42 800 000 Ft",visits:"58 000",cr:"1,8 %",aov:"32 400 Ft",revenueDelta:"+8,2 %",visitsDelta:"+4 %",crDelta:"-0,1 pp",aovDelta:"+2,4 %",roas:"2,9",roasDelta:"+0,1"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"38"},{l:"Tržby dnes",v:"4 240 000 Ft"},{l:"Anomálie",v:"1",cls:"warn"}],
       products:[{l:"SKU",v:"9 840"},{l:"Bez popisu",v:"412",cls:"bad"},{l:"Bez fotky",v:"1 240",cls:"bad"}],
@@ -823,7 +823,7 @@ const DATA = {
     ]
   },
   RO:{
-    biz:{revenue:"248 600 lei",roas:"2,4",cr:"1,4 %",aov:"480 lei",revenueDelta:"+4,8 %",roasDelta:"-0,2",crDelta:"-0,2 pp",aovDelta:"+0,8 %"},
+    biz:{revenue:"248 600 lei",visits:"27 000",cr:"1,4 %",aov:"480 lei",revenueDelta:"+4,8 %",visitsDelta:"+1 %",crDelta:"-0,2 pp",aovDelta:"+0,8 %",roas:"2,4",roasDelta:"-0,2"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"18"},{l:"Tržby dnes",v:"24 600 lei"},{l:"Anomálie",v:"0",cls:"good"}],
       products:[{l:"SKU",v:"8 240"},{l:"Bez popisu",v:"1 840",cls:"bad"},{l:"Bez fotky",v:"3 680",cls:"bad"}],
@@ -906,12 +906,12 @@ function render(m){
 
   document.getElementById("muta-meta").textContent = META[m].dom;
 
-  setText("revenue",d.biz.revenue); setText("roas",d.biz.roas);
+  setText("revenue",d.biz.revenue); setText("visits",d.biz.visits);
   setText("cr",d.biz.cr); setText("aov",d.biz.aov);
-  setText("revenueDelta",d.biz.revenueDelta); setText("roasDelta",d.biz.roasDelta);
+  setText("revenueDelta",d.biz.revenueDelta); setText("visitsDelta",d.biz.visitsDelta);
   setText("crDelta",d.biz.crDelta); setText("aovDelta",d.biz.aovDelta);
   applyDeltaClass("revenueDelta",d.biz.revenueDelta);
-  applyDeltaClass("roasDelta",d.biz.roasDelta);
+  applyDeltaClass("visitsDelta",d.biz.visitsDelta);
   applyDeltaClass("crDelta",d.biz.crDelta);
   applyDeltaClass("aovDelta",d.biz.aovDelta);
 
