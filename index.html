@@ -81,14 +81,26 @@
       "@id": "https://avemundo.com/#adam-kurzok",
       "name": "Adam Kurzok",
       "jobTitle": "Co-founder & Managing Partner",
-      "worksFor": { "@id": "https://avemundo.com/#organization" }
+      "worksFor": { "@id": "https://avemundo.com/#organization" },
+      "url": "https://www.linkedin.com/in/adamkurzok/",
+      "sameAs": [
+        "https://www.linkedin.com/in/adamkurzok/"
+      ],
+      "knowsAbout": ["E-commerce", "Marketplace strategy", "Cross-border commerce", "SaaS", "Investment", "Startup founding", "Exit strategy"],
+      "alumniOf": ["Lunchtime", "Pizzatime"]
     },
     {
       "@type": "Person",
       "@id": "https://avemundo.com/#igor-treslin",
       "name": "Igor Třeslín",
       "jobTitle": "Co-founder & Partner",
-      "worksFor": { "@id": "https://avemundo.com/#organization" }
+      "worksFor": { "@id": "https://avemundo.com/#organization" },
+      "url": "https://www.linkedin.com/in/igor-treslin-99a02422/",
+      "sameAs": [
+        "https://www.linkedin.com/in/igor-treslin-99a02422/"
+      ],
+      "knowsAbout": ["Sales leadership", "C-level operations", "SaaS scaling", "Investment", "Exit strategy"],
+      "alumniOf": ["Storyous"]
     }
   ],
   "subOrganization": [
@@ -146,6 +158,17 @@
   "inLanguage": "en"
 }
 </script>
+
+<!-- Google Analytics 4 with Consent Mode v2 (default DENY) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','functionality_storage':'granted','security_storage':'granted','wait_for_update':500});
+try { if (localStorage.getItem('avemundo_consent') === 'granted') gtag('consent','update',{'analytics_storage':'granted'}); } catch(e){}
+gtag('js', new Date());
+gtag('config','G-WPZW13B255',{'anonymize_ip':true});
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPZW13B255"></script>
 
 <style>
 :root {
@@ -417,6 +440,19 @@ body {
 .form-state .reset { background: none; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-family: var(--font); font-size: 0.9em; }
 .form-state .reset:hover { background: rgba(255,255,255,0.05); }
 
+/* ============ COOKIE BANNER ============ */
+.cookie-banner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 640px; width: calc(100% - 48px); background: #1a2332; color: rgba(255,255,255,0.92); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); padding: 18px 22px; z-index: 9999; font-size: 0.9em; line-height: 1.5; animation: cb-slide 0.3s ease-out; }
+@keyframes cb-slide { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.cookie-banner__inner { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.cookie-banner__text { margin: 0; flex: 1 1 280px; color: rgba(255,255,255,0.92); }
+.cookie-banner__text a { color: #fff; text-decoration: underline; }
+.cookie-banner__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.cookie-banner__btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-family: inherit; font-size: 0.92em; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+.cookie-banner__btn:hover { background: rgba(255,255,255,0.16); }
+.cookie-banner__btn--primary { background: #fff; color: #1a2332; border-color: #fff; font-weight: 600; }
+.cookie-banner__btn--primary:hover { background: rgba(255,255,255,0.92); }
+@media (max-width: 600px) { .cookie-banner { width: calc(100% - 24px); bottom: 12px; padding: 16px; } .cookie-banner__actions { width: 100%; } .cookie-banner__btn { flex: 1; } }
+
 /* ============ FOOTER ============ */
 .footer { background: black; color: rgba(255,255,255,0.5); padding: 48px 60px; font-size: 0.85em; }
 .footer__inner { max-width: var(--maxw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
@@ -552,6 +588,9 @@ body {
     border-top: none;
     padding-top: 0;
 }
+.team-card .team-social { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; padding: 8px 14px; border: 1px solid var(--divider); border-radius: 6px; color: var(--ink); text-decoration: none; font-size: 0.85em; font-weight: 500; transition: all 0.15s ease; }
+.team-card .team-social:hover { background: var(--ink-deep); color: white; border-color: var(--ink-deep); }
+.team-card .team-social svg { width: 16px; height: 16px; }
 .team-card .team-bio li strong {
     color: var(--ink);
 }
@@ -718,6 +757,12 @@ body {
         <a href="#founders" onclick="closeMenu()">For Founders</a>
         <a href="#team" onclick="closeMenu()">Who are we</a>
         <a href="#investors" onclick="closeMenu()">For Investors</a>
+        <a href="/thesis.html" onclick="closeMenu()">Thesis</a>
+        <a href="/faq.html" onclick="closeMenu()">FAQ</a>
+        <div class="lang-switch" role="group" aria-label="Language">
+            <a href="/" class="lang-switch__btn lang-switch__btn--active" hreflang="en"><span class="flag" aria-hidden="true">🇬🇧</span> EN</a>
+            <a href="/cs/" class="lang-switch__btn" hreflang="cs"><span class="flag" aria-hidden="true">🇨🇿</span> CS</a>
+        </div>
         <a href="#contact" class="nav__cta" onclick="closeMenu()">Get in touch</a>
     </div>
 </nav>
@@ -907,6 +952,10 @@ body {
                     <li>Founded <strong>Lunchtime</strong>, <strong>Pizzatime</strong> — exited to Zomato &amp; Delivery Hero</li>
                     <li>Founder of <strong>EXPANDO</strong> and <strong>DIGISMOOTHIE</strong></li>
                 </ul>
+                <a href="https://www.linkedin.com/in/adamkurzok/" class="team-social" target="_blank" rel="noopener me" aria-label="Adam Kurzok on LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    LinkedIn
+                </a>
             </article>
             <article class="team-card">
                 <div class="team-photo" data-initials="IT"><img src="/brand-assets/team-igor.jpg" loading="lazy" decoding="async" alt="Igor Třeslín — Co-founder & Partner, AVE MUNDO"></div>
@@ -917,6 +966,10 @@ body {
                     <li>Founded <strong>Storyous</strong> — exited to Teya</li>
                     <li>Worked with <strong>Rockaway</strong> and <strong>Saltpay</strong> investment funds</li>
                 </ul>
+                <a href="https://www.linkedin.com/in/igor-treslin-99a02422/" class="team-social" target="_blank" rel="noopener me" aria-label="Igor Třeslín on LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    LinkedIn
+                </a>
             </article>
         </div>
     </div>
@@ -1118,6 +1171,8 @@ body {
         <div class="footer__logo"><img src="/brand-assets/avemundo-logo.png" alt="AVE MUNDO"></div>
         <div class="footer__links">
             <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>
+            <a href="/thesis.html">Thesis</a>
+            <a href="/faq.html">FAQ</a>
             <a href="/privacy.html">Privacy</a>
             <a href="/imprint.html">Imprint</a>
             <div class="lang-switch" role="group" aria-label="Language">
@@ -1308,6 +1363,33 @@ if (!reducedMotion) {
     }
     window.addEventListener('scroll', onScroll, { passive: true });
 }
+</script>
+
+<!-- Cookie consent banner -->
+<div id="cookie-banner" class="cookie-banner" hidden>
+    <div class="cookie-banner__inner">
+        <p class="cookie-banner__text">We use Google Analytics with anonymized IPs to understand how visitors use this site. No ads, no profiling. <a href="/privacy.html">Read our privacy policy</a>.</p>
+        <div class="cookie-banner__actions">
+            <button onclick="cookieAccept()" class="cookie-banner__btn cookie-banner__btn--primary">Accept analytics</button>
+            <button onclick="cookieDecline()" class="cookie-banner__btn">Continue without</button>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+    var stored = null;
+    try { stored = localStorage.getItem('avemundo_consent'); } catch(e){}
+    if (!stored) document.getElementById('cookie-banner').hidden = false;
+    window.cookieAccept = function() {
+        try { localStorage.setItem('avemundo_consent','granted'); } catch(e){}
+        if (typeof gtag === 'function') gtag('consent','update',{'analytics_storage':'granted'});
+        document.getElementById('cookie-banner').hidden = true;
+    };
+    window.cookieDecline = function() {
+        try { localStorage.setItem('avemundo_consent','denied'); } catch(e){}
+        document.getElementById('cookie-banner').hidden = true;
+    };
+})();
 </script>
 
 </body>

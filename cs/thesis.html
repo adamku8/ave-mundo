@@ -43,6 +43,17 @@
 }
 </script>
 
+<!-- Google Analytics 4 with Consent Mode v2 (default DENY) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','functionality_storage':'granted','security_storage':'granted','wait_for_update':500});
+try { if (localStorage.getItem('avemundo_consent') === 'granted') gtag('consent','update',{'analytics_storage':'granted'}); } catch(e){}
+gtag('js', new Date());
+gtag('config','G-WPZW13B255',{'anonymize_ip':true});
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPZW13B255"></script>
+
 <style>
 :root {
     --ink-deep: #1a2332;
@@ -114,6 +125,19 @@ footer a:hover { color: white; }
     .criteria-grid, .facts-row { grid-template-columns: 1fr; }
     .hero-thesis { padding: 60px 22px 70px; }
 }
+
+/* Cookie banner */
+.cookie-banner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 640px; width: calc(100% - 48px); background: #1a2332; color: rgba(255,255,255,0.92); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); padding: 18px 22px; z-index: 9999; font-size: 0.9em; line-height: 1.5; animation: cb-slide 0.3s ease-out; }
+@keyframes cb-slide { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.cookie-banner__inner { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.cookie-banner__text { margin: 0; flex: 1 1 280px; color: rgba(255,255,255,0.92); }
+.cookie-banner__text a { color: #fff; text-decoration: underline; }
+.cookie-banner__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.cookie-banner__btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-family: inherit; font-size: 0.92em; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+.cookie-banner__btn:hover { background: rgba(255,255,255,0.16); }
+.cookie-banner__btn--primary { background: #fff; color: #1a2332; border-color: #fff; font-weight: 600; }
+.cookie-banner__btn--primary:hover { background: rgba(255,255,255,0.92); }
+@media (max-width: 600px) { .cookie-banner { width: calc(100% - 24px); bottom: 12px; padding: 16px; } .cookie-banner__actions { width: 100%; } .cookie-banner__btn { flex: 1; } }
 </style>
 </head>
 <body>
@@ -268,6 +292,34 @@ footer a:hover { color: white; }
     </div>
     <div>© 2026 <strong style="color:rgba(255,255,255,0.85)">AVE MUNDO a.s.</strong> · Evropa / Globálně</div>
 </footer>
+
+
+<!-- Cookie consent banner -->
+<div id="cookie-banner" class="cookie-banner" hidden>
+    <div class="cookie-banner__inner">
+        <p class="cookie-banner__text">Používáme Google Analytics s anonymizovanou IP adresou, abychom rozuměli, jak návštěvníci web používají. Žádné reklamy, žádné profilování. <a href="/cs/privacy.html">Více v zásadách ochrany údajů</a>.</p>
+        <div class="cookie-banner__actions">
+            <button onclick="cookieAccept()" class="cookie-banner__btn cookie-banner__btn--primary">Přijmout analytiku</button>
+            <button onclick="cookieDecline()" class="cookie-banner__btn">Pokračovat bez</button>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+    var stored = null;
+    try { stored = localStorage.getItem('avemundo_consent'); } catch(e){}
+    if (!stored) document.getElementById('cookie-banner').hidden = false;
+    window.cookieAccept = function() {
+        try { localStorage.setItem('avemundo_consent','granted'); } catch(e){}
+        if (typeof gtag === 'function') gtag('consent','update',{'analytics_storage':'granted'});
+        document.getElementById('cookie-banner').hidden = true;
+    };
+    window.cookieDecline = function() {
+        try { localStorage.setItem('avemundo_consent','denied'); } catch(e){}
+        document.getElementById('cookie-banner').hidden = true;
+    };
+})();
+</script>
 
 </body>
 </html>
