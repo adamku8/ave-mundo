@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NORDA · Agent Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root{
+  color-scheme: light;
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --surface-2: #fbfbfd;
+  --border: #e7e8ee;
+  --border-strong: #d6d8e0;
+  --text: #0f1222;
+  --text-muted: #5b6075;
+  --text-soft: #8a8fa3;
+  --green: #10b981;
+  --green-soft: #ecfdf5;
+  --amber: #f59e0b;
+  --amber-soft: #fffbeb;
+  --red: #ef4444;
+  --red-soft: #fef2f2;
+  --violet: #8b5cf6;
+  --violet-soft: #f5f3ff;
+  --shadow: 0 1px 2px rgba(15,18,34,.04), 0 8px 24px rgba(15,18,34,.04);
+  --shadow-strong: 0 1px 2px rgba(15,18,34,.06), 0 12px 36px rgba(15,18,34,.08);
+  --sidebar-w: 248px;
+
+  --sec-store: #3b82f6;        --sec-store-soft: #eff6ff;
+  --sec-products: #8b5cf6;     --sec-products-soft: #f5f3ff;
+  --sec-marketing: #f59e0b;    --sec-marketing-soft: #fffbeb;
+  --sec-customers: #ec4899;    --sec-customers-soft: #fdf2f8;
+  --sec-strategy: #14b8a6;     --sec-strategy-soft: #f0fdfa;
+
+  --paid: #8b5cf6;
+  --organic: #10b981;
+  --retention: #f59e0b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+
+.sidebar{background:#ffffff;border-right:1px solid var(--border);padding:18px 14px 24px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:10px;padding:6px 10px 14px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.sb-brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#0f1222,#3b3f5c);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;letter-spacing:.04em}
+.sb-brand .name{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.sb-brand .name small{display:block;color:var(--text-soft);font-weight:500;font-size:11px;letter-spacing:.02em;margin-top:2px}
+.sb-section{margin-top:14px;padding:0 10px;font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.10em;font-weight:700;display:flex;align-items:center;gap:6px}
+.sb-section .sec-pill{width:8px;height:8px;border-radius:50%}
+.sb-section.store .sec-pill{background:var(--sec-store)}
+.sb-section.products .sec-pill{background:var(--sec-products)}
+.sb-section.marketing .sec-pill{background:var(--sec-marketing)}
+.sb-section.customers .sec-pill{background:var(--sec-customers)}
+.sb-section.strategy .sec-pill{background:var(--sec-strategy)}
+.sb-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .12s ease;font-weight:500;text-decoration:none}
+.sb-item:hover{background:#f4f5fa;color:var(--text)}
+.sb-item.active{background:var(--text);color:#fff}
+.sb-item .sb-ic{width:18px;font-size:14px;text-align:center;opacity:.85}
+.sb-item .sb-count{margin-left:auto;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--amber-soft);color:#b45309}
+.sb-item.active .sb-count{background:rgba(255,255,255,.18);color:#fff}
+.sb-item .sb-dot{margin-left:auto;width:6px;height:6px;border-radius:50%}
+.sb-item .sb-dot.green{background:var(--green)} .sb-item .sb-dot.amber{background:var(--amber)} .sb-item .sb-dot.red{background:var(--red)}
+.sb-foot{margin-top:auto;padding:10px;border-top:1px solid var(--border);font-size:11px;color:var(--text-soft)}
+
+.main{padding:20px 28px 80px;max-width:1280px;width:100%;margin:0 auto}
+
+.topbar{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.topbar h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.topbar h1 small{font-size:12px;font-weight:500;color:var(--text-muted);margin-left:8px}
+.topbar .grow{flex:1}
+.userchip{display:flex;align-items:center;gap:10px;padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:999px;font-size:13px;color:var(--text-muted)}
+.userchip .avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;display:grid;place-items:center;font-weight:700;font-size:11px}
+.datepill{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text-muted)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
+.dot.amber{background:var(--amber);box-shadow:0 0 0 4px var(--amber-soft)}
+.dot.red{background:var(--red);box-shadow:0 0 0 4px var(--red-soft)}
+
+.muta-bar{display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.muta-label{font-size:12px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-right:4px}
+.muta{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .15s ease;user-select:none}
+.muta:hover{border-color:var(--border-strong);color:var(--text)}
+.muta.active{background:var(--text);color:#fff;border-color:var(--text);box-shadow:var(--shadow)}
+.muta .flag{font-size:16px;line-height:1}
+.muta .code{font-weight:700;letter-spacing:.04em}
+.muta-bar .sep{flex:1}
+.muta-bar .sep-thin{width:1px;height:24px;background:var(--border);align-self:center;margin:0 4px}
+.muta-meta{font-size:12px;color:var(--text-soft)}
+
+.date-select-wrap{position:relative}
+.date-select{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);font-family:inherit;transition:all .15s ease}
+.date-select:hover{border-color:var(--border-strong)}
+.date-select .chev{opacity:.45;font-size:10px;margin-left:2px}
+.date-menu{position:absolute;top:calc(100% + 6px);left:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-strong);min-width:220px;padding:6px;z-index:50;display:none}
+.date-menu.open{display:block}
+.date-menu a{display:block;padding:8px 12px;border-radius:7px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .12s ease}
+.date-menu a:hover{background:#f4f5fa;color:var(--text)}
+.date-menu a.active{background:var(--text);color:#fff}
+
+.sec-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow)}
+.sec-sum-card{background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;gap:14px;position:relative;min-height:200px}
+.sec-sum-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.sec-sum-card.sec-store::before    {background:var(--sec-store)}
+.sec-sum-card.sec-products::before {background:var(--sec-products)}
+.sec-sum-card.sec-marketing::before{background:var(--sec-marketing)}
+.sec-sum-card.sec-customers::before{background:var(--sec-customers)}
+.sec-sum-head{font-size:11px;font-weight:800;letter-spacing:.10em;text-transform:uppercase}
+.sec-sum-card.sec-store .sec-sum-head    {color:var(--sec-store)}
+.sec-sum-card.sec-products .sec-sum-head {color:var(--sec-products)}
+.sec-sum-card.sec-marketing .sec-sum-head{color:var(--sec-marketing)}
+.sec-sum-card.sec-customers .sec-sum-head{color:var(--sec-customers)}
+.sec-sum-metric .num{font-size:24px;font-weight:700;letter-spacing:-.01em;color:var(--text);line-height:1.1}
+.sec-sum-metric .lab{font-size:11px;color:var(--text-soft);margin-top:3px;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.sec-sum-agents{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+.ag-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text)}
+.ag-row .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;position:relative}
+.ag-row.auto .dot{background:var(--green)}
+.ag-row.auto .dot::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--green);animation:agent-pulse 1.8s ease-out infinite;z-index:-1}
+@keyframes agent-pulse{
+  0%{transform:scale(1);opacity:0.55}
+  80%{transform:scale(2.8);opacity:0}
+  100%{transform:scale(2.8);opacity:0}
+}
+.ag-row.hitl .dot{background:var(--amber)}
+.ag-row.alert .dot{background:var(--red)}
+.ag-row .name{font-weight:500}
+
+.stars-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.stars{position:relative;display:inline-block;font-size:15px;letter-spacing:2px;line-height:1;font-family:Arial,sans-serif}
+.stars-track{color:#e5e7eb}
+.stars-fill{position:absolute;top:0;left:0;color:#f59e0b;overflow:hidden;white-space:nowrap}
+.stars-num{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+@media (max-width:1100px){.sec-summary{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.sec-summary{grid-template-columns:1fr}}
+
+.strategy-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px;position:relative}
+.strategy-box::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--sec-strategy);z-index:2}
+.strat-box-head{padding:18px 24px 16px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,var(--sec-strategy-soft) 0%,transparent 100%);border-bottom:1px solid var(--border)}
+.strat-box-head h2{margin:0;font-size:20px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text);line-height:1}
+.strat-box-head .strat-meta{margin-left:auto;font-size:12px;color:var(--text-muted);font-weight:500}
+.strat-box-body{display:grid;grid-template-columns: 1.5fr 1fr;background:var(--surface-2)}
+@media (max-width:1100px){.strat-box-body{grid-template-columns:1fr}}
+.strat-col{padding:6px 0}
+.strat-col + .strat-col{border-left:1px solid var(--border);padding:18px 22px}
+@media (max-width:1100px){.strat-col + .strat-col{border-left:none;border-top:1px solid var(--border)}}
+.strat-col-head{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);padding:14px 22px 10px}
+.strat-list{display:flex;flex-direction:column}
+.strat-item{display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:13px 22px;background:var(--surface);font-size:13px;border-top:1px solid var(--border)}
+.strat-item .strat-icon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.strat-item .strat-body{min-width:0}
+.strat-item .strat-body strong{font-weight:600;display:block}
+.strat-item .strat-body .why{font-size:11px;color:var(--text-soft);margin-top:2px;display:block}
+.strat-item .strat-impact{font-size:12px;font-weight:700;color:var(--green);min-width:140px;text-align:right}
+.strat-item .strat-impact.cost{color:var(--red)}
+.strat-item .strat-actions{display:flex;gap:8px;align-items:center}
+.strat-item .strat-actions .link{font-size:12px;color:var(--text-muted);text-decoration:none;cursor:pointer;font-weight:500}
+.strat-item .strat-actions .link:hover{color:var(--text);text-decoration:underline}
+.strat-show-all{padding:12px 22px;text-align:center;background:var(--surface);border-top:1px solid var(--border)}
+.strat-show-all a{font-size:12px;color:var(--text-muted);font-weight:600;text-decoration:none;cursor:pointer}
+.strat-show-all a:hover{color:var(--text)}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:18px}
+.kpi-card{background:var(--surface);padding:18px 20px}
+.kpi-card .label{font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.kpi-card .num{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:6px;color:var(--text)}
+.kpi-card .delta{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px}
+.delta.up{background:var(--green-soft);color:var(--green)}
+.delta.down{background:var(--red-soft);color:var(--red)}
+.delta.flat{background:#f1f2f7;color:var(--text-muted)}
+
+.sec{margin-top:36px}
+.sec.sec-store    { --accent: var(--sec-store);     --accent-soft: var(--sec-store-soft); }
+.sec.sec-products { --accent: var(--sec-products);  --accent-soft: var(--sec-products-soft); }
+.sec.sec-marketing{ --accent: var(--sec-marketing); --accent-soft: var(--sec-marketing-soft); }
+.sec.sec-customers{ --accent: var(--sec-customers); --accent-soft: var(--sec-customers-soft); }
+.sec.sec-strategy { --accent: var(--sec-strategy);  --accent-soft: var(--sec-strategy-soft); }
+
+.sec{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+}
+.sec::before{
+  content:"";position:absolute;top:0;left:0;right:0;
+  height:5px;background:var(--accent);z-index:2;
+}
+
+.sec-head{
+  display:flex;align-items:center;gap:18px;
+  padding:26px 28px 22px;
+  background:linear-gradient(180deg, var(--accent-soft) 0%, transparent 100%);
+  border:none;border-bottom:1px solid var(--border);
+  border-radius:0;box-shadow:none;margin-bottom:0;
+  position:relative;
+}
+.sec-head .sec-icon{
+  width:54px;height:54px;border-radius:14px;
+  display:grid;place-items:center;font-size:26px;flex-shrink:0;
+  background:var(--accent);color:#fff;
+  box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.sec-head .sec-title{display:flex;flex-direction:column;flex:1}
+.sec-head .sec-title .ttl{
+  font-size:26px;font-weight:800;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text);line-height:1.1;
+}
+.sec-head .sec-title .sub{display:none}
+.sec-head .sec-stats{display:flex;gap:28px}
+.sec-stat{text-align:right}
+.sec-stat .v{font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.sec-stat .l{font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-top:3px}
+.sec-stat .v.warn{color:var(--amber)}
+.sec-stat .v.bad{color:var(--red)}
+.sec-stat .v.good{color:var(--green)}
+
+.sec-body{
+  display:grid;grid-template-columns:1fr 320px;gap:14px;
+  padding:18px;
+  background:var(--surface-2);
+}
+@media (max-width:1100px){.sec-body{grid-template-columns:1fr}}
+
+.channels-section{margin-bottom:8px}
+.channels-section .ch-title{
+  font-size:12px;font-weight:700;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.10em;
+  margin:0 4px 12px;
+}
+.channels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ch-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.ch-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.ch-card.paid::before{background:var(--paid)}
+.ch-card.organic::before{background:var(--organic)}
+.ch-card.retention::before{background:var(--retention)}
+
+.ch-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ch-head .icon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px}
+.ch-card.paid .ch-head .icon{background:var(--violet-soft);color:var(--paid)}
+.ch-card.organic .ch-head .icon{background:var(--green-soft);color:var(--organic)}
+.ch-card.retention .ch-head .icon{background:#fef3c7;color:#b45309}
+.ch-head .ttl{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.ch-head .total{font-size:18px;font-weight:700;letter-spacing:-.01em;margin-left:auto}
+
+.ch-share{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.ch-share-meta{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--text-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.ch-share-meta strong{color:var(--text);font-weight:800;font-size:14px;letter-spacing:0;text-transform:none}
+.ch-share-track{height:8px;background:#f1f2f7;border-radius:4px;overflow:hidden}
+.ch-share-fill{height:100%;border-radius:4px;transition:width .3s ease}
+.ch-card.paid .ch-share-fill{background:linear-gradient(90deg,#8b5cf6,#c4b5fd)}
+.ch-card.organic .ch-share-fill{background:linear-gradient(90deg,#10b981,#6ee7b7)}
+.ch-card.retention .ch-share-fill{background:linear-gradient(90deg,#f59e0b,#fcd34d)}
+
+.ch-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:9px 10px;font-size:13px;position:relative;border-radius:6px;margin:0 -6px}
+.ch-row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--bar-w,0%);background:var(--row-bar);border-radius:6px;z-index:0;pointer-events:none;transition:width .3s ease}
+.ch-row > *{position:relative;z-index:1}
+.ch-card.paid .ch-row{--row-bar:rgba(139,92,246,0.13)}
+.ch-card.organic .ch-row{--row-bar:rgba(16,185,129,0.13)}
+.ch-card.retention .ch-row{--row-bar:rgba(245,158,11,0.13)}
+.ch-row .name{display:flex;align-items:center;gap:10px;color:var(--text)}
+.ch-row .rev{font-weight:600;letter-spacing:-.01em;text-align:right}
+.mini-ic{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:12px;flex-shrink:0}
+
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:all .15s ease;position:relative;overflow:hidden}
+.agent-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-strong);border-color:var(--border-strong)}
+.agent-head{display:flex;align-items:center;gap:10px}
+.agent-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex-shrink:0}
+.agent-name{font-weight:600;font-size:13px;letter-spacing:-.005em}
+.agent-status{margin-left:auto}
+.agent-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric .lab{font-size:10px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.metric .val{font-size:18px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
+
+.spark-wrap{position:relative;height:32px;width:100%;margin-top:2px;overflow:hidden}
+.spark-wrap canvas{position:absolute!important;top:0;left:0;width:100%!important;height:100%!important;display:block}
+
+.agent-foot{display:flex;align-items:center;gap:8px;padding-top:8px;border-top:1px dashed var(--border);font-size:11px;color:var(--text-muted)}
+.agent-foot .last{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.badge.auto{background:var(--green-soft);color:var(--green)}
+.badge.wait{background:var(--amber-soft);color:#b45309}
+.badge.alert{background:var(--red-soft);color:var(--red)}
+
+.ic-meta{background:linear-gradient(135deg,#dbeafe,#eff6ff);color:#1d4ed8}
+.ic-google{background:linear-gradient(135deg,#fef3c7,#fffbeb);color:#b45309}
+.ic-seo{background:linear-gradient(135deg,#dcfce7,#f0fdf4);color:#15803d}
+.ic-katalog{background:linear-gradient(135deg,#ede9fe,#f5f3ff);color:#6d28d9}
+.ic-servis{background:linear-gradient(135deg,#cffafe,#ecfeff);color:#0e7490}
+.ic-orders{background:linear-gradient(135deg,#fee2e2,#fef2f2);color:#b91c1c}
+.ic-reviews{background:linear-gradient(135deg,#fce7f3,#fdf2f8);color:#be185d}
+.ic-analytics{background:linear-gradient(135deg,#e0e7ff,#eef2ff);color:#4338ca}
+.ic-tiktok{background:linear-gradient(135deg,#fce7f3,#fff);color:#ec4899;border:1px solid #fce7f3}
+.ic-email{background:linear-gradient(135deg,#fef3c7,#fef9c3);color:#a16207}
+.ic-direct{background:linear-gradient(135deg,#e0f2fe,#f0f9ff);color:#0369a1}
+.ic-affiliate{background:linear-gradient(135deg,#f3e8ff,#faf5ff);color:#7c3aed}
+.ic-loyalty{background:linear-gradient(135deg,#fce7f3,#fdf2f8);color:#be185d}
+.ic-social{background:linear-gradient(135deg,#dcfce7,#f0fdf4);color:#15803d}
+.ic-pricing{background:linear-gradient(135deg,#dcfce7,#f0fdf4);color:#15803d}
+.ic-media{background:linear-gradient(135deg,#fef3c7,#fffbeb);color:#a16207}
+.ic-logistika{background:linear-gradient(135deg,#cffafe,#ecfeff);color:#0e7490}
+
+.sec-feed{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.sec-feed-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
+.sec-feed-head .live{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;background:var(--green-soft);border-radius:999px;margin-left:auto}
+.sec-feed-head .live .dot{width:4px;height:4px;background:var(--green);box-shadow:0 0 0 2px rgba(16,185,129,.18);animation:livepulse 1.6s infinite}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.5}}
+.sec-feed-list{flex:1;overflow-y:auto;max-height:340px}
+.sec-feed-item{display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:12px;align-items:flex-start}
+.sec-feed-item:last-child{border-bottom:none}
+.sec-feed-item .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:12px;flex-shrink:0}
+.sec-feed-item .body{flex:1;min-width:0}
+.sec-feed-item .line{color:var(--text);line-height:1.4}
+.sec-feed-item .line strong{font-weight:600}
+.sec-feed-item .meta{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:10px;color:var(--text-soft)}
+.sec-feed-item .meta .badge{font-size:9px;padding:1px 5px}
+.sec-feed-empty{padding:18px;text-align:center;color:var(--text-soft);font-size:12px}
+
+.btn{font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;transition:all .12s ease}
+.btn:hover{border-color:#9ea3b5}
+.btn.primary{background:var(--text);color:#fff;border-color:var(--text)}
+.btn.primary:hover{background:#000}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--text-muted)}
+
+.signal-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border);font-size:12px}
+.signal-row:last-child{border-bottom:none}
+.signal-row .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:12px;flex-shrink:0}
+.signal-row .lbl{flex:1}
+.signal-row .lbl strong{display:block;font-weight:600;color:var(--text)}
+.signal-row .lbl span{font-size:11px;color:var(--text-soft)}
+.signal-row .v{font-weight:700;letter-spacing:-.01em}
+
+@media (max-width: 1100px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .channels{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 640px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="mark">N</div>
+      <div class="name">NORDA <small>Autonomní OS pro eshop</small></div>
+    </div>
+
+    <a class="sb-item active"><span class="sb-ic">🏠</span>Přehled</a>
+    <a class="sb-item"><span class="sb-ic">📜</span>Historie akcí</a>
+
+    <div class="sb-section store"><span class="sec-pill"></span>E-shop</div>
+    <a class="sb-item"><span class="sb-ic">🛒</span>Manažer objednávek<span class="sb-dot green"></span></a>
+    <a class="sb-item"><span class="sb-ic">📊</span>Datový analytik<span class="sb-dot red"></span></a>
+    <a class="sb-item"><span class="sb-ic">🚚</span>Manažer logistiky<span class="sb-dot green"></span></a>
+
+    <div class="sb-section products"><span class="sec-pill"></span>Produkty</div>
+    <a class="sb-item"><span class="sb-ic">📦</span>Správce katalogu<span class="sb-dot amber"></span></a>
+    <a class="sb-item"><span class="sb-ic">💰</span>Pricing analytik<span class="sb-dot green"></span></a>
+    <a class="sb-item"><span class="sb-ic">📷</span>Foto editor<span class="sb-dot green"></span></a>
+
+    <div class="sb-section marketing"><span class="sec-pill"></span>Marketing</div>
+    <a class="sb-item"><span class="sb-ic">📘</span>Marketér Meta<span class="sb-dot green"></span></a>
+    <a class="sb-item"><span class="sb-ic">🔍</span>Marketér Google<span class="sb-dot green"></span></a>
+    <a class="sb-item"><span class="sb-ic">🎵</span>TikTok specialista<span class="sb-dot green"></span></a>
+    <a class="sb-item"><span class="sb-ic">🔎</span>SEO specialista<span class="sb-dot green"></span></a>
+
+    <div class="sb-section customers"><span class="sec-pill"></span>Zákazníci</div>
+    <a class="sb-item"><span class="sb-ic">💬</span>Asistent podpory<span class="sb-dot green"></span></a>
+    <a class="sb-item"><span class="sb-ic">⭐</span>Reputační manažer<span class="sb-dot amber"></span></a>
+    <a class="sb-item"><span class="sb-ic">✉️</span>Retence<span class="sb-dot green"></span></a>
+
+    <div class="sb-section strategy"><span class="sec-pill"></span>Strategie</div>
+    <a class="sb-item"><span class="sb-ic">✅</span>Schválení<span class="sb-count" id="sb-approvals">5</span></a>
+    <a class="sb-item"><span class="sb-ic">🎯</span>Doporučení</a>
+    <a class="sb-item"><span class="sb-ic">📈</span>Růst &amp; expanze</a>
+    <a class="sb-item"><span class="sb-ic">🗺️</span>Plán</a>
+
+    <div class="sb-section"><span class="sec-pill" style="background:#cdd0db"></span>Nastavení</div>
+    <a class="sb-item"><span class="sb-ic">⚙️</span>Nastavení agentů</a>
+    <a class="sb-item"><span class="sb-ic">🔌</span>Integrace</a>
+    <a class="sb-item"><span class="sb-ic">👥</span>Tým</a>
+
+    <div class="sb-foot">v0.4 · prototyp · 5 mutací</div>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <h1>Přehled <small>napříč všemi agenty</small></h1>
+      <div class="grow"></div>
+      <div class="datepill"><span class="dot"></span><span id="datestr">úterý, 5. května 2026 · 14:32</span></div>
+      <div class="userchip"><div class="avatar">A</div><span>Adam · majitel</span></div>
+    </div>
+
+    <div class="muta-bar">
+      <span class="muta-label">Mutace</span>
+      <div class="muta active" data-m="CZ"><span class="flag">🇨🇿</span><span class="code">CZ</span></div>
+      <div class="muta" data-m="SK"><span class="flag">🇸🇰</span><span class="code">SK</span></div>
+      <div class="muta" data-m="PL"><span class="flag">🇵🇱</span><span class="code">PL</span></div>
+      <div class="muta" data-m="HU"><span class="flag">🇭🇺</span><span class="code">HU</span></div>
+      <div class="muta" data-m="RO"><span class="flag">🇷🇴</span><span class="code">RO</span></div>
+      <span class="sep-thin"></span>
+      <span class="muta-label">Období</span>
+      <div class="date-select-wrap">
+        <button class="date-select" id="date-btn" type="button">
+          <span>📅</span>
+          <span id="date-label">Posledních 30 dní</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="date-menu" id="date-menu">
+          <a data-d="7">Posledních 7 dní</a>
+          <a data-d="30" class="active">Posledních 30 dní</a>
+          <a data-d="90">Posledních 90 dní</a>
+          <a data-d="ytd">Od začátku roku</a>
+          <a data-d="custom">Vlastní rozsah…</a>
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div class="muta-meta" id="muta-meta">norda.cz · CZK · GMT+1</div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="label">Tržby</div><div class="num" data-k="revenue">— Kč</div><div class="delta up" data-k="revenueDelta">+12,4 %</div></div>
+      <div class="kpi-card"><div class="label">ROAS</div><div class="num" data-k="roas">—</div><div class="delta up" data-k="roasDelta">+0,4</div></div>
+      <div class="kpi-card"><div class="label">Konverze</div><div class="num" data-k="cr">—</div><div class="delta up" data-k="crDelta">+0,3 pp</div></div>
+      <div class="kpi-card"><div class="label">Prům. košík</div><div class="num" data-k="aov">—</div><div class="delta flat" data-k="aovDelta">+1,1 %</div></div>
+    </div>
+
+    <div class="sec-summary" id="sec-summary"></div>
+
+    <div class="strategy-box">
+      <div class="strat-box-head">
+        <h2>Strategie</h2>
+        <span class="strat-meta" id="strat-meta">…</span>
+      </div>
+      <div class="strat-box-body">
+        <div class="strat-col">
+          <div class="strat-col-head">Čeká na tvoje schválení</div>
+          <div class="strat-list" id="strat-approvals"></div>
+          <div class="strat-show-all"><a id="strat-show-all-link">Zobrazit všechny návrhy →</a></div>
+        </div>
+        <div class="strat-col">
+          <div class="strat-col-head">📈 Růstové signály</div>
+          <div id="strat-signals"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="channels-section">
+      <div class="ch-title">Tržby 30 dní · podle původu</div>
+      <div class="channels" id="channels"></div>
+    </div>
+
+    <section class="sec sec-store">
+      <div class="sec-head store">
+        <div class="sec-title"><div class="ttl">E-shop</div></div>
+        <div class="sec-stats" id="stats-store"></div>
+      </div>
+      <div class="sec-body">
+        <div class="agent-grid" data-section="store"></div>
+        <div class="sec-feed">
+          <div class="sec-feed-head">Aktivita: E-shop<span class="live"><span class="dot"></span>Živě</span></div>
+          <div class="sec-feed-list" data-feed="store"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec-products">
+      <div class="sec-head products">
+        <div class="sec-title"><div class="ttl">Produkty</div></div>
+        <div class="sec-stats" id="stats-products"></div>
+      </div>
+      <div class="sec-body">
+        <div class="agent-grid" data-section="products"></div>
+        <div class="sec-feed">
+          <div class="sec-feed-head">Aktivita: Produkty<span class="live"><span class="dot"></span>Živě</span></div>
+          <div class="sec-feed-list" data-feed="products"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec-marketing">
+      <div class="sec-head marketing">
+        <div class="sec-title"><div class="ttl">Marketing</div></div>
+        <div class="sec-stats" id="stats-marketing"></div>
+      </div>
+      <div class="sec-body">
+        <div class="agent-grid" data-section="marketing"></div>
+        <div class="sec-feed">
+          <div class="sec-feed-head">Aktivita: Marketing<span class="live"><span class="dot"></span>Živě</span></div>
+          <div class="sec-feed-list" data-feed="marketing"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec-customers">
+      <div class="sec-head customers">
+        <div class="sec-title"><div class="ttl">Zákazníci</div></div>
+        <div class="sec-stats" id="stats-customers"></div>
+      </div>
+      <div class="sec-body">
+        <div class="agent-grid" data-section="customers"></div>
+        <div class="sec-feed">
+          <div class="sec-feed-head">Aktivita: Zákazníci<span class="live"><span class="dot"></span>Živě</span></div>
+          <div class="sec-feed-list" data-feed="customers"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+function parseAmt(fmt){
+  if (/\dM/i.test(fmt)) {
+    const m = fmt.match(/([\d,.]+)\s*M/i);
+    return m ? parseFloat(m[1].replace(',','.')) * 1000000 : 0;
+  }
+  if (/\dk\s+ft/i.test(fmt)) {
+    const m = fmt.match(/([\d,.]+)\s*k/i);
+    return m ? parseFloat(m[1].replace(',','.')) * 1000 : 0;
+  }
+  return parseInt(fmt.replace(/[^0-9]/g,""), 10);
+}
+
+const CHANNELS = {
+  CZ:{
+    paid:    { fmt:"1 624 300 Kč", rows:[
+      {n:"Meta reklama", i:"📘", c:"ic-meta",      rev:"684 200 Kč", w:42},
+      {n:"Google Ads",   i:"🔍", c:"ic-google",    rev:"612 800 Kč", w:38},
+      {n:"TikTok Ads",   i:"🎵", c:"ic-tiktok",    rev:"218 400 Kč", w:13},
+      {n:"Affiliate",    i:"🔗", c:"ic-affiliate", rev:"108 900 Kč", w:7}
+    ]},
+    organic: { fmt:"948 600 Kč", rows:[
+      {n:"SEO / Organic",  i:"🔎", c:"ic-seo",    rev:"542 100 Kč", w:57},
+      {n:"Direct",         i:"🌐", c:"ic-direct", rev:"284 300 Kč", w:30},
+      {n:"Social organic", i:"📱", c:"ic-social", rev:"122 200 Kč", w:13}
+    ]},
+    retention:{ fmt:"675 700 Kč", rows:[
+      {n:"Email automation",i:"✉️", c:"ic-email",  rev:"412 600 Kč", w:61},
+      {n:"SMS kampaně",     i:"📱", c:"ic-social", rev:"148 800 Kč", w:22},
+      {n:"Loyalty program", i:"🎁", c:"ic-loyalty",rev:"114 300 Kč", w:17}
+    ]}
+  },
+  SK:{
+    paid:    { fmt:"58 400 €", rows:[
+      {n:"Meta reklama", i:"📘", c:"ic-meta",      rev:"24 800 €", w:42},
+      {n:"Google Ads",   i:"🔍", c:"ic-google",    rev:"22 100 €", w:38},
+      {n:"TikTok Ads",   i:"🎵", c:"ic-tiktok",    rev:"7 800 €",  w:13},
+      {n:"Affiliate",    i:"🔗", c:"ic-affiliate", rev:"3 700 €",  w:7}
+    ]},
+    organic: { fmt:"38 600 €", rows:[
+      {n:"SEO / Organic",  i:"🔎", c:"ic-seo",    rev:"19 200 €", w:50},
+      {n:"Direct",         i:"🌐", c:"ic-direct", rev:"13 800 €", w:36},
+      {n:"Social organic", i:"📱", c:"ic-social", rev:"5 600 €",  w:14}
+    ]},
+    retention:{ fmt:"21 200 €", rows:[
+      {n:"Email automation",i:"✉️", c:"ic-email",  rev:"13 400 €", w:63},
+      {n:"SMS kampaně",     i:"📱", c:"ic-social", rev:"4 800 €",  w:23},
+      {n:"Loyalty program", i:"🎁", c:"ic-loyalty",rev:"3 000 €",  w:14}
+    ]}
+  },
+  PL:{
+    paid:    { fmt:"242 800 zł", rows:[
+      {n:"Meta reklama", i:"📘", c:"ic-meta",      rev:"104 800 zł", w:43},
+      {n:"Google Ads",   i:"🔍", c:"ic-google",    rev:"88 200 zł",  w:36},
+      {n:"TikTok Ads",   i:"🎵", c:"ic-tiktok",    rev:"36 400 zł",  w:15},
+      {n:"Allegro Ads",  i:"🛍️", c:"ic-affiliate", rev:"13 400 zł",  w:6}
+    ]},
+    organic: { fmt:"118 400 zł", rows:[
+      {n:"SEO / Organic",  i:"🔎", c:"ic-seo",    rev:"68 200 zł", w:58},
+      {n:"Direct",         i:"🌐", c:"ic-direct", rev:"32 100 zł", w:27},
+      {n:"Social organic", i:"📱", c:"ic-social", rev:"18 100 zł", w:15}
+    ]},
+    retention:{ fmt:"67 400 zł", rows:[
+      {n:"Email automation",i:"✉️", c:"ic-email",  rev:"42 100 zł", w:62},
+      {n:"SMS kampaně",     i:"📱", c:"ic-social", rev:"15 400 zł", w:23},
+      {n:"Loyalty program", i:"🎁", c:"ic-loyalty",rev:"9 900 zł",  w:15}
+    ]}
+  },
+  HU:{
+    paid:    { fmt:"24 800 000 Ft", rows:[
+      {n:"Meta reklama", i:"📘", c:"ic-meta",      rev:"11 200 000 Ft", w:45},
+      {n:"Google Ads",   i:"🔍", c:"ic-google",    rev:"9 400 000 Ft",  w:38},
+      {n:"TikTok Ads",   i:"🎵", c:"ic-tiktok",    rev:"3 200 000 Ft",  w:13},
+      {n:"Affiliate",    i:"🔗", c:"ic-affiliate", rev:"1 000 000 Ft",  w:4}
+    ]},
+    organic: { fmt:"12 200 000 Ft", rows:[
+      {n:"SEO / Organic",  i:"🔎", c:"ic-seo",    rev:"5 600 000 Ft", w:46},
+      {n:"Direct",         i:"🌐", c:"ic-direct", rev:"4 800 000 Ft", w:39},
+      {n:"Social organic", i:"📱", c:"ic-social", rev:"1 800 000 Ft", w:15}
+    ]},
+    retention:{ fmt:"5 800 000 Ft", rows:[
+      {n:"Email automation",i:"✉️", c:"ic-email",  rev:"4 200 000 Ft", w:72},
+      {n:"SMS kampaně",     i:"📱", c:"ic-social", rev:"1 100 000 Ft", w:19},
+      {n:"Loyalty program", i:"🎁", c:"ic-loyalty",rev:"500 000 Ft",   w:9}
+    ]}
+  },
+  RO:{
+    paid:    { fmt:"148 200 lei", rows:[
+      {n:"Meta reklama", i:"📘", c:"ic-meta",      rev:"68 400 lei", w:46},
+      {n:"Google Ads",   i:"🔍", c:"ic-google",    rev:"54 200 lei", w:37},
+      {n:"TikTok Ads",   i:"🎵", c:"ic-tiktok",    rev:"22 100 lei", w:14},
+      {n:"eMAG Ads",     i:"🛍️", c:"ic-affiliate", rev:"3 500 lei",  w:3}
+    ]},
+    organic: { fmt:"68 200 lei", rows:[
+      {n:"Direct",         i:"🌐", c:"ic-direct", rev:"32 100 lei", w:47},
+      {n:"SEO / Organic",  i:"🔎", c:"ic-seo",    rev:"24 800 lei", w:36},
+      {n:"Social organic", i:"📱", c:"ic-social", rev:"11 300 lei", w:17}
+    ]},
+    retention:{ fmt:"32 200 lei", rows:[
+      {n:"Email automation",i:"✉️", c:"ic-email",  rev:"21 400 lei", w:66},
+      {n:"SMS kampaně",     i:"📱", c:"ic-social", rev:"7 200 lei",  w:22},
+      {n:"Loyalty program", i:"🎁", c:"ic-loyalty",rev:"3 600 lei",  w:12}
+    ]}
+  }
+};
+
+const DATA = {
+  CZ: {
+    biz:{revenue:"3 248 600 Kč",roas:"4,2",cr:"2,8 %",aov:"1 840 Kč",revenueDelta:"+12,4 %",roasDelta:"+0,4",crDelta:"+0,3 pp",aovDelta:"+1,1 %"},
+    sectionStats:{
+      store:[{l:"Obj. dnes",v:"184"},{l:"Tržby dnes",v:"312 480 Kč"},{l:"Anomálie",v:"1",cls:"warn"}],
+      products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"42",cls:"warn"},{l:"Bez fotky",v:"124",cls:"warn"}],
+      marketing:[{l:"Aktivní kamp.",v:"19"},{l:"Spend dnes",v:"12 480 Kč"},{l:"Avg ROAS",v:"4,4",cls:"good"}],
+      customers:[{l:"Tickety",v:"38"},{l:"AI vyřešilo",v:"71 %",cls:"good"},{l:"Reviews",v:"4,6",cls:"good"}],
+      strategy:[{l:"Schválení",v:"5",cls:"warn"},{l:"High-impact",v:"2",cls:"warn"},{l:"Růst signály",v:"4"}]
+    },
+    agents:{
+      orders:{sec:"store",status:"auto",last:"Označil 3 podezřelé objednávky",metrics:[["Objednávky","184"],["Returns","3,1 %"]],trend:[140,150,160,170,175,180,184]},
+      analytics:{sec:"store",status:"alert",last:"Anomálie: pokles CR na /kosile-panske −24 %",metrics:[["GA4","OK"],["Traffic 7d","+9 %"]],trend:[8200,8400,8600,8800,9100,9200,9400]},
+      logistika:{sec:"store",status:"auto",last:"PPL hlásí standardní pacing",metrics:[["On-time","98,2 %"],["Kurýři","4"]],trend:[96,97,97.5,98,98.1,98.2,98.2]},
+      katalog:{sec:"products",status:"hitl",last:"42 produktů bez popisu — návrh AI generovat",metrics:[["SKU","14 820"],["Bez popisu","42"]],trend:[120,90,70,55,48,46,42]},
+      pricing:{sec:"products",status:"auto",last:"Snížil cenu na 7 produktech (konkurence −8 %)",metrics:[["Změny","7"],["Margin","42 %"]],trend:[40,40.5,41,41.2,41.6,41.8,42]},
+      media:{sec:"products",status:"auto",last:"AI vygeneroval 38 lifestyle fotek",metrics:[["Bez fotky","124"],["Generováno","38"]],trend:[200,180,160,150,140,130,124]},
+      meta:{sec:"marketing",status:"auto",last:"Zvýšil bid o 8% u kampaně 'Jaro 24 / Bundy'",metrics:[["Kampaně","7"],["ROAS","4,6"]],trend:[3.2,3.4,3.8,3.6,4.1,4.3,4.6]},
+      google:{sec:"marketing",status:"auto",last:"Vyloučil 12 negativních KW v PMax",metrics:[["Kampaně","5"],["ROAS","5,1"]],trend:[4.4,4.5,4.7,4.6,4.9,5.0,5.1]},
+      tiktok:{sec:"marketing",status:"auto",last:"Spustil Spark Ads na top creator video",metrics:[["Kampaně","3"],["ROAS","3,8"]],trend:[3.0,3.2,3.4,3.5,3.6,3.7,3.8]},
+      seo:{sec:"marketing",status:"auto",last:"Publikoval článek 'Trendy léto 2026'",metrics:[["Pozice","#3,8"],["Clicks","+18 %"]],trend:[12,11,9,8,5,4,4]},
+      servis:{sec:"customers",status:"auto",last:"AI vyřešil 27 ticketů samostatně",metrics:[["Tickety","38"],["CSAT","4,7"]],trend:[60,62,65,68,70,71,71]},
+      reviews:{sec:"customers",status:"hitl",last:"Návrh odpovědi na 2★ recenzi (J.Novák)",metrics:[["Score","4,6"],["Negativ","2"]],trend:[4.4,4.5,4.5,4.5,4.6,4.6,4.6]},
+      email:{sec:"customers",status:"auto",last:"Odeslal newsletter 'Jarní kolekce' (38 % opener)",metrics:[["Flow","8"],["Opener","38 %"]],trend:[34,35,36,36,37,37,38]}
+    },
+    feed:[
+      {t:"před 1 min",a:"meta",txt:"<strong>Meta agent</strong> zvýšil rozpočet kampaně <em>'Jaro 24 / Bundy'</em> z 1 200 na 1 500 Kč",reason:"ROAS 4,8 nad cílem",tag:"AUTO"},
+      {t:"před 4 min",a:"servis",txt:"<strong>Servis agent</strong> odpověděl na ticket #18472 (vrácení velikosti)",reason:"AI confidence 96 %",tag:"AUTO"},
+      {t:"před 7 min",a:"katalog",txt:"<strong>Katalog agent</strong> připravil 42 AI popisů — čeká na schválení",reason:"Nelze publikovat bez approve",tag:"HITL"},
+      {t:"před 9 min",a:"google",txt:"<strong>Google Ads agent</strong> vyloučil 12 negativních KW v PMax",reason:"CPC > 18 Kč, 0 konverzí",tag:"AUTO"},
+      {t:"před 11 min",a:"pricing",txt:"<strong>Pricing agent</strong> snížil cenu 7 produktů (konkurence −8 %)",reason:"Auto rule: max 5 %",tag:"AUTO"},
+      {t:"před 12 min",a:"reviews",txt:"<strong>Reviews agent</strong> navrhl odpověď na 2★ recenzi (J. Novák)",reason:"Negativní sentiment",tag:"HITL"},
+      {t:"před 13 min",a:"media",txt:"<strong>Media agent</strong> AI vygeneroval 38 lifestyle fotek",reason:"Plán z content kalendáře",tag:"AUTO"},
+      {t:"před 14 min",a:"email",txt:"<strong>Email agent</strong> odeslal kampaň 'Jarní kolekce' (8 200 příjemců)",reason:"Plán z kalendáře",tag:"AUTO"},
+      {t:"před 15 min",a:"analytics",txt:"<strong>Analytics agent</strong> detekoval pokles CR na <em>/kosile-panske</em>",reason:"−24 % vs. 7d průměr",tag:"ALERT"},
+      {t:"před 18 min",a:"orders",txt:"<strong>Orders agent</strong> označil 3 objednávky jako podezřelé",reason:"Fraud score 0,82",tag:"HITL"},
+      {t:"před 20 min",a:"tiktok",txt:"<strong>TikTok agent</strong> spustil Spark Ads na top creator video",reason:"Plán Q2 creator amplification",tag:"AUTO"},
+      {t:"před 24 min",a:"logistika",txt:"<strong>Logistika agent</strong> potvrdil expedici 142 zásilek",reason:"Sklad OK",tag:"AUTO"},
+      {t:"před 27 min",a:"seo",txt:"<strong>SEO agent</strong> publikoval článek <em>'Trendy léto 2026'</em>",reason:"Plán z content kalendáře",tag:"AUTO"}
+    ],
+    growth:[
+      {ic:"🚀",iCls:"ic-tiktok",t:"PL roste +28 % traffic",s:"scaling readiness — připraveno škálovat",v:"+est. 84k zł/měs"},
+      {ic:"📦",iCls:"ic-katalog",t:"Cross-mutace: top 100 SKU",s:"v RO chybí překlad — největší unlock",v:"+est. 38 % traffic"},
+      {ic:"🎯",iCls:"ic-meta",t:"CZ Lookalike → SK",s:"CZ kupujících >10k, dost dat pro LAL",v:"+est. 18 obj./týden"},
+      {ic:"♻️",iCls:"ic-email",t:"Win-back flow neaktivní",s:"4 800 spících zákazníků 90+ dní",v:"+est. 142k Kč/měs"}
+    ],
+    approvals:[
+      {a:"katalog",t:"Publikovat 42 AI popisů (kategorie 'Košile pánské')",why:"Confidence 0,87. Náhled je připraven.",impact:"+est. 8 % CR",icon:"📦"},
+      {a:"meta",t:"Navýšit rozpočet kampaně 'Jaro 24 / Bundy' o 25 %",why:"ROAS 4,8 nad cílem 3,5 už 5 dní v řadě.",impact:"+est. 38 000 Kč/měs",icon:"📘"},
+      {a:"reviews",t:"Odpovědět na 2★ recenzi od Jakuba Nováka",why:"Návrh připraven: omluva + řešení.",impact:"reputace",icon:"⭐"},
+      {a:"google",t:"Spustit Search kampaň 'Letní šaty long-tail' (800 Kč/den)",why:"12 KW s vysokým intent a nízkou competition.",impact:"+est. 22 obj./měs",icon:"🔍"},
+      {a:"orders",t:"Manuálně zkontrolovat 3 objednávky s fraud score > 0,8",why:"Stejná IP, různé adresy, dropshipping pattern.",impact:"-est. 14 600 Kč ztráta",impactCost:true,icon:"🛒"}
+    ]
+  },
+  SK:{
+    biz:{revenue:"118 240 €",roas:"3,8",cr:"2,5 %",aov:"72 €",revenueDelta:"+9,1 %",roasDelta:"+0,2",crDelta:"+0,1 pp",aovDelta:"+0,4 %"},
+    sectionStats:{
+      store:[{l:"Obj. dnes",v:"62"},{l:"Tržby dnes",v:"11 280 €"},{l:"Anomálie",v:"0",cls:"good"}],
+      products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"118",cls:"warn"},{l:"Bez fotky",v:"412",cls:"warn"}],
+      marketing:[{l:"Aktivní kamp.",v:"11"},{l:"Spend dnes",v:"464 €"},{l:"Avg ROAS",v:"4,2",cls:"good"}],
+      customers:[{l:"Tickety",v:"14"},{l:"AI vyřešilo",v:"68 %",cls:"good"},{l:"Reviews",v:"4,5",cls:"good"}],
+      strategy:[{l:"Schválení",v:"3"},{l:"High-impact",v:"1"},{l:"Růst signály",v:"3"}]
+    },
+    agents:{
+      orders:{sec:"store",status:"auto",last:"Vše v normě",metrics:[["Objednávky","62"],["Returns","3,4 %"]],trend:[48,52,55,58,60,61,62]},
+      analytics:{sec:"store",status:"auto",last:"Žádné anomálie",metrics:[["GA4","OK"],["Traffic 7d","+5 %"]],trend:[3100,3200,3300,3350,3400,3450,3500]},
+      logistika:{sec:"store",status:"auto",last:"Standardní pacing kurýrů",metrics:[["On-time","97,5 %"],["Kurýři","3"]],trend:[96,96.5,97,97.2,97.3,97.4,97.5]},
+      katalog:{sec:"products",status:"hitl",last:"118 popisů chybí — navrhuje AI generaci",metrics:[["SKU","14 820"],["Bez popisu","118"]],trend:[180,160,140,130,125,120,118]},
+      pricing:{sec:"products",status:"auto",last:"Cenová parita s CZ udržena",metrics:[["Změny","3"],["Margin","41 %"]],trend:[40,40.2,40.5,40.6,40.8,40.9,41]},
+      media:{sec:"products",status:"auto",last:"AI vygeneroval 12 SK lifestyle fotek",metrics:[["Bez fotky","412"],["Generováno","12"]],trend:[480,460,440,430,420,415,412]},
+      meta:{sec:"marketing",status:"auto",last:"Spustil retarget 'Jar/SK'",metrics:[["Kampaně","4"],["ROAS","4,1"]],trend:[3.0,3.2,3.4,3.6,3.8,4.0,4.1]},
+      google:{sec:"marketing",status:"auto",last:"Optimalizoval bidy ve 4 ad groups",metrics:[["Kampaně","3"],["ROAS","4,7"]],trend:[4.0,4.2,4.3,4.4,4.5,4.6,4.7]},
+      tiktok:{sec:"marketing",status:"auto",last:"Test 2 nových creator videí",metrics:[["Kampaně","2"],["ROAS","3,7"]],trend:[3.4,3.5,3.6,3.6,3.7,3.7,3.7]},
+      seo:{sec:"marketing",status:"auto",last:"Aktualizoval meta tags na 38 produktech",metrics:[["Pozice","#5,2"],["Clicks","+11 %"]],trend:[14,12,10,8,7,6,5]},
+      servis:{sec:"customers",status:"auto",last:"Eskaloval 1 reklamaci na lidského agenta",metrics:[["Tickety","14"],["CSAT","4,6"]],trend:[55,58,62,64,66,67,68]},
+      reviews:{sec:"customers",status:"auto",last:"Odpověděl na 8 pozitivních recenzí",metrics:[["Score","4,5"],["Negativ","1"]],trend:[4.4,4.4,4.5,4.5,4.5,4.5,4.5]},
+      email:{sec:"customers",status:"auto",last:"Welcome flow 14 nových odběratelů",metrics:[["Flow","6"],["Opener","36 %"]],trend:[33,34,35,35,36,36,36]}
+    },
+    feed:[
+      {t:"před 2 min",a:"meta",txt:"<strong>Meta agent</strong> spustil retarget kampaň <em>'Jar/SK'</em>",reason:"Audience match 76 %",tag:"AUTO"},
+      {t:"před 6 min",a:"servis",txt:"<strong>Servis agent</strong> eskaloval reklamaci #SK-228",reason:"Confidence < 0,7",tag:"AUTO"},
+      {t:"před 11 min",a:"katalog",txt:"<strong>Katalog agent</strong> našel 118 produktů bez SK popisu",reason:"Po expanzi z CZ feedu",tag:"HITL"},
+      {t:"před 16 min",a:"google",txt:"<strong>Google Ads agent</strong> optimalizoval bidy ve 4 ad groups",reason:"CPA pod cílem",tag:"AUTO"},
+      {t:"před 18 min",a:"media",txt:"<strong>Media agent</strong> vygeneroval 12 SK lifestyle fotek",reason:"Lokalizace fotek",tag:"AUTO"},
+      {t:"před 21 min",a:"seo",txt:"<strong>SEO agent</strong> aktualizoval meta tags na 38 produktech",reason:"AI návrh + plán",tag:"AUTO"},
+      {t:"před 25 min",a:"email",txt:"<strong>Email agent</strong> spustil welcome flow pro 14 odběratelů",reason:"Trigger: signup",tag:"AUTO"}
+    ],
+    growth:[
+      {ic:"🌱",iCls:"ic-seo",t:"SK: 33 % organic share",s:"silný brand traffic, slabší paid",v:"+ROI z paid scaling"},
+      {ic:"🎯",iCls:"ic-meta",t:"Lookalike z CZ",s:"CZ data dostupná pro 1 % LAL",v:"+est. 18 obj./týden"},
+      {ic:"♻️",iCls:"ic-email",t:"Win-back na 1 200 spících",s:"90+ dní od posledního nákupu",v:"+est. 14 800 €/měs"}
+    ],
+    approvals:[
+      {a:"katalog",t:"AI vygenerovat SK popisy pro 118 produktů",why:"Překlad + lokalizace tonality. Confidence: 0,84.",impact:"+est. 6 % CR",icon:"📦"},
+      {a:"meta",t:"Spustit Lookalike audience 1 % na základě CZ kupujících",why:"CZ data dostatečná (>10 000 zákazníků).",impact:"+est. 18 obj./týden",icon:"📘"},
+      {a:"google",t:"Aktivovat tCPA bidding na hlavní Search kampani SK",why:"Stabilní výkon 21 dní, dost konverzí.",impact:"+est. 12 % konverzí",icon:"🔍"}
+    ]
+  },
+  PL:{
+    biz:{revenue:"428 600 zł",roas:"3,4",cr:"2,1 %",aov:"248 zł",revenueDelta:"+22,8 %",roasDelta:"+0,6",crDelta:"+0,4 pp",aovDelta:"-2,1 %"},
+    sectionStats:{
+      store:[{l:"Obj. dnes",v:"128"},{l:"Tržby dnes",v:"42 480 zł"},{l:"Anomálie",v:"0",cls:"good"}],
+      products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"280",cls:"warn"},{l:"Cenové diff.",v:"8",cls:"warn"}],
+      marketing:[{l:"Aktivní kamp.",v:"14"},{l:"Spend dnes",v:"2 080 zł"},{l:"Avg ROAS",v:"4,0",cls:"good"}],
+      customers:[{l:"Tickety",v:"48"},{l:"AI vyřešilo",v:"62 %"},{l:"Reviews",v:"4,3",cls:"warn"}],
+      strategy:[{l:"Schválení",v:"7",cls:"warn"},{l:"High-impact",v:"3",cls:"warn"},{l:"Růst signály",v:"5",cls:"good"}]
+    },
+    agents:{
+      orders:{sec:"store",status:"auto",last:"Růst objednávek +18 % WoW",metrics:[["Objednávky","128"],["Returns","4,2 %"]],trend:[80,90,100,110,118,124,128]},
+      analytics:{sec:"store",status:"auto",last:"Trafic skokově roste, scaling readiness",metrics:[["GA4","OK"],["Traffic 7d","+28 %"]],trend:[12000,12800,13400,14000,14600,15100,15600]},
+      logistika:{sec:"store",status:"hitl",last:"Inpost má vyšší failed delivery (4 %)",metrics:[["On-time","96,8 %"],["Kurýři","2"]],trend:[97.2,97,96.8,96.6,96.7,96.8,96.8]},
+      katalog:{sec:"products",status:"hitl",last:"8 produktů má rozdíl ceny PL vs feed",metrics:[["SKU","14 820"],["Bez popisu","280"]],trend:[400,360,330,310,300,290,280]},
+      pricing:{sec:"products",status:"hitl",last:"Doporučuje sjednotit ceny u 8 SKU",metrics:[["Změny","12"],["Margin","38 %"]],trend:[38.4,38.4,38.2,38.2,38.0,38.0,38.0]},
+      media:{sec:"products",status:"auto",last:"AI vygeneroval 28 PL lifestyle fotek",metrics:[["Bez fotky","320"],["Generováno","28"]],trend:[420,400,380,360,340,328,320]},
+      meta:{sec:"marketing",status:"auto",last:"Škáluje creative 'Spring PL' rozpočet +30 %",metrics:[["Kampaně","6"],["ROAS","3,8"]],trend:[2.4,2.6,2.9,3.2,3.4,3.6,3.8]},
+      google:{sec:"marketing",status:"auto",last:"Přidal 24 KW v Allegro brand defense",metrics:[["Kampaně","4"],["ROAS","4,2"]],trend:[3.4,3.6,3.8,3.9,4.0,4.1,4.2]},
+      tiktok:{sec:"marketing",status:"auto",last:"PL viral creator — engagement 8,2 %",metrics:[["Kampaně","3"],["ROAS","3,7"]],trend:[3.0,3.2,3.4,3.5,3.6,3.7,3.7]},
+      seo:{sec:"marketing",status:"auto",last:"Optimalizoval H1 na 14 kategoriích",metrics:[["Pozice","#7,4"],["Clicks","+34 %"]],trend:[18,16,13,11,9,8,7]},
+      servis:{sec:"customers",status:"hitl",last:"Doporučuje rozšířit FAQ o doručení",metrics:[["Tickety","48"],["CSAT","4,4"]],trend:[55,57,58,60,61,62,62]},
+      reviews:{sec:"customers",status:"hitl",last:"4 negativní recenze čekají na review",metrics:[["Score","4,3"],["Negativ","4"]],trend:[4.1,4.2,4.2,4.3,4.3,4.3,4.3]},
+      email:{sec:"customers",status:"auto",last:"Spustil PL re-engagement na 1 800 odběratelů",metrics:[["Flow","8"],["Opener","34 %"]],trend:[31,32,33,33,34,34,34]}
+    },
+    feed:[
+      {t:"před 1 min",a:"meta",txt:"<strong>Meta agent</strong> škáluje creative <em>'Spring PL'</em> — rozpočet +30 %",reason:"ROAS 4,1 stabilně 7 dní",tag:"AUTO"},
+      {t:"před 5 min",a:"google",txt:"<strong>Google Ads agent</strong> přidal 24 KW pro Allegro brand defense",reason:"Konkurence licituje na NORDA brand",tag:"AUTO"},
+      {t:"před 7 min",a:"tiktok",txt:"<strong>TikTok agent</strong> identifikoval PL viral creator (engagement 8,2 %)",reason:"Doporučuje Spark Ads",tag:"AUTO"},
+      {t:"před 9 min",a:"reviews",txt:"<strong>Reviews agent</strong> označil 4 negativní recenze k review",reason:"Tón vyžaduje lidský dohled",tag:"HITL"},
+      {t:"před 11 min",a:"pricing",txt:"<strong>Pricing agent</strong> detekoval 12 cenových diff vs CZ",reason:"Diff > 5 %",tag:"HITL"},
+      {t:"před 13 min",a:"katalog",txt:"<strong>Katalog agent</strong> 8 produktů s nesouladem ceny PL",reason:"Diff > 5 % vs CZ feed",tag:"HITL"},
+      {t:"před 15 min",a:"logistika",txt:"<strong>Logistika agent</strong> Inpost 4 % failed delivery",reason:"Doporučuje DPD jako sekundární",tag:"HITL"},
+      {t:"před 18 min",a:"servis",txt:"<strong>Servis agent</strong> doporučuje rozšířit FAQ o doručení",reason:"38 % ticketů na stejné téma",tag:"HITL"},
+      {t:"před 22 min",a:"email",txt:"<strong>Email agent</strong> spustil PL re-engagement (1 800 odběratelů)",reason:"Plán Q2",tag:"AUTO"},
+      {t:"před 24 min",a:"seo",txt:"<strong>SEO agent</strong> optimalizoval H1 na 14 kategoriích",reason:"PL SEO sprint Q2",tag:"AUTO"},
+      {t:"před 26 min",a:"media",txt:"<strong>Media agent</strong> vygeneroval 28 PL lifestyle fotek",reason:"Lokalizace pro PL trh",tag:"AUTO"}
+    ],
+    growth:[
+      {ic:"🚀",iCls:"ic-meta",t:"PL traffic +28 % WoW",s:"scaling readiness — +40 % budget",v:"+est. 84k zł/měs"},
+      {ic:"🎵",iCls:"ic-tiktok",t:"PL viral creator detekován",s:"engagement 8,2 %, návrh Spark Ads",v:"+est. 32k zł/měs"},
+      {ic:"🛒",iCls:"ic-orders",t:"DPD vs Inpost",s:"failed delivery 1,8 % vs 4 %",v:"-est. 12 reklamací/měs"},
+      {ic:"🔎",iCls:"ic-seo",t:"'kurtki na wiosnę' content",s:"volume 22k/měsíc, competition střední",v:"+4 800 organic"},
+      {ic:"🔍",iCls:"ic-google",t:"Druhý PMax pro 'Sukienki'",s:"top produkt, segmentace zlepší výkon",v:"+est. 56 obj./měs"}
+    ],
+    approvals:[
+      {a:"meta",t:"Navýšit PL ad budget o 40 % (z 8 000 → 11 200 zł/měs)",why:"ROAS stabilně 3,8+ a traffic +28 %.",impact:"+est. 84 000 zł/měs",icon:"📘"},
+      {a:"katalog",t:"Sjednotit ceny u 8 produktů s diff > 5 % vs CZ",why:"Buď chyba feedu, nebo záměrná lokalizace.",impact:"reputace + margin",icon:"📦"},
+      {a:"reviews",t:"Schválit AI návrhy odpovědí na 4 negativní recenze",why:"Tón: empatie + konkrétní řešení.",impact:"reputace",icon:"⭐"},
+      {a:"servis",t:"Publikovat rozšířený FAQ o doručení (PL kurýři, 3 dny)",why:"Sníží 38 % opakujících se ticketů.",impact:"-est. 4,2 h/týden support",icon:"💬"},
+      {a:"google",t:"Otevřít druhý PMax pro 'Sukienki' (8 000 zł/měs)",why:"Top produkt, segmentace zlepší výkon.",impact:"+est. 56 obj./měs",icon:"🔍"},
+      {a:"orders",t:"Schválit DPD PL jako sekundární kurýr",why:"Inpost má 4 % failed delivery, DPD 1,8 %.",impact:"-est. 12 reklamací/měs",icon:"🛒"},
+      {a:"seo",t:"Spustit content kampaň 'kurtki na wiosnę' (8 článků)",why:"Volume 22k/měsíc, competition střední.",impact:"+est. 4 800 organic",icon:"🔎"}
+    ]
+  },
+  HU:{
+    biz:{revenue:"42 800 000 Ft",roas:"2,9",cr:"1,8 %",aov:"32 400 Ft",revenueDelta:"+8,2 %",roasDelta:"+0,1",crDelta:"-0,1 pp",aovDelta:"+2,4 %"},
+    sectionStats:{
+      store:[{l:"Obj. dnes",v:"38"},{l:"Tržby dnes",v:"4 240 000 Ft"},{l:"Anomálie",v:"1",cls:"warn"}],
+      products:[{l:"SKU",v:"9 840"},{l:"Bez popisu",v:"412",cls:"bad"},{l:"Bez fotky",v:"1 240",cls:"bad"}],
+      marketing:[{l:"Aktivní kamp.",v:"9"},{l:"Spend dnes",v:"180 000 Ft"},{l:"Avg ROAS",v:"3,5"}],
+      customers:[{l:"Tickety",v:"21"},{l:"AI vyřešilo",v:"54 %",cls:"warn"},{l:"Reviews",v:"4,2"}],
+      strategy:[{l:"Schválení",v:"4",cls:"warn"},{l:"High-impact",v:"2",cls:"warn"},{l:"Růst signály",v:"3"}]
+    },
+    agents:{
+      orders:{sec:"store",status:"auto",last:"Vše OK, růst pomalejší",metrics:[["Objednávky","38"],["Returns","4,8 %"]],trend:[24,28,30,32,34,36,38]},
+      analytics:{sec:"store",status:"alert",last:"Bounce rate na home +12 % — anomálie",metrics:[["GA4","OK"],["Traffic 7d","+4 %"]],trend:[1800,1850,1900,1920,1950,1980,2000]},
+      logistika:{sec:"store",status:"auto",last:"Magyar Posta + GLS HU stabilní",metrics:[["On-time","95,4 %"],["Kurýři","2"]],trend:[94.8,95,95.1,95.2,95.3,95.3,95.4]},
+      katalog:{sec:"products",status:"hitl",last:"412 chybí HU překlad — vyžaduje schválení",metrics:[["SKU","9 840"],["Bez popisu","412"]],trend:[600,540,500,470,440,420,412]},
+      pricing:{sec:"products",status:"auto",last:"HU cenová parita s CZ udržena",metrics:[["Změny","2"],["Margin","37 %"]],trend:[37.2,37.2,37,37,36.8,37,37]},
+      media:{sec:"products",status:"hitl",last:"1 240 produktů bez HU specifické fotky",metrics:[["Bez fotky","1 240"],["Generováno","8"]],trend:[1300,1280,1270,1260,1252,1245,1240]},
+      meta:{sec:"marketing",status:"auto",last:"Testuje 3 nové creative variants",metrics:[["Kampaně","3"],["ROAS","3,2"]],trend:[2.6,2.7,2.8,3.0,3.1,3.2,3.2]},
+      google:{sec:"marketing",status:"auto",last:"Stabilní výkon, žádné změny",metrics:[["Kampaně","2"],["ROAS","3,8"]],trend:[3.4,3.5,3.6,3.6,3.7,3.8,3.8]},
+      tiktok:{sec:"marketing",status:"auto",last:"HU pilot kampaň",metrics:[["Kampaně","1"],["ROAS","3,6"]],trend:[3.2,3.3,3.4,3.5,3.5,3.6,3.6]},
+      seo:{sec:"marketing",status:"auto",last:"Publikoval první HU článek 'Tavaszi trendek'",metrics:[["Pozice","#9,1"],["Clicks","+6 %"]],trend:[20,18,16,14,12,11,10]},
+      servis:{sec:"customers",status:"hitl",last:"AI confidence nízká — vyžaduje review",metrics:[["Tickety","21"],["CSAT","4,2"]],trend:[40,44,48,50,52,53,54]},
+      reviews:{sec:"customers",status:"auto",last:"Odpověděl na všechny nové recenze",metrics:[["Score","4,2"],["Negativ","1"]],trend:[4.0,4.1,4.1,4.2,4.2,4.2,4.2]},
+      email:{sec:"customers",status:"auto",last:"HU welcome flow běží 6 týdnů",metrics:[["Flow","4"],["Opener","31 %"]],trend:[28,29,30,30,31,31,31]}
+    },
+    feed:[
+      {t:"před 3 min",a:"katalog",txt:"<strong>Katalog agent</strong> identifikoval 412 produktů bez HU překladu",reason:"Mutace v ramp-up fázi",tag:"HITL"},
+      {t:"před 8 min",a:"servis",txt:"<strong>Servis agent</strong> doporučuje rozšířit AI tréninková data HU",reason:"AI confidence 54 %",tag:"HITL"},
+      {t:"před 10 min",a:"media",txt:"<strong>Media agent</strong> 1 240 produktů bez HU specifické fotky",reason:"Lokalizace media",tag:"HITL"},
+      {t:"před 12 min",a:"analytics",txt:"<strong>Analytics agent</strong> bounce rate na home +12 %",reason:"Změna od 12.00",tag:"ALERT"},
+      {t:"před 17 min",a:"meta",txt:"<strong>Meta agent</strong> spustil A/B test 3 nových creative variant",reason:"HU creative refresh",tag:"AUTO"},
+      {t:"před 22 min",a:"seo",txt:"<strong>SEO agent</strong> publikoval první HU článek <em>'Tavaszi trendek 2026'</em>",reason:"Spuštění HU content",tag:"AUTO"}
+    ],
+    growth:[
+      {ic:"📦",iCls:"ic-katalog",t:"412 SKU bez HU překladu",s:"defacto neviditelné v HU search",v:"+est. 24 % HU traffic"},
+      {ic:"💬",iCls:"ic-servis",t:"AI servis fine-tuning",s:"1 200 ručně označených HU ticketů",v:"AI confidence 54→72 %"},
+      {ic:"📊",iCls:"ic-analytics",t:"Bounce rate anomálie",s:"+12 % od 12.00 — možná deploy issue",v:"prevence ztráty"}
+    ],
+    approvals:[
+      {a:"katalog",t:"AI překlad 412 produktů do maďarštiny (top 100 SKU)",why:"Bez popisů jsou produkty defacto neviditelné.",impact:"+est. 24 % HU traffic",icon:"📦"},
+      {a:"servis",t:"Fine-tuning AI servisu na 1 200 HU ticketech",why:"Zvýší confidence z 54 % na ~72 %.",impact:"+est. 2 h/týden saved",icon:"💬"},
+      {a:"analytics",t:"Investigovat anomálii bounce rate +12 % na homepage",why:"Možná chyba v deploymentu z 12.00.",impact:"prevence ztráty",icon:"📊"},
+      {a:"meta",t:"Schválit budget pro creative refresh (250 000 Ft)",why:"Stávající creative má fatigue 0,68.",impact:"+est. CTR 0,4 pp",icon:"📘"}
+    ]
+  },
+  RO:{
+    biz:{revenue:"248 600 lei",roas:"2,4",cr:"1,4 %",aov:"480 lei",revenueDelta:"+4,8 %",roasDelta:"-0,2",crDelta:"-0,2 pp",aovDelta:"+0,8 %"},
+    sectionStats:{
+      store:[{l:"Obj. dnes",v:"18"},{l:"Tržby dnes",v:"24 600 lei"},{l:"Anomálie",v:"0",cls:"good"}],
+      products:[{l:"SKU",v:"8 240"},{l:"Bez popisu",v:"1 840",cls:"bad"},{l:"Bez fotky",v:"3 680",cls:"bad"}],
+      marketing:[{l:"Aktivní kamp.",v:"6"},{l:"Spend dnes",v:"720 lei"},{l:"Avg ROAS",v:"2,8",cls:"warn"}],
+      customers:[{l:"Tickety",v:"11"},{l:"AI vyřešilo",v:"38 %",cls:"bad"},{l:"Reviews",v:"3,8",cls:"warn"}],
+      strategy:[{l:"Schválení",v:"6",cls:"warn"},{l:"High-impact",v:"3",cls:"bad"},{l:"Růst signály",v:"2"}]
+    },
+    agents:{
+      orders:{sec:"store",status:"hitl",last:"Returns rate vyšší než průměr",metrics:[["Objednávky","18"],["Returns","6,8 %"]],trend:[10,11,12,14,15,16,18]},
+      analytics:{sec:"store",status:"auto",last:"Stabilní, ale plochý růst",metrics:[["GA4","OK"],["Traffic 7d","+1 %"]],trend:[840,860,870,880,890,900,920]},
+      logistika:{sec:"store",status:"hitl",last:"Sameday + Fan Courier — failed delivery 5 %",metrics:[["On-time","92,8 %"],["Kurýři","2"]],trend:[93.2,93,92.8,92.6,92.7,92.8,92.8]},
+      katalog:{sec:"products",status:"alert",last:"1 840 chybí RO překlad — kritické",metrics:[["SKU","8 240"],["Bez popisu","1 840"]],trend:[2400,2200,2100,2000,1920,1880,1840]},
+      pricing:{sec:"products",status:"hitl",last:"Doporučuje agresivní −10 % na 4 SKU",metrics:[["Změny","1"],["Margin","34 %"]],trend:[35.8,35.6,35,34.8,34.4,34.2,34]},
+      media:{sec:"products",status:"alert",last:"3 680 produktů bez RO fotek (kritické)",metrics:[["Bez fotky","3 680"],["Generováno","2"]],trend:[3800,3780,3760,3730,3710,3690,3680]},
+      meta:{sec:"marketing",status:"hitl",last:"Doporučuje pauznout under-performing campaign",metrics:[["Kampaně","2"],["ROAS","2,6"]],trend:[2.4,2.4,2.5,2.5,2.6,2.6,2.6]},
+      google:{sec:"marketing",status:"auto",last:"Vše v normě, ale CPC roste +14 %",metrics:[["Kampaně","2"],["ROAS","3,1"]],trend:[2.8,2.9,2.9,3.0,3.0,3.1,3.1]},
+      tiktok:{sec:"marketing",status:"auto",last:"RO pilot kampaň, raná fáze",metrics:[["Kampaně","1"],["ROAS","2,6"]],trend:[2.4,2.5,2.5,2.6,2.6,2.6,2.6]},
+      seo:{sec:"marketing",status:"hitl",last:"Doporučuje urychlit content production",metrics:[["Pozice","#11,8"],["Clicks","+2 %"]],trend:[24,22,20,18,16,14,12]},
+      servis:{sec:"customers",status:"alert",last:"CSAT pod hranicí 4,0 — vyžaduje intervenci",metrics:[["Tickety","11"],["CSAT","3,9"]],trend:[30,32,34,35,36,37,38]},
+      reviews:{sec:"customers",status:"hitl",last:"3 recenze čekají na odpověď > 24 h",metrics:[["Score","3,8"],["Negativ","1"]],trend:[3.7,3.7,3.8,3.8,3.8,3.8,3.8]},
+      email:{sec:"customers",status:"auto",last:"RO welcome flow má opener 28 %",metrics:[["Flow","3"],["Opener","28 %"]],trend:[26,27,27,28,28,28,28]}
+    },
+    feed:[
+      {t:"před 4 min",a:"katalog",txt:"<strong>Katalog agent</strong> hlásí kritický stav: <strong>1 840 produktů</strong> bez RO překladu",reason:"Blokuje search visibility",tag:"ALERT"},
+      {t:"před 6 min",a:"media",txt:"<strong>Media agent</strong> kritický stav: 3 680 produktů bez RO fotek",reason:"Lokalizace zaostává",tag:"ALERT"},
+      {t:"před 9 min",a:"servis",txt:"<strong>Servis agent</strong> CSAT 3,9 — pod hranicí",reason:"AI confidence pouze 38 %",tag:"ALERT"},
+      {t:"před 14 min",a:"meta",txt:"<strong>Meta agent</strong> doporučuje pauznout 1 kampaň (ROAS 1,4)",reason:"Pod cílem už 12 dní",tag:"HITL"},
+      {t:"před 16 min",a:"logistika",txt:"<strong>Logistika agent</strong> failed delivery Sameday 5 %",reason:"Doporučuje přidat Cargus",tag:"HITL"},
+      {t:"před 19 min",a:"reviews",txt:"<strong>Reviews agent</strong> 3 recenze čekají > 24 h",reason:"AI confidence pro RO nízká",tag:"HITL"},
+      {t:"před 25 min",a:"orders",txt:"<strong>Orders agent</strong> returns rate 6,8 % (cíl 4 %)",reason:"Důvod: \"velikost\"",tag:"HITL"},
+      {t:"před 32 min",a:"google",txt:"<strong>Google Ads agent</strong> hlásí růst CPC +14 % WoW",reason:"Sezónní competition",tag:"AUTO"}
+    ],
+    growth:[
+      {ic:"📦",iCls:"ic-katalog",t:"1 840 SKU bez RO překladu",s:"kritický blok pro search visibility",v:"+est. 38 % traffic"},
+      {ic:"💬",iCls:"ic-servis",t:"RO native support",s:"AI confidence 38 % příliš nízká",v:"CSAT 3,9 → 4,3"}
+    ],
+    approvals:[
+      {a:"katalog",t:"AI překlad 1 840 produktů do rumunštiny (3 fáze)",why:"Kritický blok pro search visibility a konverze.",impact:"+est. 38 % RO traffic",icon:"📦"},
+      {a:"meta",t:"Pauznout kampaň 'RO Generic Spring' (ROAS 1,4)",why:"Spáleno už 14 800 lei. ROAS klesá.",impact:"-est. 8 200 lei plýtvání",impactCost:true,icon:"📘"},
+      {a:"servis",t:"Najmout 1 RO native speaker support (10 h/týden)",why:"AI confidence 38 % je příliš nízká.",impact:"+est. CSAT 4,0 → 4,3",icon:"💬"},
+      {a:"orders",t:"Spustit kampaň 'velikostní průvodce RO' (TikTok + email)",why:"Returns rate 6,8 % vs cíl 4 %.",impact:"-est. 14 reklamací/měs",icon:"🛒"},
+      {a:"reviews",t:"Schválit AI odpovědi na 3 čekající RO recenze",why:"AI návrhy připraveny, čekají > 24 h.",impact:"reputace",icon:"⭐"},
+      {a:"seo",t:"Spustit content sprint 'RO SEO foundation'",why:"Pozice #11,8 — slabá viditelnost.",impact:"+est. 1 800 organic/měs",icon:"🔎"}
+    ]
+  }
+};
+
+const META = {
+  CZ:{flag:"🇨🇿",dom:"norda.cz · CZK · GMT+1"},
+  SK:{flag:"🇸🇰",dom:"norda.sk · EUR · GMT+1"},
+  PL:{flag:"🇵🇱",dom:"norda.pl · PLN · GMT+1"},
+  HU:{flag:"🇭🇺",dom:"norda.hu · HUF · GMT+1"},
+  RO:{flag:"🇷🇴",dom:"norda.ro · RON · GMT+2"}
+};
+
+const AGENT_DEF = {
+  orders:    {n:"Manažer objednávek", i:"🛒", c:"ic-orders"},
+  analytics: {n:"Datový analytik",    i:"📊", c:"ic-analytics"},
+  logistika: {n:"Manažer logistiky",  i:"🚚", c:"ic-logistika"},
+  katalog:   {n:"Správce katalogu",   i:"📦", c:"ic-katalog"},
+  pricing:   {n:"Pricing analytik",   i:"💰", c:"ic-pricing"},
+  media:     {n:"Foto editor",        i:"📷", c:"ic-media"},
+  meta:      {n:"Marketér Meta",      i:"📘", c:"ic-meta"},
+  google:    {n:"Marketér Google",    i:"🔍", c:"ic-google"},
+  tiktok:    {n:"TikTok specialista", i:"🎵", c:"ic-tiktok"},
+  seo:       {n:"SEO specialista",    i:"🔎", c:"ic-seo"},
+  servis:    {n:"Asistent podpory",   i:"💬", c:"ic-servis"},
+  reviews:   {n:"Reputační manažer",  i:"⭐", c:"ic-reviews"},
+  email:     {n:"Retence",            i:"✉️", c:"ic-email"}
+};
+
+const SECTIONS = ["store","products","marketing","customers"];
+
+let current = "CZ";
+let charts = {};
+
+function render(m){
+  const d = DATA[m];
+  const ch = CHANNELS[m];
+
+  document.getElementById("muta-meta").textContent = META[m].dom;
+
+  setText("revenue",d.biz.revenue); setText("roas",d.biz.roas);
+  setText("cr",d.biz.cr); setText("aov",d.biz.aov);
+  setText("revenueDelta",d.biz.revenueDelta); setText("roasDelta",d.biz.roasDelta);
+  setText("crDelta",d.biz.crDelta); setText("aovDelta",d.biz.aovDelta);
+  applyDeltaClass("revenueDelta",d.biz.revenueDelta);
+  applyDeltaClass("roasDelta",d.biz.roasDelta);
+  applyDeltaClass("crDelta",d.biz.crDelta);
+  applyDeltaClass("aovDelta",d.biz.aovDelta);
+
+  document.getElementById("sb-approvals").textContent = d.approvals.length;
+
+  renderSectionSummary(d);
+  renderStrategyBox(d);
+
+  const totalRev = parseAmt(ch.paid.fmt) + parseAmt(ch.organic.fmt) + parseAmt(ch.retention.fmt);
+  document.getElementById("channels").innerHTML =
+      renderChannelCard("Akviziční (placené)","🎯","paid",   ch.paid,      parseAmt(ch.paid.fmt)/totalRev*100)
+    + renderChannelCard("Organické",          "🌱","organic", ch.organic,   parseAmt(ch.organic.fmt)/totalRev*100)
+    + renderChannelCard("Retence",            "♻️","retention",ch.retention,parseAmt(ch.retention.fmt)/totalRev*100);
+
+  ["store","products","marketing","customers"].forEach(sec=>{
+    const el = document.getElementById(`stats-${sec}`);
+    if (!el) return;
+    const stats = d.sectionStats[sec] || [];
+    el.innerHTML = stats.map(s=>`<div class="sec-stat"><div class="v ${s.cls||""}">${s.v}</div><div class="l">${s.l}</div></div>`).join("");
+  });
+
+  const sparkTargets = [];
+  SECTIONS.forEach(sec=>{
+    const grid = document.querySelector(`.agent-grid[data-section="${sec}"]`);
+    if (!grid) return;
+    grid.innerHTML = "";
+    Object.keys(d.agents).filter(k=>d.agents[k].sec===sec).forEach(k=>{
+      const ad = d.agents[k];
+      const def = AGENT_DEF[k];
+      const card = document.createElement("div");
+      card.className="agent-card";
+      const badge = ad.status==="auto"?'<span class="badge auto">● AUTO</span>'
+                   :ad.status==="hitl"?'<span class="badge wait">● HITL</span>'
+                   :'<span class="badge alert">● ALERT</span>';
+      card.innerHTML = `
+        <div class="agent-head">
+          <div class="agent-icon ${def.c}">${def.i}</div>
+          <div class="agent-name">${def.n}</div>
+          <div class="agent-status">${badge}</div>
+        </div>
+        <div class="agent-metrics">
+          <div class="metric"><div class="lab">${ad.metrics[0][0]}</div><div class="val">${ad.metrics[0][1]}</div></div>
+          <div class="metric"><div class="lab">${ad.metrics[1][0]}</div><div class="val">${ad.metrics[1][1]}</div></div>
+        </div>
+        <div class="spark-wrap"><canvas id="spark-${sec}-${k}"></canvas></div>
+        <div class="agent-foot"><span>●</span><span class="last">${ad.last}</span></div>
+      `;
+      grid.appendChild(card);
+      sparkTargets.push({id:`spark-${sec}-${k}`, trend:ad.trend, status:ad.status});
+    });
+  });
+  requestAnimationFrame(()=>{
+    sparkTargets.forEach(s=>drawSpark(s.id, s.trend, s.status));
+  });
+
+  SECTIONS.forEach(sec=>{
+    const list = document.querySelector(`[data-feed="${sec}"]`);
+    if (!list) return;
+    const items = d.feed.filter(f=>{
+      const ad = d.agents[f.a];
+      return ad && ad.sec===sec;
+    });
+    list.innerHTML = items.length ? items.map(f=>{
+      const def = AGENT_DEF[f.a];
+      const tagClass = f.tag==="AUTO"?"auto":f.tag==="HITL"?"wait":"alert";
+      return `
+        <div class="sec-feed-item">
+          <div class="ic ${def.c}">${def.i}</div>
+          <div class="body">
+            <div class="line">${f.txt}</div>
+            <div class="meta"><span class="badge ${tagClass}">${f.tag}</span><span>${f.t}</span><span>·</span><span>${f.reason}</span></div>
+          </div>
+        </div>`;
+    }).join("") : `<div class="sec-feed-empty">Žádná aktivita posledních 60 minut</div>`;
+  });
+}
+
+const PNCO = { CZ:"11,9 %", SK:"12,0 %", PL:"14,3 %", HU:"15,9 %", RO:"22,0 %" };
+const INTERACTIONS = { CZ:"432", SK:"124", PL:"380", HU:"82", RO:"34" };
+
+function renderSectionSummary(d){
+  const skuValue = d.agents.katalog.metrics[0][1];
+  const csatRaw = parseFloat((d.agents.servis.metrics[1][1] || "0").replace(",","."));
+  const csatPct = Math.max(0, Math.min(100, csatRaw / 5 * 100));
+  const csatStr = csatRaw.toFixed(1).replace(".",",");
+
+  const SECTION_DEF = [
+    {key:"store",     label:"E-shop",    metricBlock:`
+      <div class="num">${d.biz.revenue}</div>
+      <div class="lab">Tržby (dle období)</div>`},
+    {key:"products",  label:"Produkty",  metricBlock:`
+      <div class="num">${skuValue}</div>
+      <div class="lab">Aktivní SKU</div>`},
+    {key:"marketing", label:"Marketing", metricBlock:`
+      <div class="num">${PNCO[current]}</div>
+      <div class="lab">Náklady ku tržbám</div>`},
+    {key:"customers", label:"Zákazníci", metricBlock:`
+      <div class="num">${INTERACTIONS[current]}</div>
+      <div class="lab">Interakce dnes</div>
+      <div class="stars-row">
+        <div class="stars">
+          <div class="stars-track">★★★★★</div>
+          <div class="stars-fill" style="width:${csatPct}%">★★★★★</div>
+        </div>
+        <span class="stars-num">CSAT ${csatStr}</span>
+      </div>`}
+  ];
+
+  const html = SECTION_DEF.map(s=>{
+    const agents = Object.entries(d.agents).filter(([k,v])=>v.sec===s.key);
+    const agentsList = agents.map(([k,a])=>{
+      const def = AGENT_DEF[k];
+      return `<div class="ag-row ${a.status}"><span class="dot"></span><span class="name">${def.n}</span></div>`;
+    }).join("");
+
+    return `
+      <div class="sec-sum-card sec-${s.key}">
+        <div class="sec-sum-head">${s.label}</div>
+        <div class="sec-sum-metric">${s.metricBlock}</div>
+        <div class="sec-sum-agents">${agentsList}</div>
+      </div>`;
+  }).join("");
+
+  document.getElementById("sec-summary").innerHTML = html;
+}
+
+function renderStrategyBox(d){
+  const list = document.getElementById("strat-approvals");
+  list.innerHTML = d.approvals.map(item=>{
+    const def = AGENT_DEF[item.a];
+    return `
+      <div class="strat-item">
+        <div class="strat-icon ${def.c}">${item.icon||def.i}</div>
+        <div class="strat-body">
+          <strong>${item.t}</strong>
+          <span class="why">${item.why}</span>
+        </div>
+        <div class="strat-impact ${item.impactCost?'cost':''}">${item.impact}</div>
+        <div class="strat-actions">
+          <a class="link">Číst více</a>
+          <button class="btn primary">Schválit</button>
+        </div>
+      </div>`;
+  }).join("");
+
+  const sigs = document.getElementById("strat-signals");
+  sigs.innerHTML = d.growth.map(g=>`
+    <div class="signal-row">
+      <div class="ic ${g.iCls}">${g.ic}</div>
+      <div class="lbl"><strong>${g.t}</strong><span>${g.s}</span></div>
+      <div class="v">${g.v}</div>
+    </div>`).join("");
+
+  document.getElementById("strat-meta").textContent =
+    `${d.approvals.length} ke schválení · ${d.growth.length} růstových signálů`;
+}
+
+function renderChannelCard(title,emoji,cls,data,sharePct){
+  const rows = data.rows.map(r=>`
+    <div class="ch-row" style="--bar-w:${r.w}%">
+      <div class="name"><div class="mini-ic ${r.c}">${r.i}</div>${r.n}</div>
+      <div class="rev">${r.rev}</div>
+    </div>`).join("");
+
+  return `
+    <div class="ch-card ${cls}">
+      <div class="ch-head">
+        <div class="icon">${emoji}</div>
+        <div class="ttl">${title}</div>
+        <div class="total">${data.fmt}</div>
+      </div>
+      <div class="ch-share">
+        <div class="ch-share-meta">
+          <span>podíl na celkových tržbách</span>
+          <strong>${Math.round(sharePct)} %</strong>
+        </div>
+        <div class="ch-share-track">
+          <div class="ch-share-fill" style="width:${sharePct}%"></div>
+        </div>
+      </div>
+      ${rows}
+    </div>`;
+}
+
+function setText(k,v){ document.querySelectorAll(`[data-k="${k}"]`).forEach(el=>el.textContent=v); }
+function applyDeltaClass(k,v){
+  document.querySelectorAll(`[data-k="${k}"]`).forEach(el=>{
+    el.classList.remove("up","down","flat");
+    if (v.startsWith("+") && !v.includes("0,0")) el.classList.add("up");
+    else if (v.startsWith("-")) el.classList.add("down");
+    else el.classList.add("flat");
+  });
+}
+
+function drawSpark(id, data, status){
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  if (charts[id]) { charts[id].destroy(); }
+  const color = status==="auto" ? "#10b981" : status==="hitl" ? "#f59e0b" : "#ef4444";
+  charts[id] = new Chart(ctx,{
+    type:"line",
+    data:{ labels:data.map((_,i)=>i), datasets:[{
+      data:data, borderColor:color, borderWidth:2, fill:true,
+      backgroundColor: status==="auto"?"rgba(16,185,129,.10)":status==="hitl"?"rgba(245,158,11,.10)":"rgba(239,68,68,.10)",
+      tension:.35, pointRadius:0
+    }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{enabled:false} },
+      scales:{ x:{display:false}, y:{display:false} },
+      animation:{ duration:600 }, layout:{padding:0}
+    }
+  });
+}
+
+document.querySelectorAll(".muta").forEach(el=>{
+  el.addEventListener("click",()=>{
+    document.querySelectorAll(".muta").forEach(x=>x.classList.remove("active"));
+    el.classList.add("active");
+    current = el.dataset.m;
+    render(current);
+  });
+});
+
+const dateBtn = document.getElementById("date-btn");
+const dateMenu = document.getElementById("date-menu");
+const dateLabel = document.getElementById("date-label");
+dateBtn.addEventListener("click",(e)=>{
+  e.stopPropagation();
+  dateMenu.classList.toggle("open");
+});
+document.addEventListener("click",(e)=>{
+  if (!dateMenu.contains(e.target) && e.target!==dateBtn) dateMenu.classList.remove("open");
+});
+dateMenu.querySelectorAll("a").forEach(a=>{
+  a.addEventListener("click",()=>{
+    dateMenu.querySelectorAll("a").forEach(x=>x.classList.remove("active"));
+    a.classList.add("active");
+    dateLabel.textContent = a.textContent;
+    dateMenu.classList.remove("open");
+  });
+});
+
+document.addEventListener("click",(e)=>{
+  if (e.target.matches(".strat-item .btn.primary")){
+    const row = e.target.closest(".strat-item");
+    if (!row) return;
+    row.style.transition="all .3s ease";
+    row.style.opacity="0";
+    row.style.transform="translateX(20px)";
+    setTimeout(()=>row.remove(),300);
+  }
+});
+
+render(current);
+
+function tick(){
+  const d = new Date();
+  const days=["neděle","pondělí","úterý","středa","čtvrtek","pátek","sobota"];
+  const months=["ledna","února","března","dubna","května","června","července","srpna","září","října","listopadu","prosince"];
+  const s = `${days[d.getDay()]}, ${d.getDate()}. ${months[d.getMonth()]} ${d.getFullYear()} · ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+  document.getElementById("datestr").textContent = s;
+}
+tick(); setInterval(tick,30000);
+</script>
+</body>
+</html>
