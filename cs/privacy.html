@@ -18,23 +18,24 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/brand-assets/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 
+<!-- Google Analytics 4 with Consent Mode v2 (default DENY) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','functionality_storage':'granted','security_storage':'granted','wait_for_update':500});
+try { if (localStorage.getItem('avemundo_consent') === 'granted') gtag('consent','update',{'analytics_storage':'granted'}); } catch(e){}
+gtag('js', new Date());
+gtag('config','G-WPZW13B255',{'anonymize_ip':true});
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPZW13B255"></script>
+
 <style>
-:root {
-    --ink-deep: #1a2332;
-    --ink: #2c3e50;
-    --paper: #ffffff;
-    --canvas: #f6f5f2;
-    --muted: #5a6a78;
-    --divider: rgba(0,0,0,0.08);
-    --grad: linear-gradient(135deg, #1a2332 0%, #2c3e50 50%, #1a2332 100%);
-    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
+:root { --ink-deep: #1a2332; --ink: #2c3e50; --paper: #ffffff; --canvas: #f6f5f2; --muted: #5a6a78; --divider: rgba(0,0,0,0.08); --grad: linear-gradient(135deg, #1a2332 0%, #2c3e50 50%, #1a2332 100%); --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: var(--font); font-size: 17px; line-height: 1.65; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
-
 .topbar { background: var(--grad); color: white; padding: 18px 40px; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; }
-.topbar a.brand { color: white; text-decoration: none; font-weight: 700; letter-spacing: 0.02em; font-size: 1.05em; display: flex; align-items: center; gap: 10px; }
+.topbar a.brand { color: white; text-decoration: none; font-weight: 700; font-size: 1.05em; display: flex; align-items: center; gap: 10px; }
 .topbar a.brand img { height: 22px; }
 .topbar nav { display: flex; gap: 22px; align-items: center; }
 .topbar nav a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.92em; font-weight: 500; transition: color 0.15s; }
@@ -43,10 +44,9 @@ body { font-family: var(--font); font-size: 17px; line-height: 1.65; color: var(
 .lang-switch a { padding: 4px 10px; border-radius: 4px; font-size: 0.82em; font-weight: 500; color: rgba(255,255,255,0.6) !important; text-decoration: none; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; line-height: 1; }
 .lang-switch a:hover { color: rgba(255,255,255,0.95) !important; }
 .lang-switch a.active { background: rgba(255,255,255,0.14); color: #fff !important; }
-
 main { max-width: 760px; margin: 0 auto; padding: 80px 32px 120px; }
 .eyebrow { display: inline-block; background: var(--ink); color: white; font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.18em; padding: 6px 12px; border-radius: 3px; margin-bottom: 24px; font-weight: 600; }
-h1 { font-size: clamp(2em, 4vw, 2.8em); font-weight: 700; line-height: 1.15; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 16px; }
+h1 { font-size: clamp(2em, 4vw, 2.8em); font-weight: 700; line-height: 1.15; color: var(--ink); margin-bottom: 16px; }
 .lede { font-size: 1.15em; color: var(--muted); margin-bottom: 48px; }
 h2 { font-size: 1.4em; font-weight: 700; color: var(--ink); margin: 48px 0 16px; }
 h3 { font-size: 1.05em; font-weight: 600; color: var(--ink); margin: 28px 0 10px; }
@@ -57,27 +57,29 @@ strong { color: var(--ink); }
 a { color: var(--ink-deep); text-decoration: underline; text-underline-offset: 3px; }
 a:hover { color: #000; }
 .meta { color: var(--muted); font-size: 0.92em; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--divider); }
-
 footer { background: var(--ink-deep); color: rgba(255,255,255,0.55); padding: 40px; text-align: center; font-size: 0.88em; }
 footer a { color: rgba(255,255,255,0.75); text-decoration: none; margin: 0 12px; }
-footer a:hover { color: white; }
 .footer-row { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+@media (max-width: 720px) { .topbar { padding: 14px 20px; } .topbar nav { gap: 12px; } .topbar nav a:not(.lang-switch a) { display: none; } main { padding: 48px 22px 80px; } }
 
-@media (max-width: 720px) {
-    .topbar { padding: 14px 20px; }
-    .topbar nav { gap: 12px; }
-    .topbar nav a:not(.lang-switch a) { display: none; }
-    main { padding: 48px 22px 80px; }
-}
+/* Cookie banner */
+.cookie-banner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 640px; width: calc(100% - 48px); background: #1a2332; color: rgba(255,255,255,0.92); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); padding: 18px 22px; z-index: 9999; font-size: 0.9em; line-height: 1.5; animation: cb-slide 0.3s ease-out; }
+@keyframes cb-slide { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.cookie-banner__inner { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.cookie-banner__text { margin: 0; flex: 1 1 280px; color: rgba(255,255,255,0.92); }
+.cookie-banner__text a { color: #fff; text-decoration: underline; }
+.cookie-banner__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.cookie-banner__btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-family: inherit; font-size: 0.92em; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+.cookie-banner__btn:hover { background: rgba(255,255,255,0.16); }
+.cookie-banner__btn--primary { background: #fff; color: #1a2332; border-color: #fff; font-weight: 600; }
+.cookie-banner__btn--primary:hover { background: rgba(255,255,255,0.92); }
+@media (max-width: 600px) { .cookie-banner { width: calc(100% - 24px); bottom: 12px; padding: 16px; } .cookie-banner__actions { width: 100%; } .cookie-banner__btn { flex: 1; } }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-    <a href="/cs/" class="brand">
-        <img src="/brand-assets/favicon-192.png" alt="AVE MUNDO">
-        AVE MUNDO
-    </a>
+    <a href="/cs/" class="brand"><img src="/brand-assets/favicon-192.png" alt="AVE MUNDO">AVE MUNDO</a>
     <nav>
         <a href="/cs/">Domů</a>
         <a href="/cs/imprint.html">Tiráž</a>
@@ -91,7 +93,7 @@ footer a:hover { color: white; }
 <main>
     <div class="eyebrow">Právní informace</div>
     <h1>Zásady ochrany osobních údajů</h1>
-    <p class="lede">Jak <strong>AVE MUNDO a.s.</strong> shromažďuje, zpracovává a chrání vaše osobní údaje. Aktualizováno: 1. května 2026.</p>
+    <p class="lede">Jak <strong>AVE MUNDO a.s.</strong> shromažďuje, zpracovává a chrání vaše osobní údaje. Aktualizováno: 6. května 2026.</p>
 
     <h2>1. Kdo jsme</h2>
     <p>Správcem osobních údajů je <strong>AVE MUNDO a.s.</strong>, akciová společnost se sídlem v České republice. Kontakt: <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>.</p>
@@ -111,17 +113,29 @@ footer a:hover { color: white; }
     <h3>Server logy</h3>
     <p>Jako každý web i náš poskytovatel hostingu (GitHub Pages) zaznamenává standardní metadata požadavků — IP adresu, user agent, čas, požadovanou URL — pro účely bezpečnosti, prevence zneužití a základního provozu infrastruktury. Tyto logy se uchovávají podle politiky GitHubu a my je nepoužíváme k profilování ani marketingu.</p>
 
+    <h3>Google Analytics 4 (pouze s vaším souhlasem)</h3>
+    <p>Pokud v cookie banneru přijmete analytiku, používáme <strong>Google Analytics 4</strong> (poskytovaný Google Ireland Limited) k pochopení agregovaných návštěvnických vzorů — page views, zdroje návštěv a základní kategorie zařízení. GA4 máme nakonfigurovaný s <strong>anonymizací IP</strong> a <strong>Google Consent Mode v2</strong>, což znamená:</p>
+    <ul>
+        <li>Analytické cookies se <strong>nenastavují, dokud aktivně nesouhlasíte</strong> přes cookie banner</li>
+        <li>Vaše IP adresa je anonymizována ještě před uložením (poslední oktet je oříznut)</li>
+        <li><strong>Nepoužíváme</strong> Google Signals, Google Ads remarketing ani žádné cross-site reklamní funkce</li>
+        <li>Pro EU/EEA návštěvníky probíhá zpracování pod standardními smluvními doložkami s Googlem</li>
+    </ul>
+    <p>Volbu můžete <strong>kdykoli změnit</strong> vymazáním dat webu v prohlížeči (Nastavení → Nastavení webu → avemundo.com → Vymazat data) — cookie banner se znovu objeví.</p>
+
     <h3>Co <em>NE</em>shromažďujeme</h3>
     <ul>
-        <li>Žádné analytické ani sledovací pixely (Google Analytics, Meta Pixel, atd.)</li>
         <li>Žádné reklamní cookies</li>
-        <li>Žádné skripty třetích stran, které by vás profilovaly</li>
+        <li>Žádné skripty třetích stran, které by vás profilovaly napříč weby</li>
+        <li>Žádné Meta Pixel, LinkedIn Insight Tag, TikTok Pixel a podobné</li>
+        <li>Žádný remarketing ani budování audiencí na základě vašeho chování zde</li>
         <li>Žádné cookies nastavené přímo doménou avemundo.com</li>
     </ul>
 
     <h2>3. Proč údaje zpracováváme (právní základ)</h2>
     <ul>
         <li><strong>Plnění smlouvy / předsmluvní jednání — čl. 6 odst. 1 písm. b) GDPR.</strong> Po odeslání pitch formuláře údaje použijeme k vyhodnocení potenciální spolupráce a k odpovědi.</li>
+        <li><strong>Souhlas — čl. 6 odst. 1 písm. a) GDPR.</strong> Google Analytics se načte teprve po výslovném souhlasu přes cookie banner.</li>
         <li><strong>Oprávněný zájem — čl. 6 odst. 1 písm. f) GDPR.</strong> Server logy, bezpečnost a prevence zneužití.</li>
     </ul>
 
@@ -129,6 +143,7 @@ footer a:hover { color: white; }
     <ul>
         <li><strong>Pitch zprávy:</strong> až 24 měsíců od posledního kontaktu, nebo dle smlouvy, pokud z kontaktu vznikne spolupráce.</li>
         <li><strong>Server logy:</strong> dle retenční politiky GitHubu (typicky do 12 měsíců).</li>
+        <li><strong>Google Analytics data:</strong> 14 měsíců (výchozí GA4 retence s automatickým mazáním).</li>
         <li><strong>E-mailová korespondence:</strong> po dobu aktivní spolupráce a navazujících zákonných lhůt podle českého práva.</li>
     </ul>
 
@@ -136,6 +151,7 @@ footer a:hover { color: white; }
     <p>Údaje sdílíme pouze s nezbytnými poskytovateli infrastruktury:</p>
     <ul>
         <li><strong>GitHub, Inc.</strong> (USA) — hosting webu přes GitHub Pages. Funguje pod EU-U.S. Data Privacy Framework.</li>
+        <li><strong>Google Ireland Limited</strong> (Irsko) — Google Analytics 4 (pouze pokud vyjádříte souhlas přes cookie banner). Anonymizace IP zapnutá. Pro případný další přenos do Google LLC (USA) funguje pod EU-U.S. Data Privacy Framework.</li>
         <li><strong>Náš poskytovatel e-mailu</strong> pro příjem a uchování pitch zpráv a korespondence.</li>
         <li>Portfolio firmy nebo spoluinvestoři — pouze s vaším výslovným předchozím souhlasem.</li>
     </ul>
@@ -166,7 +182,7 @@ footer a:hover { color: white; }
     <h2>10. Kontakt</h2>
     <p>Dotazy ke zpracování údajů nebo k těmto zásadám: <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>.</p>
 
-    <p class="meta">© 2026 AVE MUNDO a.s. — Aktualizováno 1. května 2026.</p>
+    <p class="meta">© 2026 AVE MUNDO a.s. — Aktualizováno 6. května 2026.</p>
 </main>
 
 <footer>
@@ -182,6 +198,33 @@ footer a:hover { color: white; }
     </div>
     <div>© 2026 <strong style="color:rgba(255,255,255,0.85)">AVE MUNDO a.s.</strong> · Evropa / Globálně</div>
 </footer>
+
+<!-- Cookie consent banner -->
+<div id="cookie-banner" class="cookie-banner" hidden>
+    <div class="cookie-banner__inner">
+        <p class="cookie-banner__text">Používáme Google Analytics s anonymizovanou IP adresou, abychom rozuměli, jak návštěvníci web používají. Žádné reklamy, žádné profilování. <a href="/cs/privacy.html">Více v zásadách ochrany údajů</a>.</p>
+        <div class="cookie-banner__actions">
+            <button onclick="cookieAccept()" class="cookie-banner__btn cookie-banner__btn--primary">Přijmout analytiku</button>
+            <button onclick="cookieDecline()" class="cookie-banner__btn">Pokračovat bez</button>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+    var stored = null;
+    try { stored = localStorage.getItem('avemundo_consent'); } catch(e){}
+    if (!stored) document.getElementById('cookie-banner').hidden = false;
+    window.cookieAccept = function() {
+        try { localStorage.setItem('avemundo_consent','granted'); } catch(e){}
+        if (typeof gtag === 'function') gtag('consent','update',{'analytics_storage':'granted'});
+        document.getElementById('cookie-banner').hidden = true;
+    };
+    window.cookieDecline = function() {
+        try { localStorage.setItem('avemundo_consent','denied'); } catch(e){}
+        document.getElementById('cookie-banner').hidden = true;
+    };
+})();
+</script>
 
 </body>
 </html>
