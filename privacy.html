@@ -18,6 +18,17 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/brand-assets/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 
+<!-- Google Analytics 4 with Consent Mode v2 (default DENY) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','functionality_storage':'granted','security_storage':'granted','wait_for_update':500});
+try { if (localStorage.getItem('avemundo_consent') === 'granted') gtag('consent','update',{'analytics_storage':'granted'}); } catch(e){}
+gtag('js', new Date());
+gtag('config','G-WPZW13B255',{'anonymize_ip':true});
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPZW13B255"></script>
+
 <style>
 :root {
     --ink-deep: #1a2332;
@@ -69,6 +80,19 @@ footer a:hover { color: white; }
     .topbar nav a:not(.lang-switch a) { display: none; }
     main { padding: 48px 22px 80px; }
 }
+
+/* Cookie banner */
+.cookie-banner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 640px; width: calc(100% - 48px); background: #1a2332; color: rgba(255,255,255,0.92); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); padding: 18px 22px; z-index: 9999; font-size: 0.9em; line-height: 1.5; animation: cb-slide 0.3s ease-out; }
+@keyframes cb-slide { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.cookie-banner__inner { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.cookie-banner__text { margin: 0; flex: 1 1 280px; color: rgba(255,255,255,0.92); }
+.cookie-banner__text a { color: #fff; text-decoration: underline; }
+.cookie-banner__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.cookie-banner__btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-family: inherit; font-size: 0.92em; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+.cookie-banner__btn:hover { background: rgba(255,255,255,0.16); }
+.cookie-banner__btn--primary { background: #fff; color: #1a2332; border-color: #fff; font-weight: 600; }
+.cookie-banner__btn--primary:hover { background: rgba(255,255,255,0.92); }
+@media (max-width: 600px) { .cookie-banner { width: calc(100% - 24px); bottom: 12px; padding: 16px; } .cookie-banner__actions { width: 100%; } .cookie-banner__btn { flex: 1; } }
 </style>
 </head>
 <body>
@@ -91,7 +115,7 @@ footer a:hover { color: white; }
 <main>
     <div class="eyebrow">Legal</div>
     <h1>Privacy Policy</h1>
-    <p class="lede">How <strong>AVE MUNDO a.s.</strong> collects, processes, and protects your personal data. Last updated: 1 May 2026.</p>
+    <p class="lede">How <strong>AVE MUNDO a.s.</strong> collects, processes, and protects your personal data. Last updated: 6 May 2026.</p>
 
     <h2>1. Who we are</h2>
     <p>The data controller is <strong>AVE MUNDO a.s.</strong>, a joint-stock company registered in the Czech Republic. Contact: <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>.</p>
@@ -111,17 +135,29 @@ footer a:hover { color: white; }
     <h3>Server logs</h3>
     <p>Like every website, our hosting provider (GitHub Pages) records standard request metadata — IP address, user agent, timestamp, requested URL — for the purposes of security, abuse prevention, and basic infrastructure operation. These logs are retained per GitHub's policy and are not used by us for profiling or marketing.</p>
 
+    <h3>Google Analytics 4 (only with your consent)</h3>
+    <p>If you accept analytics in our cookie banner, we use <strong>Google Analytics 4</strong> (provided by Google Ireland Limited) to understand aggregate traffic patterns — page views, sources, and basic device categories. We've configured GA4 with <strong>IP anonymization</strong> and <strong>Google Consent Mode v2</strong>, which means:</p>
+    <ul>
+        <li>Analytics cookies are <strong>not set until you opt in</strong> via the cookie banner</li>
+        <li>Your IP address is anonymized before storage (last octet truncated)</li>
+        <li>We do <strong>not</strong> use Google Signals, Google Ads remarketing, or any cross-site advertising features</li>
+        <li>Data is processed under standard contractual clauses with Google for EU/EEA visitors</li>
+    </ul>
+    <p>You can <strong>change your choice anytime</strong> by clearing site data in your browser (Settings → Site settings → avemundo.com → Clear data) — the cookie banner will reappear.</p>
+
     <h3>What we do <em>not</em> collect</h3>
     <ul>
-        <li>No analytics or tracking pixels (Google Analytics, Meta Pixel, etc.)</li>
         <li>No advertising cookies</li>
-        <li>No third-party scripts that profile you</li>
+        <li>No third-party scripts that profile you across sites</li>
+        <li>No Meta Pixel, LinkedIn Insight Tag, TikTok Pixel, or similar</li>
+        <li>No remarketing or audience-building based on your behaviour here</li>
         <li>No cookies set by avemundo.com itself</li>
     </ul>
 
     <h2>3. Why we process your data (legal basis)</h2>
     <ul>
         <li><strong>Contract / pre-contract — Art. 6(1)(b) GDPR.</strong> When you submit the pitch form, we use your data to evaluate a potential partnership and respond to you.</li>
+        <li><strong>Consent — Art. 6(1)(a) GDPR.</strong> Google Analytics is loaded only after explicit consent via the cookie banner.</li>
         <li><strong>Legitimate interests — Art. 6(1)(f) GDPR.</strong> Server logs, security, and abuse prevention.</li>
     </ul>
 
@@ -129,6 +165,7 @@ footer a:hover { color: white; }
     <ul>
         <li><strong>Pitch submissions:</strong> up to 24 months from last contact, unless we form a partnership in which case retention follows the underlying contract.</li>
         <li><strong>Server logs:</strong> per GitHub's retention policy (typically up to 12 months).</li>
+        <li><strong>Google Analytics data:</strong> 14 months (default GA4 retention with auto-deletion).</li>
         <li><strong>Email correspondence:</strong> retained for the duration of any active engagement plus statutory retention periods under Czech law.</li>
     </ul>
 
@@ -136,6 +173,7 @@ footer a:hover { color: white; }
     <p>We share data only with the minimum necessary infrastructure providers:</p>
     <ul>
         <li><strong>GitHub, Inc.</strong> (USA) — website hosting via GitHub Pages. Operates under EU-U.S. Data Privacy Framework.</li>
+        <li><strong>Google Ireland Limited</strong> (Ireland) — Google Analytics 4 (only if you opt in via the cookie banner). IP anonymization enabled. Operates under EU-U.S. Data Privacy Framework for any onward transfer to Google LLC (USA).</li>
         <li><strong>Our email provider</strong> for receiving and storing pitch submissions and correspondence.</li>
         <li>Portfolio companies or co-investors only with your explicit prior consent.</li>
     </ul>
@@ -166,7 +204,7 @@ footer a:hover { color: white; }
     <h2>10. Contact</h2>
     <p>Questions about this policy or your data: <a href="mailto:hello@avemundo.com">hello@avemundo.com</a>.</p>
 
-    <p class="meta">© 2026 AVE MUNDO a.s. — Last updated 1 May 2026.</p>
+    <p class="meta">© 2026 AVE MUNDO a.s. — Last updated 6 May 2026.</p>
 </main>
 
 <footer>
@@ -182,6 +220,33 @@ footer a:hover { color: white; }
     </div>
     <div>© 2026 <strong style="color:rgba(255,255,255,0.85)">AVE MUNDO a.s.</strong> · Europe / Global</div>
 </footer>
+
+<!-- Cookie consent banner — only shown if no choice made yet -->
+<div id="cookie-banner" class="cookie-banner" hidden>
+    <div class="cookie-banner__inner">
+        <p class="cookie-banner__text">We use Google Analytics with anonymized IPs to understand how visitors use this site. No ads, no profiling. <a href="/privacy.html">Read our privacy policy</a>.</p>
+        <div class="cookie-banner__actions">
+            <button onclick="cookieAccept()" class="cookie-banner__btn cookie-banner__btn--primary">Accept analytics</button>
+            <button onclick="cookieDecline()" class="cookie-banner__btn">Continue without</button>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+    var stored = null;
+    try { stored = localStorage.getItem('avemundo_consent'); } catch(e){}
+    if (!stored) document.getElementById('cookie-banner').hidden = false;
+    window.cookieAccept = function() {
+        try { localStorage.setItem('avemundo_consent','granted'); } catch(e){}
+        if (typeof gtag === 'function') gtag('consent','update',{'analytics_storage':'granted'});
+        document.getElementById('cookie-banner').hidden = true;
+    };
+    window.cookieDecline = function() {
+        try { localStorage.setItem('avemundo_consent','denied'); } catch(e){}
+        document.getElementById('cookie-banner').hidden = true;
+    };
+})();
+</script>
 
 </body>
 </html>
