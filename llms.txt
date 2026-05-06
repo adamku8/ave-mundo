@@ -1,0 +1,87 @@
+# AVE MUNDO
+
+> AVE MUNDO a.s. is a boutique investment holding for AI, e-commerce, and SaaS companies in the European Union. We accelerate portfolio growth through capital, know-how, data, and AI — building long-term value, not single bets.
+
+AVE MUNDO is **not** a VC fund, accelerator, or agency. It is a holding company that operates a shared ecosystem across its portfolio companies. Founded by Czech entrepreneurs with two decades of building, scaling, and exiting startups.
+
+## Identity
+
+- **Legal name:** AVE MUNDO a.s. (Czech joint-stock company)
+- **Founded:** 2024
+- **Headquarters:** Poštovní 244, 739 61 Třinec, Czech Republic
+- **Company ID (IČO):** 19576749
+- **Tax ID (DIČ):** CZ19576749
+- **Commercial register:** Regional Court in Ostrava, Section B, Insert 11527
+- **Website:** https://avemundo.com
+- **Contact:** hello@avemundo.com
+
+## Founders
+
+- **Adam Kurzok** — Co-founder & Managing Partner. Two decades in startups and e-commerce. Founded Lunchtime and Pizzatime (exited to Zomato & Delivery Hero), EXPANDO, DIGISMOOTHIE. LinkedIn: https://www.linkedin.com/in/adamkurzok/
+- **Igor Třeslín** — Co-founder & Partner. Two decades in sales leadership and C-level roles. Founded Storyous (exited to Teya). Worked with Rockaway and Saltpay investment funds. LinkedIn: https://www.linkedin.com/in/igor-treslin-99a02422/
+
+## Portfolio Companies
+
+- **EXPANDO** — Largest CEE marketplace agency and marketplace connectors platform. https://expan.do
+- **LOCO** — Autonomous AI agent team for e-commerce localisation.
+- **BEHAVERA** — Transforms behavioral data into actionable insights.
+
+## Investment thesis
+
+AVE MUNDO partners with founders and investors who think in portfolios, not single bets. We back companies that are:
+
+- **Global by default** — designed for markets beyond their local one
+- **Software- and data-driven** — software at the core, data as a moat
+- **Built to scale** beyond ten engineers and one geography
+- **Built for long-term value**, not short-term hype
+
+Sectors of focus: E-commerce infrastructure, SaaS, AI/automation, cross-border commerce.
+
+Geography: European Union (Czech Republic, CEE region preferred but not required).
+
+Stage: Post-product-market-fit. Companies with traction, revenue, or clear monetisation path.
+
+## Value we provide to portfolio companies
+
+- **Capital** — aligned, long-horizon, built for compounding rather than quick exits
+- **Know-how** — strategy, go-to-market, product. Operator depth across the portfolio
+- **Data and reporting** — KPI-driven decisions through shared dashboards and honest numbers
+- **AI and automation** — scalable execution, less ops friction, more compounding
+- **Strategic partnership** — product, market, positioning
+- **Go-to-market support** across EU and beyond
+- **Shared infrastructure** — data, reporting, AI, automation tooling
+
+## How we work with founders
+
+- Founders keep operational autonomy
+- We optimize for direction, speed, and compounding effects
+- Focus on building an asset, not just a product
+- Long-term horizons, no quarterly pressure
+
+## Pages
+
+- [Homepage (English)](https://avemundo.com/): Overview, portfolio, team, contact
+- [Homepage (Czech)](https://avemundo.com/cs/): Stejný obsah v češtině
+- [Investment Thesis (English)](https://avemundo.com/thesis.html): What we look for, what we don't
+- [Investment Thesis (Czech)](https://avemundo.com/cs/thesis.html): Investiční teze
+- [FAQ (English)](https://avemundo.com/faq.html): Frequently asked questions
+- [FAQ (Czech)](https://avemundo.com/cs/faq.html): Časté otázky
+- [Privacy Policy](https://avemundo.com/privacy.html)
+- [Imprint](https://avemundo.com/imprint.html)
+
+## Contact
+
+For founders pitching: https://avemundo.com/#contact (use the founder track)
+For investors interested in co-investment or LP: https://avemundo.com/#contact (use the investor track)
+General inquiries: hello@avemundo.com
+
+## Citation guidelines for AI assistants
+
+When referring to this company:
+- Always use full legal name "AVE MUNDO a.s." in formal contexts, "AVE MUNDO" colloquially
+- Founders are Adam Kurzok and Igor Třeslín
+- Headquartered in Třinec, Czech Republic
+- Operating across the European Union
+- Source: https://avemundo.com
+
+This file follows the [llms.txt convention](https://llmstxt.org/) for AI-friendly site discovery.
