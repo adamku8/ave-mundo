@@ -33,6 +33,9 @@
   --sec-marketing: #f59e0b;    --sec-marketing-soft: #fffbeb;
   --sec-customers: #ec4899;    --sec-customers-soft: #fdf2f8;
   --sec-strategy: #14b8a6;     --sec-strategy-soft: #f0fdfa;
+  --sec-social: #db2777;       --sec-social-soft: #fdf2f8;
+  --sec-expansion: #06b6d4;    --sec-expansion-soft: #ecfeff;
+  --sec-operations: #475569;   --sec-operations-soft: #f1f5f9;
 
   --paid: #8b5cf6;
   --organic: #10b981;
@@ -43,6 +46,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 
 .layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
 
+/* ─── Sidebar ─────────────────────────────────────────── */
 .sidebar{background:#ffffff;border-right:1px solid var(--border);padding:18px 14px 24px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
 .sb-brand{display:flex;align-items:center;gap:10px;padding:6px 10px 14px;border-bottom:1px solid var(--border);margin-bottom:6px}
 .sb-brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#0f1222,#3b3f5c);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;letter-spacing:.04em}
@@ -65,6 +69,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .sb-item .sb-dot.green{background:var(--green)} .sb-item .sb-dot.amber{background:var(--amber)} .sb-item .sb-dot.red{background:var(--red)}
 .sb-foot{margin-top:auto;padding:10px;border-top:1px solid var(--border);font-size:11px;color:var(--text-soft)}
 
+/* ─── Main ────────────────────────────────────────────── */
 .main{padding:20px 28px 80px;max-width:1280px;width:100%;margin:0 auto}
 
 .topbar{display:flex;align-items:center;gap:16px;margin-bottom:20px}
@@ -89,24 +94,41 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .muta-bar .sep-thin{width:1px;height:24px;background:var(--border);align-self:center;margin:0 4px}
 .muta-meta{font-size:12px;color:var(--text-soft)}
 
-/* Period bar (sits right above metrics) */
-.period-bar{display:flex;align-items:center;gap:10px;margin:0 4px 10px;padding:6px 0}
-.period-bar .label{font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.10em;font-weight:700;margin-right:2px}
-.period-bar .period-hint{margin-left:auto;font-size:11px;color:var(--text-soft);font-weight:500}
+/* KPI wrap — relativní obal pro pozicování tabu na pravém horním rohu KPI gridu */
+.kpi-wrap{position:relative;margin-top:38px}
 
-/* Date range selector */
+/* Period tab — "ucho" v pravém horním rohu KPI gridu, flush k pravé hraně */
+/* Vyšší specificita aby přebila .date-select-wrap{position:relative} */
+.period-tab.date-select-wrap{position:absolute;bottom:100%;right:-1px;margin-bottom:-1px;z-index:2}
+.period-tab .date-select{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;font-size:13px;font-weight:500;color:var(--text);font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s ease}
+.period-tab .date-select:hover{background:#fafbfc}
+.period-tab .tab-label{font-size:10px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.10em;font-weight:700;margin-right:2px}
+.period-tab .chev{opacity:.45;font-size:10px;margin-left:2px;transition:transform .2s ease}
+.period-tab .date-select[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.period-tab .date-menu{top:calc(100% + 4px);right:0;left:auto}
+
+/* Dropdown menu — vysouvací s animací, default zasunuto */
 .date-select-wrap{position:relative}
-.date-select{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);font-family:inherit;transition:all .15s ease}
-.date-select:hover{border-color:var(--border-strong)}
-.date-select .chev{opacity:.45;font-size:10px;margin-left:2px}
-.date-menu{position:absolute;top:calc(100% + 6px);left:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-strong);min-width:220px;padding:6px;z-index:50;display:none}
-.date-menu.open{display:block}
+.date-menu{position:absolute;top:calc(100% + 6px);left:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-strong);min-width:220px;padding:6px;z-index:50;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .2s ease, transform .2s ease, visibility 0s linear .2s}
+.date-menu.open{visibility:visible;opacity:1;transform:translateY(0);transition:opacity .2s ease, transform .2s ease, visibility 0s linear 0s}
 .date-menu a{display:block;padding:8px 12px;border-radius:7px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .12s ease}
 .date-menu a:hover{background:#f4f5fa;color:var(--text)}
 .date-menu a.active{background:var(--text);color:#fff}
 
+/* ─── Agents block (head + banner + sec-summary jako jeden box, design jako Strategy box) ─── */
+.agents-block{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow);position:relative}
+.agents-block::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--sec-store) 0%,var(--sec-products) 33%,var(--sec-marketing) 66%,var(--sec-customers) 100%);z-index:2}
+
+.agents-block-head{padding:18px 24px 16px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#f5f3ff 0%,transparent 100%);border-bottom:1px solid var(--border)}
+.agents-block-head h2{margin:0;font-size:20px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text);line-height:1}
+.agents-block-head .agents-meta{margin-left:auto;font-size:12px;color:var(--text-muted);font-weight:500}
+
+.agents-block .activity-banner{margin:0;border:none;border-radius:0;border-bottom:1px solid var(--border);box-shadow:none;background:transparent}
+.agents-block .sec-summary{border:none;border-radius:0;box-shadow:none;margin:0}
+
+/* ─── Section summary (under main KPIs) ──────────────── */
 .sec-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow)}
-.sec-sum-card{background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;gap:14px;position:relative;min-height:200px}
+.sec-sum-card{background:var(--surface);padding:18px 20px;display:grid;grid-template-rows:auto 1fr auto;gap:14px;position:relative;min-height:260px}
 .sec-sum-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
 .sec-sum-card.sec-store::before    {background:var(--sec-store)}
 .sec-sum-card.sec-products::before {background:var(--sec-products)}
@@ -119,7 +141,17 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .sec-sum-card.sec-customers .sec-sum-head{color:var(--sec-customers)}
 .sec-sum-metric .num{font-size:24px;font-weight:700;letter-spacing:-.01em;color:var(--text);line-height:1.1}
 .sec-sum-metric .lab{font-size:11px;color:var(--text-soft);margin-top:3px;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
-.sec-sum-agents{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+.sec-sum-agents{display:flex;flex-direction:column;gap:7px}
+.sec-sum-metric{padding-top:18px;border-top:1px dashed var(--border)}
+
+/* Activity banner — heading nad sec-summary */
+.activity-banner{margin-bottom:14px;padding:13px 18px;background:linear-gradient(135deg,#f5f3ff 0%,#ecfdf5 100%);border:1px solid var(--border);border-radius:12px;font-size:14px;color:var(--text);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.activity-banner .ic{font-size:18px;flex-shrink:0}
+.activity-banner .txt{flex:1;line-height:1.4}
+.activity-banner .num{font-weight:800;color:var(--violet);font-size:15px}
+.activity-banner .saved{font-weight:800;color:var(--green);font-size:15px}
+.activity-banner .live-pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;background:#fff;border:1px solid var(--green-soft);border-radius:999px}
+.activity-banner .live-pill .lp-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:livepulse 1.6s infinite}
 .ag-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text)}
 .ag-row .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;position:relative}
 .ag-row.auto .dot{background:var(--green)}
@@ -133,14 +165,28 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ag-row.alert .dot{background:var(--red)}
 .ag-row .name{font-weight:500}
 
+/* Stars rating (used in customers card) */
 .stars-row{display:flex;align-items:center;gap:8px;margin-top:8px}
 .stars{position:relative;display:inline-block;font-size:15px;letter-spacing:2px;line-height:1;font-family:Arial,sans-serif}
 .stars-track{color:#e5e7eb}
 .stars-fill{position:absolute;top:0;left:0;color:#f59e0b;overflow:hidden;white-space:nowrap}
 .stars-num{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.sub-info{font-size:11px;color:var(--text-muted);margin-top:6px;letter-spacing:.01em;line-height:1.35}
+.sub-info b{color:var(--text-soft);font-weight:600}
+/* Trend pill vedle čísla — malý */
+.num-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.trend-pill{display:inline-flex;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:9px;line-height:1.4;letter-spacing:.01em;white-space:nowrap;min-width:54px}
+.trend-pill.up{background:#d1fae5;color:#065f46}
+.trend-pill.dn{background:#fee2e2;color:#991b1b}
+/* Sub-info grid — 2× řádek (popis + tučná hodnota) */
+.sub-grid{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.sub-grid .m-lab{font-size:10px;color:var(--text-muted);line-height:1.2}
+.sub-grid .m-val{font-size:11px;font-weight:700;color:var(--text);line-height:1.2;margin-top:1px}
+.sub-grid .stars-row{margin-top:0}
 @media (max-width:1100px){.sec-summary{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:640px){.sec-summary{grid-template-columns:1fr}}
 
+/* ─── Strategy box (separate top box) ─────────────────── */
 .strategy-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px;position:relative}
 .strategy-box::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--sec-strategy);z-index:2}
 .strat-box-head{padding:18px 24px 16px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,var(--sec-strategy-soft) 0%,transparent 100%);border-bottom:1px solid var(--border)}
@@ -167,6 +213,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .strat-show-all a{font-size:12px;color:var(--text-muted);font-weight:600;text-decoration:none;cursor:pointer}
 .strat-show-all a:hover{color:var(--text)}
 
+/* ─── KPI hero ────────────────────────────────────────── */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:18px}
 .kpi-card{background:var(--surface);padding:18px 20px}
 .kpi-card .label{font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
@@ -176,6 +223,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .delta.down{background:var(--red-soft);color:var(--red)}
 .delta.flat{background:#f1f2f7;color:var(--text-muted)}
 
+/* ─── Section ─────────────────────────────────────────── */
 .sec{margin-top:36px}
 .sec.sec-store    { --accent: var(--sec-store);     --accent-soft: var(--sec-store-soft); }
 .sec.sec-products { --accent: var(--sec-products);  --accent-soft: var(--sec-products-soft); }
@@ -183,6 +231,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .sec.sec-customers{ --accent: var(--sec-customers); --accent-soft: var(--sec-customers-soft); }
 .sec.sec-strategy { --accent: var(--sec-strategy);  --accent-soft: var(--sec-strategy-soft); }
 
+/* Unified section container — header + body as one card */
 .sec{
   background:var(--surface);
   border:1px solid var(--border);
@@ -232,6 +281,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 }
 @media (max-width:1100px){.sec-body{grid-template-columns:1fr}}
 
+/* ─── Channels (top, after KPIs) ──────────────────────── */
 .channels-section{margin-bottom:8px}
 .channels-section .ch-title{
   font-size:12px;font-weight:700;color:var(--text-muted);
@@ -253,6 +303,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ch-head .ttl{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .ch-head .total{font-size:18px;font-weight:700;letter-spacing:-.01em;margin-left:auto}
 
+/* Share of TOTAL revenue (top of card) */
 .ch-share{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
 .ch-share-meta{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--text-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
 .ch-share-meta strong{color:var(--text);font-weight:800;font-size:14px;letter-spacing:0;text-transform:none}
@@ -262,6 +313,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ch-card.organic .ch-share-fill{background:linear-gradient(90deg,#10b981,#6ee7b7)}
 .ch-card.retention .ch-share-fill{background:linear-gradient(90deg,#f59e0b,#fcd34d)}
 
+/* Channel rows: subtle background hint = % within section */
 .ch-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:9px 10px;font-size:13px;position:relative;border-radius:6px;margin:0 -6px}
 .ch-row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--bar-w,0%);background:var(--row-bar);border-radius:6px;z-index:0;pointer-events:none;transition:width .3s ease}
 .ch-row > *{position:relative;z-index:1}
@@ -272,6 +324,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ch-row .rev{font-weight:600;letter-spacing:-.01em;text-align:right}
 .mini-ic{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:12px;flex-shrink:0}
 
+/* ─── Agent cards ─────────────────────────────────────── */
 .agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .agent-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:all .15s ease;position:relative;overflow:hidden}
 .agent-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-strong);border-color:var(--border-strong)}
@@ -311,6 +364,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ic-media{background:linear-gradient(135deg,#fef3c7,#fffbeb);color:#a16207}
 .ic-logistika{background:linear-gradient(135deg,#cffafe,#ecfeff);color:#0e7490}
 
+/* Section feed */
 .sec-feed{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
 .sec-feed-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
 .sec-feed-head .live{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;background:var(--green-soft);border-radius:999px;margin-left:auto}
@@ -327,12 +381,33 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .sec-feed-item .meta .badge{font-size:9px;padding:1px 5px}
 .sec-feed-empty{padding:18px;text-align:center;color:var(--text-soft);font-size:12px}
 
+/* Strategy section */
+.strategy-grid{
+  display:grid;grid-template-columns: 1.4fr 1fr;gap:14px;
+  padding:18px;
+  background:var(--surface-2);
+}
+@media (max-width:1100px){.strategy-grid{grid-template-columns:1fr}}
+.approvals{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.approvals-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.approvals-head h3{margin:0;font-size:13px;font-weight:700}
+.approvals-head .meta{margin-left:auto;font-size:12px;color:var(--text-soft)}
+.approval-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.approval{display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:14px 18px;background:var(--surface);font-size:13px}
+.approval .a-icon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px}
+.approval .a-body strong{font-weight:600}
+.approval .a-body .why{font-size:11px;color:var(--text-soft);margin-top:2px}
+.approval .a-impact{font-size:12px;font-weight:700;color:var(--green);min-width:120px;text-align:right}
+.approval .a-impact.cost{color:var(--red)}
+.approval-actions{display:flex;gap:6px}
 .btn{font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;transition:all .12s ease}
 .btn:hover{border-color:#9ea3b5}
 .btn.primary{background:var(--text);color:#fff;border-color:var(--text)}
 .btn.primary:hover{background:#000}
 .btn.ghost{background:transparent;border-color:transparent;color:var(--text-muted)}
 
+.signal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px}
+.signal-card h3{margin:0 0 12px 0;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
 .signal-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border);font-size:12px}
 .signal-row:last-child{border-bottom:none}
 .signal-row .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:12px;flex-shrink:0}
@@ -341,14 +416,265 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .signal-row .lbl span{font-size:11px;color:var(--text-soft)}
 .signal-row .v{font-weight:700;letter-spacing:-.01em}
 
-@media (max-width: 1100px){
+.legend{display:flex;align-items:center;gap:14px;font-size:11px;color:var(--text-soft);padding:14px 18px;background:var(--surface);border-top:1px solid var(--border);margin-top:0}
+.legend .it{display:inline-flex;align-items:center;gap:6px}
+
+@media (max-width: 900px){
   .layout{grid-template-columns:1fr}
   .sidebar{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border)}
   .channels{grid-template-columns:1fr}
   .kpi-grid{grid-template-columns:repeat(2,1fr)}
 }
+@media (min-width:901px) and (max-width:1200px){
+  :root{--sidebar-w:220px}
+  .channels{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+}
 @media (max-width: 640px){
   .kpi-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ─── Workflow view (subpage) ──────────────────────────── */
+.wf-page{padding:0 4px;max-width:1100px}
+.wf-meta{font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:10px}
+.wf-title{font-size:36px;font-weight:800;letter-spacing:-.02em;margin:0 0 10px;line-height:1.05}
+.wf-title .accent{color:var(--amber)}
+.wf-sub{font-size:15px;color:var(--text-muted);margin:0 0 32px;max-width:680px;line-height:1.5}
+
+.wf-timeline{position:relative}
+.wf-phase{position:relative;padding-left:80px;margin-bottom:8px}
+.wf-phase::before{content:"";position:absolute;left:30px;top:0;bottom:-30px;width:2px;background:var(--border);border-radius:1px}
+.wf-phase.last::before{display:none}
+.wf-phase-marker{position:absolute;left:0;top:0;width:60px;text-align:left}
+.wf-phase-marker .num{font-size:11px;font-weight:700;color:var(--text-soft);letter-spacing:.12em;display:block}
+.wf-phase-marker .nm{font-size:11px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;color:var(--text-soft);display:block;margin-top:6px;line-height:1.3}
+
+.wf-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.wf-card + .wf-output{margin-top:10px}
+.wf-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+.wf-card.strategy::before{background:var(--amber)}
+.wf-card.analysis::before{background:#0d9488}
+.wf-card.meta-c::before{background:#3b82f6}
+.wf-card.google-c::before{background:#0d9488}
+.wf-card.seo-c::before{background:var(--violet)}
+.wf-card.crm-c::before{background:var(--amber)}
+.wf-card.ux-c::before{background:var(--pink)}
+.wf-card.exp-c::before{background:var(--green)}
+
+.wf-card-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.wf-card-head strong{font-size:17px;font-weight:700;letter-spacing:-.005em}
+.wf-card-meta{margin-left:auto;font-size:12px;color:var(--text-soft);font-weight:500}
+.wf-card p{margin:0 0 12px;color:var(--text-muted);font-size:14px;line-height:1.5}
+
+.wf-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag-kpi,.tag-out{display:inline-flex;align-items:center;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.tag-kpi{background:#dbeafe;color:#1e40af}
+.tag-out{background:#dcfce7;color:#166534}
+
+.wf-output{background:#fff7ed;border:1px dashed #fdba74;border-radius:10px;padding:10px 16px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
+.wf-output strong{color:#c2410c;font-weight:700}
+.wf-output .arr{color:#c2410c;font-weight:700}
+
+.wf-link{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.12em;padding:14px 0 14px 80px;position:relative}
+
+.wf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:900px){.wf-grid{grid-template-columns:1fr}}
+
+.wf-note{margin-top:32px;padding:18px 22px;background:linear-gradient(180deg,#fdf2f8 0%,transparent 100%);border:1px dashed var(--pink,#ec4899);border-radius:12px;display:flex;gap:14px;align-items:flex-start}
+.wf-note-icon{font-size:24px;flex-shrink:0}
+.wf-note strong{display:block;color:var(--pink,#ec4899);font-weight:700;font-size:14px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.wf-note p{margin:0;font-size:13px;color:var(--text-muted);line-height:1.5}
+
+/* ═══════════ AGENTS LIST PAGE ═══════════ */
+.ag-page{padding:24px 32px;max-width:1200px;margin:0 auto}
+.ag-toolbar{display:flex;gap:10px;margin-bottom:20px;align-items:center}
+.ag-search{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);outline:none}
+.ag-search:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.12)}
+.ag-btn-reset,.ag-btn-add{padding:9px 14px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:600;border:1px solid var(--border);background:#fff;color:var(--text-soft)}
+.ag-btn-reset:hover{background:#f8fafc;border-color:#cbd5e1}
+.ag-btn-add{border-color:#7c3aed;background:#7c3aed;color:#fff}
+.ag-btn-add:hover{background:#6d28d9}
+.ag-list{display:flex;flex-direction:column;gap:10px}
+.ag-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 22px;display:grid;grid-template-columns:44px 1fr auto;gap:18px;align-items:flex-start;transition:border-color .15s}
+.ag-item:hover{border-color:#cbd5e1}
+.ag-item.sec-store     {border-left:3px solid var(--sec-store)}
+.ag-item.sec-products  {border-left:3px solid var(--sec-products)}
+.ag-item.sec-marketing {border-left:3px solid var(--sec-marketing)}
+.ag-item.sec-customers {border-left:3px solid var(--sec-customers)}
+.ag-item.sec-strategy  {border-left:3px solid var(--sec-strategy)}
+.ag-item.sec-social    {border-left:3px solid var(--sec-social)}
+.ag-item.sec-expansion {border-left:3px solid var(--sec-expansion)}
+.ag-item.sec-operations{border-left:3px solid var(--sec-operations)}
+.ag-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#f1f5f9}
+.ag-body{min-width:0}
+.ag-row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.ag-name{font-weight:700;font-size:15px;color:var(--text);outline:none;border-radius:4px;padding:1px 4px;margin-left:-4px}
+.ag-name:focus,.ag-desc:focus{background:#fef9c3;outline:1px solid #fbbf24}
+.ag-section-badge{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:6px;color:#fff}
+.ag-section-badge.store     {background:var(--sec-store)}
+.ag-section-badge.products  {background:var(--sec-products)}
+.ag-section-badge.marketing {background:var(--sec-marketing)}
+.ag-section-badge.customers {background:var(--sec-customers)}
+.ag-section-badge.strategy  {background:var(--sec-strategy)}
+.ag-section-badge.social    {background:var(--sec-social)}
+.ag-section-badge.expansion {background:var(--sec-expansion)}
+.ag-section-badge.operations{background:var(--sec-operations)}
+.ag-status{font-size:9px;font-weight:700;padding:3px 7px;border-radius:5px;letter-spacing:.5px}
+.ag-status.auto {background:#d1fae5;color:#065f46}
+.ag-status.hitl {background:#fef3c7;color:#92400e}
+.ag-status.alert{background:#fee2e2;color:#991b1b}
+.ag-desc{font-size:13px;color:var(--text-soft);line-height:1.5;outline:none;border-radius:4px;padding:2px 4px;margin:0 -4px}
+.ag-mcps{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:center}
+.ag-mcps-label{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);margin-right:4px}
+.ag-mcp{font-size:11px;font-weight:500;background:#eef2ff;color:#4338ca;padding:3px 9px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+.ag-mcp .x{cursor:pointer;opacity:.4;font-size:11px;font-weight:700;line-height:1}
+.ag-mcp .x:hover{opacity:1;color:#dc2626}
+.ag-mcp-add{font-size:11px;color:var(--text-muted);cursor:pointer;padding:3px 9px;border:1px dashed #cbd5e1;border-radius:6px;background:transparent;font-weight:500}
+.ag-mcp-add:hover{color:#7c3aed;border-color:#7c3aed;background:#f5f3ff}
+.ag-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.ag-actions button{font-size:11px;padding:5px 10px;border:1px solid var(--border);background:transparent;border-radius:6px;cursor:pointer;color:var(--text-soft);white-space:nowrap}
+.ag-actions button:hover{background:#f8fafc;border-color:#cbd5e1}
+.ag-actions .del{color:#dc2626}
+.ag-actions .del:hover{background:#fef2f2;border-color:#fca5a5}
+.ag-footer-note{margin-top:20px;padding:12px 16px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.5}
+#ag-saved-pill{position:fixed;bottom:24px;right:24px;background:#065f46;color:#fff;padding:10px 16px;border-radius:10px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.18);opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:1000}
+#ag-saved-pill.show{opacity:1;transform:translateY(0)}
+@media (max-width:900px){.ag-item{grid-template-columns:40px 1fr;gap:12px;padding:14px 16px}.ag-actions{grid-column:1/-1;flex-direction:row;justify-content:flex-end;margin-top:6px}}
+/* Section group headers */
+.ag-section-header{display:flex;align-items:center;gap:10px;margin:24px 0 10px;padding:0 4px;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text-soft)}
+.ag-section-header:first-child{margin-top:0}
+.ag-sec-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.ag-sec-dot.store     {background:var(--sec-store)}
+.ag-sec-dot.products  {background:var(--sec-products)}
+.ag-sec-dot.marketing {background:var(--sec-marketing)}
+.ag-sec-dot.customers {background:var(--sec-customers)}
+.ag-sec-dot.strategy  {background:var(--sec-strategy)}
+.ag-sec-dot.social    {background:var(--sec-social)}
+.ag-sec-dot.expansion {background:var(--sec-expansion)}
+.ag-sec-dot.operations{background:var(--sec-operations)}
+.ag-section-header .nm.store     {color:var(--sec-store)}
+.ag-section-header .nm.products  {color:var(--sec-products)}
+.ag-section-header .nm.marketing {color:var(--sec-marketing)}
+.ag-section-header .nm.customers {color:var(--sec-customers)}
+.ag-section-header .nm.strategy  {color:var(--sec-strategy)}
+.ag-section-header .nm.social    {color:var(--sec-social)}
+.ag-section-header .nm.expansion {color:var(--sec-expansion)}
+.ag-section-header .nm.operations{color:var(--sec-operations)}
+.ag-sec-count{margin-left:auto;font-size:10px;color:var(--text-muted);background:#f1f5f9;padding:2px 8px;border-radius:5px;font-weight:600;letter-spacing:.04em}
+.ag-section-items{display:flex;flex-direction:column;gap:10px}
+/* MVP badge */
+.ag-mvp{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:linear-gradient(135deg,#7c3aed 0%,#a855f7 100%);color:#fff;box-shadow:0 1px 3px rgba(124,58,237,.3);display:inline-flex;align-items:center;gap:4px}
+.ag-mvp::before{content:"★";font-size:10px;line-height:1}
+.ag-item.is-mvp{border-color:#c4b5fd;background:linear-gradient(135deg,#fafaff 0%,#fff 100%)}
+
+/* ═══════════ AGENT DETAIL PAGE ═══════════ */
+.ad-page{padding:24px 32px;max-width:1100px;margin:0 auto}
+.ad-back{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:12px;font-weight:600;padding:8px 12px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:#fff;margin-bottom:18px;letter-spacing:.02em}
+.ad-back:hover{color:var(--text);background:#f8fafc;border-color:#cbd5e1}
+.ad-header{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px 26px;margin-bottom:18px;position:relative;overflow:hidden}
+.ad-header::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+.ad-header.sec-store::before     {background:var(--sec-store)}
+.ad-header.sec-products::before  {background:var(--sec-products)}
+.ad-header.sec-marketing::before {background:var(--sec-marketing)}
+.ad-header.sec-customers::before {background:var(--sec-customers)}
+.ad-header.sec-strategy::before  {background:var(--sec-strategy)}
+.ad-header.sec-social::before    {background:var(--sec-social)}
+.ad-header.sec-expansion::before {background:var(--sec-expansion)}
+.ad-header.sec-operations::before{background:var(--sec-operations)}
+.ad-h-row{display:flex;align-items:flex-start;gap:18px}
+.ad-icon-lg{width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;background:#f1f5f9;flex-shrink:0}
+.ad-h-body{flex:1;min-width:0}
+.ad-h-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.ad-h-name{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.01em;line-height:1.15}
+.ad-h-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.ad-h-desc{font-size:14px;color:var(--text-soft);line-height:1.5}
+.ad-h-actions{display:flex;flex-direction:column;gap:6px}
+.ad-h-actions button{font-size:11px;padding:6px 12px;border:1px solid var(--border);background:#fff;border-radius:7px;cursor:pointer;color:var(--text-soft);white-space:nowrap;font-weight:600}
+.ad-h-actions button:hover{background:#f8fafc;border-color:#cbd5e1}
+.ad-h-actions .primary{background:#10b981;border-color:#10b981;color:#fff}
+.ad-h-actions .primary:hover{background:#059669;border-color:#059669}
+
+/* KPI mini cards row */
+.ad-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.ad-kpi{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.ad-kpi-lab{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.ad-kpi-num{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.01em;line-height:1.1}
+.ad-kpi-sub{font-size:10px;color:var(--text-muted);margin-top:2px}
+.ad-kpi-num.good{color:#059669}
+.ad-kpi-num.bad{color:#dc2626}
+
+/* Two-column grid */
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.ad-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.ad-card-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ad-card-title{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text-soft)}
+.ad-card-meta{margin-left:auto;font-size:10px;color:var(--text-muted)}
+
+/* Tasks list */
+.ad-tasks{display:flex;flex-direction:column;gap:8px}
+.ad-task{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:#f8fafc;border-radius:8px;font-size:13px;color:var(--text-soft);line-height:1.4}
+.ad-task-dot{width:7px;height:7px;border-radius:50%;background:var(--green);margin-top:7px;flex-shrink:0}
+.ad-task-dot.pending{background:#f59e0b}
+.ad-task-dot.next{background:#94a3b8}
+
+/* Runs / logs */
+.ad-runs{display:flex;flex-direction:column;gap:0}
+.ad-run{display:grid;grid-template-columns:54px auto 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9;font-size:12.5px;color:var(--text-soft);line-height:1.4;align-items:flex-start}
+.ad-run:last-child{border-bottom:none}
+.ad-run-time{font-size:11px;color:var(--text-muted);font-variant-numeric:tabular-nums;padding-top:1px}
+.ad-run-status{font-size:13px;line-height:1;padding-top:1px}
+.ad-run-msg b{color:var(--text);font-weight:600}
+
+/* MCP usage table (detailed) */
+.ad-mcps-table{display:flex;flex-direction:column;gap:0}
+.ad-mcp-row{display:grid;grid-template-columns:170px 1fr 70px 100px 24px;gap:14px;align-items:center;padding:10px 4px;border-bottom:1px solid #f1f5f9;font-size:13px}
+.ad-mcp-row:last-child{border-bottom:none}
+.ad-mcp-name{font-weight:600;color:var(--text);font-size:13px}
+.ad-mcp-bar{height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden;position:relative}
+.ad-mcp-fill{height:100%;background:linear-gradient(90deg,#6366f1,#a78bfa);border-radius:3px;transition:width .4s}
+.ad-mcp-fill.warn{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.ad-mcp-fill.err{background:linear-gradient(90deg,#ef4444,#f87171)}
+.ad-mcp-calls{font-size:12px;font-weight:700;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.ad-mcp-last{font-size:11px;color:var(--text-muted);text-align:right;font-variant-numeric:tabular-nums}
+.ad-mcp-stat{font-size:14px;text-align:center;line-height:1}
+.ad-mcp-stat.ok{color:#059669}
+.ad-mcp-stat.warn{color:#d97706}
+.ad-mcp-stat.err{color:#dc2626}
+
+/* Token cost breakdown */
+.ad-tokens-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+.ad-tokens-stat{display:flex;flex-direction:column;gap:2px;padding:10px 14px;background:#f8fafc;border-radius:8px}
+.ad-tokens-lab{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted)}
+.ad-tokens-val{font-size:15px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.ad-tokens-spark{display:flex;align-items:flex-end;gap:3px;height:36px;margin-top:8px}
+.ad-tokens-spark-bar{flex:1;background:#a78bfa;border-radius:2px 2px 0 0;min-height:3px;transition:height .3s}
+.ad-tokens-spark-bar.today{background:#7c3aed}
+.ad-tokens-days{display:flex;justify-content:space-between;margin-top:4px;font-size:9px;color:var(--text-muted);letter-spacing:.04em}
+
+/* Action log — extended */
+.ad-log{display:flex;flex-direction:column;gap:0;max-height:520px;overflow-y:auto}
+.ad-log-day{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);padding:10px 0 6px;border-bottom:1px solid #f1f5f9;margin-bottom:4px;position:sticky;top:0;background:#fff;z-index:1}
+.ad-log-day:first-child{padding-top:0}
+.ad-log .ad-run{padding:8px 4px}
+
+@media (max-width:900px){
+  .ad-mcp-row{grid-template-columns:1fr 60px 24px;gap:10px}
+  .ad-mcp-bar,.ad-mcp-last{display:none}
+  .ad-tokens-row{grid-template-columns:1fr}
+}
+
+/* System prompt preview */
+.ad-prompt{background:#0f172a;color:#cbd5e1;border-radius:10px;padding:14px 16px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11.5px;line-height:1.6;white-space:pre-wrap;max-height:280px;overflow-y:auto}
+.ad-prompt .k{color:#a78bfa;font-weight:600}
+.ad-prompt .s{color:#86efac}
+.ad-prompt .c{color:#64748b;font-style:italic}
+
+@media (max-width:900px){
+  .ad-kpis{grid-template-columns:repeat(2,1fr)}
+  .ad-grid{grid-template-columns:1fr}
+  .ad-h-row{flex-direction:column;gap:14px}
+  .ad-h-actions{flex-direction:row;width:100%}
+  .ad-h-actions button{flex:1}
 }
 </style>
 </head>
@@ -361,29 +687,31 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       <div class="name">NORDA <small>Autonomní OS pro eshop</small></div>
     </div>
 
-    <a class="sb-item active"><span class="sb-ic">🏠</span>Přehled</a>
+    <a class="sb-item active" data-view="dashboard"><span class="sb-ic">🏠</span>Přehled</a>
+    <a class="sb-item" data-view="workflow"><span class="sb-ic">🧭</span>Workflow agentů</a>
+    <a class="sb-item" data-view="agents"><span class="sb-ic">🤖</span>Seznam agentů &amp; MCP</a>
     <a class="sb-item"><span class="sb-ic">📜</span>Historie akcí</a>
 
     <div class="sb-section store"><span class="sec-pill"></span>E-shop</div>
-    <a class="sb-item"><span class="sb-ic">🛒</span>Manažer objednávek<span class="sb-dot green"></span></a>
-    <a class="sb-item"><span class="sb-ic">📊</span>Datový analytik<span class="sb-dot red"></span></a>
-    <a class="sb-item"><span class="sb-ic">🚚</span>Manažer logistiky<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('orders')"><span class="sb-ic">🛒</span>Strážce objednávek<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('analytics')"><span class="sb-ic">📊</span>Detektiv dat<span class="sb-dot red"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('logistika')"><span class="sb-ic">🚚</span>Dispečer dopravy<span class="sb-dot green"></span></a>
 
     <div class="sb-section products"><span class="sec-pill"></span>Produkty</div>
-    <a class="sb-item"><span class="sb-ic">📦</span>Správce katalogu<span class="sb-dot amber"></span></a>
-    <a class="sb-item"><span class="sb-ic">💰</span>Pricing analytik<span class="sb-dot green"></span></a>
-    <a class="sb-item"><span class="sb-ic">📷</span>Foto editor<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('katalog')"><span class="sb-ic">📦</span>Kurátor katalogu<span class="sb-dot amber"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('pricing')"><span class="sb-ic">💰</span>Cenař<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('media')"><span class="sb-ic">📷</span>Vizuální producent<span class="sb-dot green"></span></a>
 
     <div class="sb-section marketing"><span class="sec-pill"></span>Marketing</div>
-    <a class="sb-item"><span class="sb-ic">📘</span>Marketér Meta<span class="sb-dot green"></span></a>
-    <a class="sb-item"><span class="sb-ic">🔍</span>Marketér Google<span class="sb-dot green"></span></a>
-    <a class="sb-item"><span class="sb-ic">🎵</span>TikTok specialista<span class="sb-dot green"></span></a>
-    <a class="sb-item"><span class="sb-ic">🔎</span>SEO specialista<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('meta')"><span class="sb-ic">📘</span>Marketér Meta<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('google')"><span class="sb-ic">🔍</span>Marketér Google<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('tiktok')"><span class="sb-ic">🎵</span>TikTok creator<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('seo')"><span class="sb-ic">🔎</span>SEO copywriter<span class="sb-dot green"></span></a>
 
     <div class="sb-section customers"><span class="sec-pill"></span>Zákazníci</div>
-    <a class="sb-item"><span class="sb-ic">💬</span>Asistent podpory<span class="sb-dot green"></span></a>
-    <a class="sb-item"><span class="sb-ic">⭐</span>Reputační manažer<span class="sb-dot amber"></span></a>
-    <a class="sb-item"><span class="sb-ic">✉️</span>Retence<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('servis')"><span class="sb-ic">💬</span>Operátor podpory<span class="sb-dot green"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('reviews')"><span class="sb-ic">⭐</span>Hlídač recenzí<span class="sb-dot amber"></span></a>
+    <a class="sb-item" onclick="openAgentDetail('email')"><span class="sb-ic">✉️</span>Specialista retence<span class="sb-dot green"></span></a>
 
     <div class="sb-section strategy"><span class="sec-pill"></span>Strategie</div>
     <a class="sb-item"><span class="sb-ic">✅</span>Schválení<span class="sb-count" id="sb-approvals">5</span></a>
@@ -396,10 +724,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
     <a class="sb-item"><span class="sb-ic">🔌</span>Integrace</a>
     <a class="sb-item"><span class="sb-ic">👥</span>Tým</a>
 
-    <div class="sb-foot">v0.6 · prototyp · 5 mutací</div>
+    <div class="sb-foot">v0.4 · prototyp · 5 mutací</div>
   </aside>
 
   <main class="main">
+
+   <div id="view-dashboard">
 
     <div class="topbar">
       <h1>Přehled <small>napříč všemi agenty</small></h1>
@@ -419,10 +749,11 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       <div class="muta-meta" id="muta-meta">norda.cz · CZK · GMT+1</div>
     </div>
 
-    <div class="period-bar">
-      <span class="label">Období</span>
-      <div class="date-select-wrap">
-        <button class="date-select" id="date-btn" type="button">
+<!-- KPI box s period tabem v pravém horním rohu -->
+    <div class="kpi-wrap">
+      <div class="period-tab date-select-wrap">
+        <button class="date-select" id="date-btn" type="button" aria-expanded="false">
+          <span class="tab-label">Období ·</span>
           <span>📅</span>
           <span id="date-label">Posledních 30 dní</span>
           <span class="chev">▾</span>
@@ -435,18 +766,28 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
           <a data-d="custom">Vlastní rozsah…</a>
         </div>
       </div>
-      <span class="period-hint">vs. předchozí období</span>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="label">Tržby</div><div class="num" data-k="revenue">— Kč</div><div class="delta up" data-k="revenueDelta">+12,4 %</div></div>
+        <div class="kpi-card"><div class="label">Návštěvnost</div><div class="num" data-k="visits">—</div><div class="delta up" data-k="visitsDelta">+9 %</div></div>
+        <div class="kpi-card"><div class="label">Konverze</div><div class="num" data-k="cr">—</div><div class="delta up" data-k="crDelta">+12 %</div></div>
+        <div class="kpi-card"><div class="label">Prům. košík</div><div class="num" data-k="aov">—</div><div class="delta flat" data-k="aovDelta">+1,1 %</div></div>
+      </div>
     </div>
 
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="label">Tržby</div><div class="num" data-k="revenue">— Kč</div><div class="delta up" data-k="revenueDelta">+12,4 %</div></div>
-      <div class="kpi-card"><div class="label">Návštěvnost</div><div class="num" data-k="visits">—</div><div class="delta up" data-k="visitsDelta">+9 %</div></div>
-      <div class="kpi-card"><div class="label">Konverze</div><div class="num" data-k="cr">—</div><div class="delta up" data-k="crDelta">+0,3 pp</div></div>
-      <div class="kpi-card"><div class="label">Prům. košík</div><div class="num" data-k="aov">—</div><div class="delta flat" data-k="aovDelta">+1,1 %</div></div>
+    <!-- Box s aktivitou agentů a sumarizací sekcí -->
+    <div class="agents-block">
+      <div class="agents-block-head">
+        <h2>Tvůj AI tým · 24 agentů</h2>
+      </div>
+      <div class="activity-banner" id="activity-banner">
+        <span class="ic">🤖</span>
+        <span class="txt">Za posledních 24 hodin agenti provedli <span class="num" id="ab-actions">3 034×</span> akcí a ušetřili <span class="saved" id="ab-saved">34 hodin</span> ruční práce.</span>
+      </div>
+      <div class="sec-summary" id="sec-summary"></div>
     </div>
 
-    <div class="sec-summary" id="sec-summary"></div>
-
+    <!-- STRATEGIE BOX (samostatný — schválení + růstové signály) -->
     <div class="strategy-box">
       <div class="strat-box-head">
         <h2>Strategie</h2>
@@ -465,11 +806,13 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       </div>
     </div>
 
+    <!-- KANÁLY -->
     <div class="channels-section">
       <div class="ch-title">Tržby 30 dní · podle původu</div>
       <div class="channels" id="channels"></div>
     </div>
 
+    <!-- E-SHOP -->
     <section class="sec sec-store">
       <div class="sec-head store">
         <div class="sec-title"><div class="ttl">E-shop</div></div>
@@ -484,6 +827,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       </div>
     </section>
 
+    <!-- PRODUKTY -->
     <section class="sec sec-products">
       <div class="sec-head products">
         <div class="sec-title"><div class="ttl">Produkty</div></div>
@@ -498,6 +842,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       </div>
     </section>
 
+    <!-- MARKETING -->
     <section class="sec sec-marketing">
       <div class="sec-head marketing">
         <div class="sec-title"><div class="ttl">Marketing</div></div>
@@ -512,6 +857,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       </div>
     </section>
 
+    <!-- ZÁKAZNÍCI -->
     <section class="sec sec-customers">
       <div class="sec-head customers">
         <div class="sec-title"><div class="ttl">Zákazníci</div></div>
@@ -526,10 +872,156 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       </div>
     </section>
 
+   </div><!-- /#view-dashboard -->
+
+   <!-- ────── WORKFLOW VIEW (subpage) ────── -->
+   <div id="view-workflow" style="display:none">
+    <div class="topbar">
+      <h1>Workflow <small>posloupnost agentů od strategie po exekuci</small></h1>
+      <div class="grow"></div>
+      <div class="userchip"><div class="avatar">A</div><span>Adam · majitel</span></div>
+    </div>
+
+    <div class="wf-page">
+      <div class="wf-meta">EXPAN.DO · AI DRIVEN E-SHOP</div>
+      <h1 class="wf-title">Agent <span class="accent">Workflow</span></h1>
+      <p class="wf-sub">Posloupnost aktivit od strategie přes data až po exekuci v kanálech. Každý agent má jasné vstupy, KPI a výstupy.</p>
+
+      <div class="wf-timeline">
+
+        <!-- 01 STRATEGIE -->
+        <div class="wf-phase">
+          <div class="wf-phase-marker"><span class="num">01</span><span class="nm">Strategie</span></div>
+          <div class="wf-card strategy">
+            <div class="wf-card-head">
+              <strong>🎯 Strategický partner</strong>
+              <span class="wf-card-meta">Growth director + on-demand mentor</span>
+            </div>
+            <p>Sleduje hlavní KPI (MER, POAS, obrat, marže). Definuje priority a budget alokaci. K dispozici pro second opinion a ad-hoc strategická doporučení. Eskaluje rozhodnutí na CEO.</p>
+            <div class="wf-tags">
+              <span class="tag-kpi">MER</span>
+              <span class="tag-kpi">POAS</span>
+              <span class="tag-kpi">Obrat</span>
+              <span class="tag-kpi">Marže</span>
+              <span class="tag-out">→ Priority</span>
+              <span class="tag-out">→ Budget</span>
+              <span class="tag-out">→ Second opinion</span>
+            </div>
+          </div>
+          <div class="wf-output"><span class="arr">↓</span><strong>Výstup:</strong> Strategické zadání pro Detektiva dat (Data Analyst)</div>
+        </div>
+
+        <div class="wf-link">↓ Předává zadání</div>
+
+        <!-- 02 ANALÝZA DAT -->
+        <div class="wf-phase">
+          <div class="wf-phase-marker"><span class="num">02</span><span class="nm">Analýza dat</span></div>
+          <div class="wf-card analysis">
+            <div class="wf-card-head">
+              <strong>Data Analyst</strong>
+              <span class="wf-card-meta">GA4 · Ads · E-shop</span>
+            </div>
+            <p>Propojuje data ze všech zdrojů. Identifikuje příležitosti a bottlenecky. Distribuuje insighty do kanálů.</p>
+            <div class="wf-tags">
+              <span class="tag-kpi">GA4</span>
+              <span class="tag-kpi">Ads</span>
+              <span class="tag-out">→ SEO insighty</span>
+              <span class="tag-out">→ PPC příležitosti</span>
+              <span class="tag-out">→ CRO bottlenecky</span>
+              <span class="tag-out">→ CRM segmenty</span>
+            </div>
+          </div>
+          <div class="wf-output"><span class="arr">↓</span><strong>Výstup:</strong> Úkoly distribuované do všech kanálů</div>
+        </div>
+
+        <div class="wf-link">↓ Distribuce úkolů</div>
+
+        <!-- 03 EXEKUCE -->
+        <div class="wf-phase last">
+          <div class="wf-phase-marker"><span class="num">03</span><span class="nm">Exekuce</span></div>
+          <div class="wf-grid">
+            <div class="wf-card meta-c">
+              <div class="wf-card-head"><strong>Meta Ads</strong><span class="wf-card-meta">Social PPC</span></div>
+              <p>Kampaně, kreativy, publika. Lookalike, retarget, A/B test creative.</p>
+              <div class="wf-tags"><span class="tag-out">→ ROAS, nCAC</span></div>
+            </div>
+            <div class="wf-card google-c">
+              <div class="wf-card-head"><strong>Google Ads</strong><span class="wf-card-meta">Search, Shopping</span></div>
+              <p>Search, Shopping, Performance Max. KW management, bid optimalizace.</p>
+              <div class="wf-tags"><span class="tag-out">→ POAS, CPA</span></div>
+            </div>
+            <div class="wf-card seo-c">
+              <div class="wf-card-head"><strong>SEO &amp; Content</strong><span class="wf-card-meta">Organik</span></div>
+              <p>Klíčová slova a obsah z dat. On-page optimalizace, content kalendář.</p>
+              <div class="wf-tags"><span class="tag-out">→ Traffic, pozice</span></div>
+            </div>
+            <div class="wf-card crm-c">
+              <div class="wf-card-head"><strong>CRM Specialist</strong><span class="wf-card-meta">Retence</span></div>
+              <p>Segmentované kampaně, reaktivace. Email automation, win-back flows.</p>
+              <div class="wf-tags"><span class="tag-out">→ CLV, repeat rate</span></div>
+            </div>
+            <div class="wf-card ux-c">
+              <div class="wf-card-head"><strong>UX / CRO</strong><span class="wf-card-meta">Konverze</span></div>
+              <p>A/B testy, optimalizace funnelu, heatmaps. Bottleneck removal.</p>
+              <div class="wf-tags"><span class="tag-out">→ Conversion rate</span></div>
+            </div>
+            <div class="wf-card exp-c">
+              <div class="wf-card-head"><strong>Specialista expanze</strong><span class="wf-card-meta">Nové trhy</span></div>
+              <p>Lokalizace, market entry, nová mutace. Cross-mutace insights.</p>
+              <div class="wf-tags"><span class="tag-out">→ Nové trhy</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+   </div><!-- /#view-workflow -->
+
+   <!-- ═══════════════════ VIEW: AGENTS LIST ═══════════════════ -->
+   <div id="view-agents" style="display:none">
+    <div class="topbar">
+      <h1>Seznam agentů <small>13 AI agentů a jejich napojené MCP / API</small></h1>
+      <div class="grow"></div>
+      <div class="userchip"><div class="avatar">A</div><span>Adam · majitel</span></div>
+    </div>
+
+    <div class="ag-page">
+      <div class="ag-toolbar">
+        <input type="text" id="ag-search" placeholder="Hledat agenta, popis nebo MCP…" class="ag-search">
+        <button class="ag-btn-reset" onclick="resetAgentEdits()">↺ Resetovat změny</button>
+        <button class="ag-btn-add" onclick="addNewAgent()">+ Přidat agenta</button>
+      </div>
+
+      <div class="ag-list" id="ag-list">
+        <!-- generated by JS in renderAgentsList() -->
+      </div>
+
+      <div class="ag-footer-note">
+        💾 Změny se ukládají automaticky do tvého prohlížeče (localStorage). Pro reset stiskni „Resetovat změny".
+      </div>
+    </div>
+   </div><!-- /#view-agents -->
+
+   <!-- ═══════════════════ VIEW: AGENT DETAIL ═══════════════════ -->
+   <div id="view-agent-detail" style="display:none">
+    <div class="topbar">
+      <h1 id="ad-page-title">Detail agenta</h1>
+      <div class="grow"></div>
+      <div class="userchip"><div class="avatar">A</div><span>Adam · majitel</span></div>
+    </div>
+
+    <div class="ad-page" id="ad-page">
+      <!-- generated by renderAgentDetail() -->
+    </div>
+   </div><!-- /#view-agent-detail -->
+
+   <div id="ag-saved-pill">✓ Uloženo</div>
+
   </main>
 </div>
 
 <script>
+/* Parse formatted amount strings to numbers (handles "1 624 300 Kč", "12,2M Ft", "500k Ft") */
 function parseAmt(fmt){
   if (/\dM/i.test(fmt)) {
     const m = fmt.match(/([\d,.]+)\s*M/i);
@@ -637,7 +1129,7 @@ const CHANNELS = {
 
 const DATA = {
   CZ: {
-    biz:{revenue:"3 248 600 Kč",visits:"284 000",cr:"2,8 %",aov:"1 840 Kč",revenueDelta:"+12,4 %",visitsDelta:"+9 %",crDelta:"+0,3 pp",aovDelta:"+1,1 %",roas:"4,2",roasDelta:"+0,4"},
+    biz:{revenue:"3 248 600 Kč",visits:"284 000",cr:"2,8 %",aov:"1 840 Kč",revenueDelta:"+12,4 %",visitsDelta:"+9 %",crDelta:"+12 %",aovDelta:"+1,1 %",roas:"4,2",roasDelta:"+0,4"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"184"},{l:"Tržby dnes",v:"312 480 Kč"},{l:"Anomálie",v:"1",cls:"warn"}],
       products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"42",cls:"warn"},{l:"Bez fotky",v:"124",cls:"warn"}],
@@ -690,7 +1182,7 @@ const DATA = {
     ]
   },
   SK:{
-    biz:{revenue:"118 240 €",visits:"102 000",cr:"2,5 %",aov:"72 €",revenueDelta:"+9,1 %",visitsDelta:"+5 %",crDelta:"+0,1 pp",aovDelta:"+0,4 %",roas:"3,8",roasDelta:"+0,2"},
+    biz:{revenue:"118 240 €",visits:"102 000",cr:"2,5 %",aov:"72 €",revenueDelta:"+9,1 %",visitsDelta:"+5 %",crDelta:"+4 %",aovDelta:"+0,4 %",roas:"3,8",roasDelta:"+0,2"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"62"},{l:"Tržby dnes",v:"11 280 €"},{l:"Anomálie",v:"0",cls:"good"}],
       products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"118",cls:"warn"},{l:"Bez fotky",v:"412",cls:"warn"}],
@@ -734,7 +1226,7 @@ const DATA = {
     ]
   },
   PL:{
-    biz:{revenue:"428 600 zł",visits:"468 000",cr:"2,1 %",aov:"248 zł",revenueDelta:"+22,8 %",visitsDelta:"+28 %",crDelta:"+0,4 pp",aovDelta:"-2,1 %",roas:"3,4",roasDelta:"+0,6"},
+    biz:{revenue:"428 600 zł",visits:"468 000",cr:"2,1 %",aov:"248 zł",revenueDelta:"+22,8 %",visitsDelta:"+28 %",crDelta:"+24 %",aovDelta:"-2,1 %",roas:"3,4",roasDelta:"+0,6"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"128"},{l:"Tržby dnes",v:"42 480 zł"},{l:"Anomálie",v:"0",cls:"good"}],
       products:[{l:"SKU",v:"14 820"},{l:"Bez popisu",v:"280",cls:"warn"},{l:"Cenové diff.",v:"8",cls:"warn"}],
@@ -788,7 +1280,7 @@ const DATA = {
     ]
   },
   HU:{
-    biz:{revenue:"42 800 000 Ft",visits:"58 000",cr:"1,8 %",aov:"32 400 Ft",revenueDelta:"+8,2 %",visitsDelta:"+4 %",crDelta:"-0,1 pp",aovDelta:"+2,4 %",roas:"2,9",roasDelta:"+0,1"},
+    biz:{revenue:"42 800 000 Ft",visits:"58 000",cr:"1,8 %",aov:"32 400 Ft",revenueDelta:"+8,2 %",visitsDelta:"+4 %",crDelta:"-5 %",aovDelta:"+2,4 %",roas:"2,9",roasDelta:"+0,1"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"38"},{l:"Tržby dnes",v:"4 240 000 Ft"},{l:"Anomálie",v:"1",cls:"warn"}],
       products:[{l:"SKU",v:"9 840"},{l:"Bez popisu",v:"412",cls:"bad"},{l:"Bez fotky",v:"1 240",cls:"bad"}],
@@ -832,7 +1324,7 @@ const DATA = {
     ]
   },
   RO:{
-    biz:{revenue:"248 600 lei",visits:"27 000",cr:"1,4 %",aov:"480 lei",revenueDelta:"+4,8 %",visitsDelta:"+1 %",crDelta:"-0,2 pp",aovDelta:"+0,8 %",roas:"2,4",roasDelta:"-0,2"},
+    biz:{revenue:"248 600 lei",visits:"27 000",cr:"1,4 %",aov:"480 lei",revenueDelta:"+4,8 %",visitsDelta:"+1 %",crDelta:"-13 %",aovDelta:"+0,8 %",roas:"2,4",roasDelta:"-0,2"},
     sectionStats:{
       store:[{l:"Obj. dnes",v:"18"},{l:"Tržby dnes",v:"24 600 lei"},{l:"Anomálie",v:"0",cls:"good"}],
       products:[{l:"SKU",v:"8 240"},{l:"Bez popisu",v:"1 840",cls:"bad"},{l:"Bez fotky",v:"3 680",cls:"bad"}],
@@ -889,19 +1381,40 @@ const META = {
 };
 
 const AGENT_DEF = {
-  orders:    {n:"Manažer objednávek", i:"🛒", c:"ic-orders"},
-  analytics: {n:"Datový analytik",    i:"📊", c:"ic-analytics"},
-  logistika: {n:"Manažer logistiky",  i:"🚚", c:"ic-logistika"},
-  katalog:   {n:"Správce katalogu",   i:"📦", c:"ic-katalog"},
-  pricing:   {n:"Pricing analytik",   i:"💰", c:"ic-pricing"},
-  media:     {n:"Foto editor",        i:"📷", c:"ic-media"},
-  meta:      {n:"Marketér Meta",      i:"📘", c:"ic-meta"},
-  google:    {n:"Marketér Google",    i:"🔍", c:"ic-google"},
-  tiktok:    {n:"TikTok specialista", i:"🎵", c:"ic-tiktok"},
-  seo:       {n:"SEO specialista",    i:"🔎", c:"ic-seo"},
-  servis:    {n:"Asistent podpory",   i:"💬", c:"ic-servis"},
-  reviews:   {n:"Reputační manažer",  i:"⭐", c:"ic-reviews"},
-  email:     {n:"Retence",            i:"✉️", c:"ic-email"}
+  // ── E-shop ──
+  orders:      {n:"Strážce objednávek",       i:"🛒", c:"ic-orders"},
+  analytics:   {n:"Detektiv dat",             i:"📊", c:"ic-analytics"},
+  logistika:   {n:"Dispečer dopravy",         i:"🚚", c:"ic-logistika"},
+  // ── Produkty ──
+  katalog:     {n:"Kurátor katalogu",         i:"📦", c:"ic-katalog"},
+  pricing:     {n:"Cenař",                    i:"💰", c:"ic-pricing"},
+  media:       {n:"Vizuální producent",       i:"📷", c:"ic-media"},
+  // ── Marketing ──
+  meta:        {n:"Marketér Meta",            i:"📘", c:"ic-meta"},
+  google:      {n:"Marketér Google",          i:"🔍", c:"ic-google"},
+  tiktok:      {n:"TikTok creator",           i:"🎵", c:"ic-tiktok"},
+  seo:         {n:"SEO copywriter",           i:"🔎", c:"ic-seo"},
+  sklik:       {n:"Sklik & Zboží specialista", i:"🇨🇿", c:"ic-google"},
+  local_ppc:   {n:"Lokální PPC (Allegro/eMag)", i:"🌐", c:"ic-google"},
+  feeds:       {n:"Srovnávače & feedy",        i:"📑", c:"ic-google"},
+  affiliate:   {n:"Affiliate & partnerství",   i:"🤝", c:"ic-affiliate"},
+  // ── Zákazníci ──
+  servis:      {n:"Operátor podpory",         i:"💬", c:"ic-servis"},
+  reviews:     {n:"Hlídač recenzí",           i:"⭐", c:"ic-reviews"},
+  email:       {n:"Specialista retence",      i:"✉️", c:"ic-email"},
+  loyalty:     {n:"Věrnostní program & LTV",  i:"🎁", c:"ic-loyalty"},
+  // ── Strategie (NEW) ──
+  strategist:  {n:"Strategický partner",      i:"🎯", c:"ic-growth"},
+  // ── Sociální sítě (NEW) ──
+  social_mgr:  {n:"Social media manager",     i:"📱", c:"ic-social"},
+  influencer:  {n:"Influencer marketing",     i:"🌟", c:"ic-influencer"},
+  ugc:         {n:"UGC & community",          i:"💞", c:"ic-ugc"},
+  // ── Expanze & analýza (NEW) ──
+  expansion:   {n:"Specialista expanze",      i:"🌍", c:"ic-expansion"},
+  // ── Platforma & operace (NEW) ──
+  platform:    {n:"E-shop platform specialista", i:"🏗", c:"ic-platform"},
+  localization:{n:"Lokalizace & překlady",    i:"🈯", c:"ic-localization"},
+  ux_cro:      {n:"UX / CRO specialista",     i:"🧪", c:"ic-uxcro"}
 };
 
 const SECTIONS = ["store","products","marketing","customers"];
@@ -926,15 +1439,20 @@ function render(m){
 
   document.getElementById("sb-approvals").textContent = d.approvals.length;
 
+  // Section summary (under KPIs)
   renderSectionSummary(d);
+
+  // Strategy box (separate, top)
   renderStrategyBox(d);
 
+  // Channels (top) — compute share of total revenue per bucket
   const totalRev = parseAmt(ch.paid.fmt) + parseAmt(ch.organic.fmt) + parseAmt(ch.retention.fmt);
   document.getElementById("channels").innerHTML =
       renderChannelCard("Akviziční (placené)","🎯","paid",   ch.paid,      parseAmt(ch.paid.fmt)/totalRev*100)
     + renderChannelCard("Organické",          "🌱","organic", ch.organic,   parseAmt(ch.organic.fmt)/totalRev*100)
     + renderChannelCard("Retence",            "♻️","retention",ch.retention,parseAmt(ch.retention.fmt)/totalRev*100);
 
+  // Section stats (header right side — strategy už nemá vlastní section)
   ["store","products","marketing","customers"].forEach(sec=>{
     const el = document.getElementById(`stats-${sec}`);
     if (!el) return;
@@ -942,6 +1460,7 @@ function render(m){
     el.innerHTML = stats.map(s=>`<div class="sec-stat"><div class="v ${s.cls||""}">${s.v}</div><div class="l">${s.l}</div></div>`).join("");
   });
 
+  // Agent grids
   const sparkTargets = [];
   SECTIONS.forEach(sec=>{
     const grid = document.querySelector(`.agent-grid[data-section="${sec}"]`);
@@ -976,6 +1495,7 @@ function render(m){
     sparkTargets.forEach(s=>drawSpark(s.id, s.trend, s.status));
   });
 
+  // Section feeds
   SECTIONS.forEach(sec=>{
     const list = document.querySelector(`[data-feed="${sec}"]`);
     if (!list) return;
@@ -996,36 +1516,736 @@ function render(m){
         </div>`;
     }).join("") : `<div class="sec-feed-empty">Žádná aktivita posledních 60 minut</div>`;
   });
+
 }
 
+/* PNCO (Podíl Nákladů na Celkovém Obratu) — % z tržeb na placenou reklamu */
 const PNCO = { CZ:"11,9 %", SK:"12,0 %", PL:"14,3 %", HU:"15,9 %", RO:"22,0 %" };
+
+/* Počet interakcí se zákazníky za období (tickety + AI odpovědi + recenze + e-mail engagement) */
 const INTERACTIONS = { CZ:"432", SK:"124", PL:"380", HU:"82", RO:"34" };
 
+/* Aktivita agentů za posl. 24 h — banner */
+const ACTIONS_24H  = { CZ:"3 034×", SK:"1 184×", PL:"2 480×", HU:"824×", RO:"412×" };
+const HOURS_SAVED  = { CZ:"34 hodin", SK:"14 hodin", PL:"28 hodin", HU:"9 hodin", RO:"4 hodiny" };
+
+/* Kvalita lokalizace produktů per mutace (1–5) */
+const LOC_QUALITY = { CZ:5.0, SK:4.5, PL:4.2, HU:3.5, RO:2.8 };
+/* Kvalita expedice (on-time + returns rate) */
+const SHIP_QUALITY = { CZ:4.9, SK:4.7, PL:4.3, HU:4.2, RO:3.5 };
+/* Efektivita reklamy (ROAS health) */
+const AD_EFFICIENCY = { CZ:4.6, SK:4.4, PL:4.3, HU:3.6, RO:2.8 };
+/* Průměrná doba odeslání (po objednávce → kurýr) */
+const SHIP_TIME = { CZ:"24 h", SK:"28 h", PL:"32 h", HU:"36 h", RO:"48 h" };
+/* Reklamace / return rate per mutace */
+const RETURN_RATE = { CZ:"1,8 %", SK:"2,1 %", PL:"2,4 %", HU:"3,1 %", RO:"4,2 %" };
+/* Průměrný ROAS per mutace */
+const ROAS_AVG = { CZ:"4,6×", SK:"4,2×", PL:"3,9×", HU:"3,7×", RO:"3,1×" };
+/* Neaktivní SKU per mutace (vyřazeno / out of stock / archivováno) */
+const INACTIVE_SKU = { CZ:"304", SK:"612", PL:"480", HU:"260", RO:"180" };
+
+/* Meziměsíční změny (MoM) per sekce per mutace
+   inverted=true znamená, že pokles je dobrý (např. PNCO) → zelený pill */
+const MOM = {
+  CZ:{ store:{val:8.4,dir:"up"},  products:{val:1.2,dir:"up"}, marketing:{val:0.7,dir:"down",inv:true}, customers:{val:12, dir:"up"} },
+  SK:{ store:{val:5.2,dir:"up"},  products:{val:0.8,dir:"up"}, marketing:{val:1.4,dir:"down",inv:true}, customers:{val:6,  dir:"up"} },
+  PL:{ store:{val:11, dir:"up"},  products:{val:2.4,dir:"up"}, marketing:{val:1.8,dir:"up",  inv:true}, customers:{val:14, dir:"up"} },
+  HU:{ store:{val:3.2,dir:"down"},products:{val:0.4,dir:"up"}, marketing:{val:0.3,dir:"up",  inv:true}, customers:{val:4,  dir:"up"} },
+  RO:{ store:{val:18, dir:"up"},  products:{val:1.8,dir:"up"}, marketing:{val:2.4,dir:"down",inv:true}, customers:{val:22, dir:"up"} }
+};
+function trendPill(t){
+  if(!t) return "";
+  const isUp   = t.dir==="up";
+  const isGood = t.inv ? !isUp : isUp;          // pro "inverted" metriky (PNCO) je pokles dobrý
+  const cls    = isGood ? "up" : "dn";
+  const arrow  = isUp ? "▲" : "▼";
+  const v      = (t.val < 10) ? t.val.toFixed(1).replace(".",",") : Math.round(t.val);
+  return `<span class="trend-pill ${cls}">${arrow} ${v} %</span>`;
+}
+
+/* ═══════ Připojené MCP / API per agent ═══════ */
+const AGENT_MCPS = {
+  orders:       ["Shopify","Heureka","Zásilkovna","Stripe","GoPay"],
+  analytics:    ["GA4","Looker Studio","BigQuery","Slack"],
+  logistika:    ["Zásilkovna","DPD","PPL","Packeta","GLS"],
+  katalog:      ["Shopify","Heureka","Akeneo PIM","Anthropic Claude"],
+  pricing:      ["Shopify","Heureka","Zboží.cz","Pricesearch API"],
+  media:        ["Cloudinary","Nanobanana","Photoroom","DAM"],
+  meta:         ["Meta Ads","Meta CAPI","Insights API"],
+  google:       ["Google Ads","GA4","Merchant Center","Search Console"],
+  tiktok:       ["TikTok Ads","TikTok Pixel","Spark Ads"],
+  seo:          ["Search Console","Ahrefs","Marketing Miner","Anthropic Claude"],
+  sklik:        ["Sklik","Zboží.cz","GA4"],
+  local_ppc:    ["Allegro Ads","eMag Ads","OLX","GA4"],
+  feeds:        ["Heureka","Zboží.cz","Ceneo PL","Compari HU","Glami","GA4"],
+  affiliate:    ["CJ Affiliate","Dognet","GA4","Notion"],
+  servis:       ["Daktela","Smartsupp","Zendesk","Anthropic Claude"],
+  reviews:      ["Heureka","Trustpilot","Google Reviews"],
+  email:        ["Klaviyo","Mailchimp","SmartEmailing","Twilio SMS"],
+  loyalty:      ["Klaviyo","Shopify","Notion","Anthropic Claude"],
+  strategist:   ["GA4","Google Ads","Ahrefs","Notion","Slack","Anthropic Claude"],
+  social_mgr:   ["Meta","TikTok","Notion","GA4"],
+  influencer:   ["Notion","GA4","Meta","TikTok"],
+  ugc:          ["Meta","TikTok","Notion"],
+  expansion:    ["SimilarWeb","GA4","Ahrefs","Notion"],
+  platform:     ["WPJ","ERP","Shopify","Jira"],
+  localization: ["LOCO","Notion","GA4","Anthropic Claude"],
+  ux_cro:       ["GA4","Hotjar","Notion","Anthropic Claude"]
+};
+
+/* ═══════ Job-style popis per agent ═══════ */
+const AGENT_DESC = {
+  orders:       "Hlídá tok objednávek 24/7. Řeší výpadky platby, fraud detekci, ruční storna a stavové změny.",
+  analytics:    "Sleduje KPI napříč 5 mutacemi. Detekuje anomálie v reálném čase, posílá týdenní insighty na Slack.",
+  logistika:    "Řídí dopravce per region. Sleduje doručení v reálném čase, eskaluje reklamace přepravy.",
+  katalog:      "Spravuje SKU, kategorie, lokalizace. Generuje produktové popisy přes AI, hlídá kompletnost dat.",
+  pricing:      "Dynamické ceny dle konkurence a poptávky. Hlídá marže, navrhuje akce a slevové strategie.",
+  media:        "Generuje produktové fotky, lifestyle scény, video pro PDP. AI image generation per kategorie.",
+  meta:         "Řídí Facebook/Instagram kampaně. Optimalizace bidů, kreativ, retargeting a lookalike publik.",
+  google:       "Search, Performance Max, Shopping, YouTube. KW management, negative KW, bid optimization.",
+  tiktok:       "TikTok Ads + organic content. Spark Ads, creator partnerships, monitoring trendů.",
+  seo:          "On-page SEO, content kalendář, lokalizace textů. Hlídá Core Web Vitals napříč mutacemi.",
+  sklik:        "Lokální český PPC kanál — Sklik Search, RTB Display a Zboží.cz. CZ/SK feed a klíčová slova.",
+  local_ppc:    "Lokální marketplace PPC — Allegro (PL), eMag (RO), OLX. Bid optimalizace per platforma.",
+  feeds:        "Správa srovnávačů Heureka, Zboží.cz, Ceneo, Compari, Glami. Feed health, bidy, PNO per platforma.",
+  affiliate:    "Affiliate síť a partnerský program. Onboarding, provize, payouty, vztah s top partnery.",
+  servis:       "L1 podpora chat & e-mail. AI vyřeší 70 %+ ticketů, eskaluje na lidského agenta.",
+  reviews:      "Sleduje recenze napříč platformami, automaticky odpovídá pozitivním, navrhuje odpovědi na negativní.",
+  email:        "E-mail/SMS automation. Welcome flow, win-back, abandoned cart, loyalty program.",
+  loyalty:      "Věrnostní program a LTV. Bodový/tier systém, personalizované odměny, vyhodnocení LTV per segment.",
+  strategist:   "Tvůj on-demand growth director. Sleduje hlavní KPI (MER, POAS, marže), navrhuje priority a budget alokaci. K dispozici pro second opinion a strategická doporučení. Eskaluje rozhodnutí na CEO.",
+  social_mgr:   "Content kalendář, plánování postů, komunita a moderace napříč Meta/TikTok/Instagram.",
+  influencer:   "Discovery podle niche, outreach automation, vztah s top tvůrci. Performance report per kampaň.",
+  ugc:          "Sběr a kurátorování UGC, hashtag monitoring, schválení & permissions, komunita.",
+  expansion:    "Průzkum nového trhu, TAM/SAM/SOM, lokální infrastruktura, doprava a platby. Forecast a break-even.",
+  platform:     "Stavba lokálního e-shopu, propojení ERP, doprava a platby, technické řízení provozu mutace.",
+  localization: "Překlad produktů/kategorií, GDPR, e-mail šablony, UI texty. Native speaker review per mutace.",
+  ux_cro:       "UX audit nákupního procesu, A/B testy, heatmapy. Bottleneck removal, optimalizace funnelu."
+};
+
+/* ═══════ Section assignment per agent (pro nové agenty bez DATA záznamu) ═══════ */
+const AGENT_SECTION = {
+  orders:"store", analytics:"store", logistika:"store",
+  katalog:"products", pricing:"products", media:"products",
+  meta:"marketing", google:"marketing", tiktok:"marketing", seo:"marketing",
+  sklik:"marketing", local_ppc:"marketing", feeds:"marketing", affiliate:"marketing",
+  servis:"customers", reviews:"customers", email:"customers", loyalty:"customers",
+  strategist:"strategy",
+  social_mgr:"social", influencer:"social", ugc:"social",
+  expansion:"expansion",
+  platform:"operations", localization:"operations", ux_cro:"operations"
+};
+
+const SEC_LABEL     = {
+  store:"E-shop", products:"Produkty", marketing:"Marketing", customers:"Zákazníci",
+  strategy:"Strategie", social:"Sociální sítě", expansion:"Expanze & analýza", operations:"Platforma & operace"
+};
+const STATUS_LABEL  = {auto:"Auto",hitl:"HITL",alert:"Alert"};
+const STORAGE_KEY   = "norda-agents-edits";
+const SECTION_ORDER = ["store","products","marketing","customers","strategy","social","expansion","operations"];
+/* MVP agenti dle autonomni-eshop-agent.md, kap. 6 */
+const MVP_AGENTS    = new Set(["analytics","email","google"]);
+
+function _getEdits(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");}catch(e){return {};} }
+function _setEdits(o){ localStorage.setItem(STORAGE_KEY, JSON.stringify(o)); }
+
+function showSavedPill(){
+  const p = document.getElementById("ag-saved-pill");
+  if(!p) return;
+  p.classList.add("show");
+  clearTimeout(window._agSavedT);
+  window._agSavedT = setTimeout(()=>p.classList.remove("show"), 1400);
+}
+
+function renderAgentsList(){
+  const list = document.getElementById("ag-list");
+  if(!list) return;
+  const edits = _getEdits();
+  const refData = (DATA[current] && DATA[current].agents) || {};
+
+  // 1) Sběr a seskupení agentů podle sekce (s fallbackem na AGENT_SECTION pro nové agenty bez DATA záznamu)
+  const grouped = {};
+  SECTION_ORDER.forEach(s => grouped[s] = []);
+  Object.entries(AGENT_DEF).forEach(([key, def])=>{
+    const e = edits[key] || {};
+    if (e.hidden) return;
+    const sec = e.sec || refData[key]?.sec || AGENT_SECTION[key] || "store";
+    if (!grouped[sec]) grouped[sec] = [];
+    grouped[sec].push({key, def, e, sec, status: e.status || refData[key]?.status || "auto"});
+  });
+
+  // 2) Render karet
+  const renderCard = ({key, def, e, sec, status})=>{
+    const mcps = e.mcps || AGENT_MCPS[key] || [];
+    const desc = e.desc || AGENT_DESC[key] || "";
+    const name = e.name || def.n;
+    const isMvp = MVP_AGENTS.has(key);
+    const mcpHtml = mcps.map(m =>
+      `<span class="ag-mcp">${m}<span class="x" title="Odebrat" onclick="removeMcp('${key}','${m.replace(/'/g,"\\'")}')">×</span></span>`
+    ).join("");
+    return `
+      <div class="ag-item sec-${sec}${isMvp?' is-mvp':''}" data-key="${key}">
+        <div class="ag-icon ${def.c}" onclick="openAgentDetail('${key}')" style="cursor:pointer" title="Otevřít detail">${def.i}</div>
+        <div class="ag-body">
+          <div class="ag-row1">
+            <span class="ag-name" contenteditable="true" data-field="name" data-key="${key}">${name}</span>
+            ${isMvp ? '<span class="ag-mvp">MVP · 2 týdny</span>' : ''}
+            <span class="ag-status ${status}">${STATUS_LABEL[status]}</span>
+          </div>
+          <div class="ag-desc" contenteditable="true" data-field="desc" data-key="${key}">${desc}</div>
+          <div class="ag-mcps">
+            <span class="ag-mcps-label">MCP / API:</span>
+            ${mcpHtml}
+            <button class="ag-mcp-add" onclick="promptAddMcp('${key}')">+ MCP</button>
+          </div>
+        </div>
+        <div class="ag-actions">
+          <button onclick="openAgentDetail('${key}')">→ Detail</button>
+          <button class="del" onclick="hideAgent('${key}')">Skrýt</button>
+        </div>
+      </div>`;
+  };
+
+  // 3) Render sekcí v pořadí E-shop → Produkty → Marketing → Zákazníci
+  const html = SECTION_ORDER.map(sec=>{
+    const agents = grouped[sec] || [];
+    if (!agents.length) return "";
+    const mvpCount = agents.filter(a=>MVP_AGENTS.has(a.key)).length;
+    return `
+      <div class="ag-section-header">
+        <span class="ag-sec-dot ${sec}"></span>
+        <span class="nm ${sec}">${SEC_LABEL[sec]}</span>
+        <span class="ag-sec-count">${agents.length} ${agents.length===1?'agent':agents.length<5?'agenti':'agentů'}${mvpCount?' · '+mvpCount+'× MVP':''}</span>
+      </div>
+      <div class="ag-section-items">${agents.map(renderCard).join("")}</div>
+    `;
+  }).join("");
+
+  list.innerHTML = html || `<div class="ag-footer-note">Všichni agenti jsou skryti. Klikni „Resetovat změny" pro zobrazení.</div>`;
+
+  // Wire contenteditable → save on blur
+  list.querySelectorAll("[contenteditable]").forEach(el=>{
+    el.addEventListener("blur", ()=>{
+      const all = _getEdits();
+      const k = el.dataset.key, f = el.dataset.field;
+      all[k] = all[k] || {};
+      all[k][f] = el.textContent.trim();
+      _setEdits(all);
+      showSavedPill();
+    });
+    el.addEventListener("keydown", e=>{
+      if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); el.blur(); }
+    });
+  });
+}
+
+function promptAddMcp(key){
+  const m = prompt('Název MCP / API (např. Notion, Slack):');
+  if(!m) return;
+  const all = _getEdits();
+  all[key] = all[key] || {};
+  all[key].mcps = all[key].mcps || [...(AGENT_MCPS[key]||[])];
+  if (all[key].mcps.includes(m.trim())) return;
+  all[key].mcps.push(m.trim());
+  _setEdits(all);
+  showSavedPill();
+  renderAgentsList();
+}
+
+function removeMcp(key, mcp){
+  const all = _getEdits();
+  all[key] = all[key] || {};
+  all[key].mcps = (all[key].mcps || [...(AGENT_MCPS[key]||[])]).filter(x=>x!==mcp);
+  _setEdits(all);
+  showSavedPill();
+  renderAgentsList();
+}
+
+function hideAgent(key){
+  if(!confirm('Skrýt tohoto agenta ze seznamu? (Změnu lze vrátit přes „Resetovat změny".)')) return;
+  const all = _getEdits();
+  all[key] = all[key] || {};
+  all[key].hidden = true;
+  _setEdits(all);
+  renderAgentsList();
+}
+
+function addNewAgent(){
+  alert("Přidání vlastního agenta — coming soon.\\n\\nZatím můžeš upravit existující agenty (název, popis, MCP).");
+}
+
+/* ═══════════ AGENT DETAIL PAGE ═══════════ */
+
+/* Tasks per agent (co aktuálně dělá / má naplánované) */
+const AGENT_TASKS = {
+  orders:       ["Kontrola plateb 24/7", "Detekce podezřelých objednávek", "Hlídání stavových změn", "Eskalace fraudů na CEO"],
+  analytics:    ["Týdenní KPI report pondělí 7:00", "Detekce anomálií v reálném čase", "Cross-mutace srovnání", "Slack alerts při poklesu CR"],
+  logistika:    ["Sledování doručení 5 dopravců", "Eskalace zpoždění nad 48h", "Reklamace přepravy", "Hlídání skladu na výdejnách"],
+  katalog:      ["Generování chybějících popisů (AI)", "Sync feedu s Heurekou", "Kontrola kompletnosti SKU dat", "Kategorizace nových produktů"],
+  pricing:      ["Sledování konkurenčních cen 2× denně", "Návrh akcí na slow-moverech", "Hlídání marže", "Re-pricing dle stocku"],
+  media:        ["Generování fotek pro nové SKU", "Lifestyle scény pro top produkty", "Video pro PDP", "Optimalizace pro web/mobile"],
+  meta:         ["Bid optimalizace 4× denně", "A/B testy kreativ", "Retargeting kampaně", "Lookalike publika z CDP"],
+  google:       ["Bid management Search + PMax", "Negative KW review", "Shopping feed optimalizace", "Performance Max audience signály"],
+  tiktok:       ["Spark Ads na trending content", "Monitoring trendů", "Creator outreach", "Smart+ kampaně"],
+  seo:          ["Content kalendář na další 2 týdny", "On-page audit top 50 PDP", "Lokalizace textů pro 5 mutací", "Core Web Vitals monitoring"],
+  sklik:        ["Sklik Search bidy", "Zboží.cz feed sync", "RTB Display kampaně CZ/SK", "PNO monitoring per kategorie"],
+  local_ppc:    ["Allegro PL kampaně", "eMag RO bidy", "OLX testování", "Cross-platform ROAS report"],
+  feeds:        ["Heureka CZ/SK feed health", "Ceneo PL synchronizace", "Glami kategorie mapping", "Bid optimalizace per platforma"],
+  affiliate:    ["Měsíční payout report", "Onboarding 3 nových partnerů", "Top-partner check-ins", "ROI analýza per network"],
+  servis:       ["L1 chat & email podpora 24/7", "AI vyřeší 71 % ticketů", "Eskalace na L2 (Marcela)", "FAQ aktualizace dle dotazů"],
+  reviews:      ["Sledování Heureka, Trustpilot, Google", "Odpovědi na pozitivní recenze", "Návrh odpovědí na negativní", "Týdenní brand health score"],
+  email:        ["Welcome flow pro nové odběratele", "Win-back kampaň segment 90+ dní", "Abandoned cart automation", "Newsletter na pondělí"],
+  loyalty:      ["Tier review per kvartál", "Personalizované odměny", "LTV scoring per segment", "Reaktivace VIP"],
+  strategist:   ["Týdenní KPI review s CEO", "Budget alokace na další měsíc", "Vyhodnocení iniciativ vs. plán", "Eskalace strategických rozhodnutí"],
+  social_mgr:   ["Content kalendář na týden", "Community management", "Reels/Stories produkce", "Cross-mutace social audit"],
+  influencer:   ["Discovery 5 niche tvůrců", "Outreach nových partnerství", "Performance report aktivních", "Brief & schvalování obsahu"],
+  ugc:          ["Sběr UGC z hashtagů", "Permissions & schvalování", "Kurátorování pro PDP", "Top creator engagement"],
+  expansion:    ["Analýza nového trhu (HR / SI / BG)", "TAM/SAM/SOM forecast", "Lokální infrastruktura research", "Break-even kalkulace"],
+  platform:     ["DEV-2466 Fáze I integrace", "Stavba PL mutace 2026 Q3", "Sync ERP ↔ Shopify", "Provoz a uptime monitoring"],
+  localization: ["Překlad nových SKU pro 5 mutací", "UI texty audit", "E-mail šablony lokalizace", "Native speaker review HU/RO"],
+  ux_cro:       ["A/B test checkout — krok 2", "Heatmap analýza PDP top 20", "Funnel optimalizace", "Mobile UX audit"]
+};
+
+/* Mock log entries — recent runs */
+const AGENT_RUNS = {
+  orders: [
+    ["21:54","✅","Schválil platbu objednávky <b>#NRD-128340</b> (Adyen OK)"],
+    ["21:42","⚠️","Eskaloval <b>1 podezřelou objednávku</b> — fraud score 7,2"],
+    ["21:11","✅","Storno objednávky <b>#NRD-128301</b> na žádost zákaznice"],
+    ["20:48","✅","Označil 12 objednávek jako <b>'připraveno k expedici'</b>"],
+    ["19:02","⚠️","GoPay výpadek 8 minut — 3 objednávky retry-nuty"]
+  ],
+  analytics: [
+    ["21:30","🚨","<b>Anomálie CZ:</b> CR na /kosile-panske −24 % vs. minulý týden"],
+    ["20:15","✅","Týdenní report odeslán na Slack #adam-daily"],
+    ["18:42","✅","Detekoval <b>+18 % traffic</b> z TikTok creator videa"],
+    ["12:10","✅","Doplnil chybějící atribuci na PMax kampaň"],
+    ["09:00","✅","Pondělní KPI snapshot vygenerován"]
+  ],
+  google: [
+    ["21:15","✅","Vyloučil <b>12 negativních KW</b> v PMax 'Jaro 24'"],
+    ["20:48","✅","Zvýšil bid o 8 % u Shopping kampaně 'Bundy CZ'"],
+    ["19:22","⚠️","Doporučení: ROAS na 'Boty MEN PL' klesl pod 3,5×"],
+    ["17:40","✅","Aktualizoval Merchant Center feed (12 818 SKU)"],
+    ["15:18","✅","Spustil A/B test asset Group v PMax 'Jaro'"]
+  ],
+  email: [
+    ["21:40","✅","Welcome flow odeslán 14 novým odběratelům"],
+    ["20:12","✅","Win-back kampaň 'Sleva 15 %' → 1 800 odběratelů"],
+    ["18:55","✅","Newsletter 'Jarní kolekce' (38 % open rate)"],
+    ["12:30","✅","Abandoned cart trigger na 42 košíků"],
+    ["08:00","✅","Pondělní segmentace dokončena (8 segmentů)"]
+  ]
+};
+
+/* Deterministic mock metrics (fallback) */
+function mockMetrics(key){
+  let h=0; for(let i=0;i<key.length;i++) h=(h*31+key.charCodeAt(i))|0;
+  h=Math.abs(h);
+  return {
+    calls7d:    400+(h%2400),
+    errors7d:   (h%18),
+    hoursSaved: ((h%240)/10).toFixed(1),
+    uptime:     (98+(h%200)/100).toFixed(2)
+  };
+}
+
+/* Token cost per agent (7 days, deterministic) */
+function mockTokenCost(key, calls7d){
+  let h=0; for(let i=0;i<key.length;i++) h=(h*37+key.charCodeAt(i))|0;
+  h=Math.abs(h);
+  const total = 1.20 + (h%4800)/100;             // $1.20 – $49.20
+  const avg   = (total/calls7d*1000).toFixed(2); // cents per 1000 calls (display jako Kč/1k volání)
+  const daily = Array.from({length:7}, (_,i)=>{
+    const x = ((h*(i+3)) % 100) / 100;
+    return +(total/7 * (0.55 + x*0.9)).toFixed(2);
+  });
+  // normalize so sum ≈ total
+  const sum = daily.reduce((a,b)=>a+b,0);
+  const scale = total/sum;
+  for(let i=0;i<7;i++) daily[i] = +(daily[i]*scale).toFixed(2);
+  // CZK conversion ~24
+  const totalCzk = Math.round(total*24);
+  return {total: total.toFixed(2), totalCzk, avg, daily};
+}
+
+/* MCP usage 7d per agent (deterministic) */
+function mockMcpUsage(key, mcps){
+  let h=0; for(let i=0;i<key.length;i++) h=(h*41+key.charCodeAt(i))|0;
+  h=Math.abs(h);
+  const usage = mcps.map((m,i)=>{
+    const hh = Math.abs((h*(i*7+3)) % 9999);
+    const calls = 8 + (hh % 420);
+    const lastMin = (hh % 2880); // 0–48h
+    let lastUsed;
+    if (lastMin < 1) lastUsed = "právě teď";
+    else if (lastMin < 60) lastUsed = `${lastMin} min`;
+    else if (lastMin < 1440) lastUsed = `${Math.round(lastMin/60)} h`;
+    else lastUsed = `${Math.round(lastMin/1440)} d`;
+    const r = hh % 100;
+    const status = r < 92 ? "ok" : r < 98 ? "warn" : "err";
+    const statusIcon = status==="ok" ? "●" : status==="warn" ? "▲" : "✖";
+    return {name: m, calls, lastUsed, status, statusIcon};
+  }).sort((a,b)=>b.calls-a.calls);
+  const max = Math.max(1, ...usage.map(u=>u.calls));
+  usage.forEach(u => u.pct = Math.round(u.calls/max*100));
+  return usage;
+}
+
+/* Extended action log — 12–15 entries over 7 days */
+function extendedLog(key, def, todayRuns){
+  const today = todayRuns || mockRuns(key, def);
+  let h=0; for(let i=0;i<key.length;i++) h=(h*43+key.charCodeAt(i))|0;
+  h=Math.abs(h);
+  const STATUS_VARIANTS = ["✅","✅","✅","✅","⚠️","✅","✅","🚨","✅"];
+  const TEMPLATES = [
+    `<b>${def.n}</b> dokončil rutinní heartbeat`,
+    `Zpracoval batch <b>${200+(h%800)} záznamů</b>`,
+    `Aktualizoval stav v Notion`,
+    `Doporučení odesláno na schválení CEO`,
+    `Spustil ranní routine 7:00`,
+    `Eskaloval anomálii — <b>${5+(h%30)} %</b> odchylka`,
+    `Sync s napojeným MCP dokončen`,
+    `Týdenní souhrn vygenerován`,
+    `Re-try po předchozí chybě úspěšný`,
+    `Nová iniciativa naplánována`
+  ];
+  const DAYS = [
+    {label:"Dnes", base:0},
+    {label:"Včera", base:1},
+    {label:"Pondělí · 4. 5.", base:2},
+    {label:"Neděle · 3. 5.", base:3},
+    {label:"Sobota · 2. 5.", base:4}
+  ];
+  const log = {};
+  log["Dnes"] = today.slice(0,6);
+  // older days — 2-3 entries each
+  for (let di=1; di<DAYS.length; di++) {
+    const label = DAYS[di].label;
+    const count = 2 + ((h>>di) % 3);
+    const arr = [];
+    for (let i=0; i<count; i++) {
+      const hr = (h*(di*5+i+1)) % 24;
+      const mn = (h*(di*7+i+1)) % 60;
+      const time = `${String(hr).padStart(2,"0")}:${String(mn).padStart(2,"0")}`;
+      const tpl = TEMPLATES[(h*(di+i)) % TEMPLATES.length];
+      const st  = STATUS_VARIANTS[(h*(di+i)) % STATUS_VARIANTS.length];
+      arr.push([time, st, tpl]);
+    }
+    arr.sort((a,b)=>a[0]<b[0]?1:-1);
+    log[label] = arr;
+  }
+  return log;
+}
+
+/* Fallback runs když konkrétní agent nemá AGENT_RUNS entry */
+function mockRuns(key, def){
+  return [
+    ["21:45","✅",`<b>${def.n}</b> dokončil rutinní úkol`],
+    ["20:18","✅","Zpracoval batch dat (3 200 záznamů)"],
+    ["18:42","✅","Aktualizoval stav v Notion"],
+    ["15:15","⚠️","Doporučení odesláno na schválení CEO"],
+    ["09:00","✅","Spustil ranní heartbeat"]
+  ];
+}
+
+function generatePrompt(key, def, desc, mcps){
+  return `<span class="c"># Identity</span>
+<span class="k">Name:</span> <span class="s">${key.toUpperCase()}</span>
+<span class="k">Role:</span> <span class="s">${def.n}</span>
+<span class="k">Reports to:</span> <span class="s">Adam Kurzok (CEO)</span>
+<span class="k">Mother language:</span> <span class="s">čeština</span>
+
+<span class="c"># Soul</span>
+${desc.split(". ").filter(s=>s).map(s=>`- ${s.trim()}.`).join("\n")}
+
+<span class="c"># Tools</span>
+${mcps.map(m=>`- <span class="s">${m}</span>`).join("\n")}
+
+<span class="c"># Output</span>
+<span class="k">Format:</span> krátké, executive summary; max 3 actionable doporučení
+<span class="k">Channel:</span> Slack, dashboard, e-mail report
+<span class="k">Frequency:</span> denní (rutina) + on-demand (CEO query)
+
+<span class="c"># Heartbeat</span>
+<span class="k">Cron:</span> každý den 7:00 Europe/Prague (status + alerts)`;
+}
+
+function openAgentDetail(key){
+  renderAgentDetail(key);
+  switchView('agent-detail');
+}
+
+function renderAgentDetail(key){
+  const def = AGENT_DEF[key];
+  if(!def){ document.getElementById("ad-page").innerHTML=`<div class="ag-footer-note">Agent „${key}" nenalezen.</div>`; return; }
+  const edits = _getEdits();
+  const e = edits[key] || {};
+  const refData = (DATA[current] && DATA[current].agents) || {};
+  const name   = e.name   || def.n;
+  const desc   = e.desc   || AGENT_DESC[key] || "";
+  const mcps   = e.mcps   || AGENT_MCPS[key] || [];
+  const sec    = e.sec    || refData[key]?.sec || AGENT_SECTION[key] || "store";
+  const status = e.status || refData[key]?.status || "auto";
+  const isMvp  = MVP_AGENTS.has(key);
+
+  const tasks    = AGENT_TASKS[key] || ["Sledování KPI per sekce", "Reporting do dashboardu", "Eskalace na CEO"];
+  const todayRuns= AGENT_RUNS[key]  || mockRuns(key, def);
+  const metrics  = mockMetrics(key);
+  const tokens   = mockTokenCost(key, metrics.calls7d);
+  const mcpUsage = mockMcpUsage(key, mcps);
+  const logDays  = extendedLog(key, def, todayRuns);
+  const prompt   = generatePrompt(key, def, desc, mcps);
+
+  const maxDaily = Math.max(...tokens.daily);
+  const dayShort = ["po","út","st","čt","pá","so","ne"];
+  const today = new Date().getDay(); // 0=Sun, 1=Mon
+  const todayIdx = (today + 6) % 7;  // 0=Mon, 6=Sun
+
+  document.getElementById("ad-page-title").innerHTML = `Detail agenta <small>${name}</small>`;
+  document.getElementById("ad-page").innerHTML = `
+    <button class="ad-back" onclick="switchView('agents')">← Zpět na seznam agentů</button>
+
+    <div class="ad-header sec-${sec}">
+      <div class="ad-h-row">
+        <div class="ad-icon-lg ${def.c}">${def.i}</div>
+        <div class="ad-h-body">
+          <div class="ad-h-top">
+            <div class="ad-h-name">${name}</div>
+            ${isMvp ? '<span class="ag-mvp">MVP · 2 týdny</span>' : ''}
+          </div>
+          <div class="ad-h-badges">
+            <span class="ag-section-badge ${sec}">${SEC_LABEL[sec]}</span>
+            <span class="ag-status ${status}">${STATUS_LABEL[status]}</span>
+          </div>
+          <div class="ad-h-desc">${desc}</div>
+        </div>
+        <div class="ad-h-actions">
+          <button class="primary" onclick="alert('Run agenta — coming soon')">▶ Spustit teď</button>
+          <button onclick="alert('System prompt editor — coming soon')">⚙ Konfigurace</button>
+          <button onclick="alert('Export logů — coming soon')">⬇ Export logů</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-kpis">
+      <div class="ad-kpi">
+        <div class="ad-kpi-lab">Volání 7 dní</div>
+        <div class="ad-kpi-num">${metrics.calls7d.toLocaleString("cs-CZ")}</div>
+        <div class="ad-kpi-sub">akcí provedeno</div>
+      </div>
+      <div class="ad-kpi">
+        <div class="ad-kpi-lab">Chyby 7 dní</div>
+        <div class="ad-kpi-num ${metrics.errors7d===0?'good':metrics.errors7d>10?'bad':''}">${metrics.errors7d}</div>
+        <div class="ad-kpi-sub">${metrics.errors7d===0?'bez chyb':'eskalováno'}</div>
+      </div>
+      <div class="ad-kpi">
+        <div class="ad-kpi-lab">Ušetřeno hodin</div>
+        <div class="ad-kpi-num good">${metrics.hoursSaved} h</div>
+        <div class="ad-kpi-sub">vs. manuální práce</div>
+      </div>
+      <div class="ad-kpi">
+        <div class="ad-kpi-lab">Token cost 7 dní</div>
+        <div class="ad-kpi-num">${tokens.totalCzk.toLocaleString("cs-CZ")} Kč</div>
+        <div class="ad-kpi-sub">$ ${tokens.total} · uptime ${metrics.uptime} %</div>
+      </div>
+    </div>
+
+    <div class="ad-card" style="margin-bottom:14px">
+      <div class="ad-card-head">
+        <div class="ad-card-title">Provoz a náklady · 7 dní</div>
+        <div class="ad-card-meta">Anthropic Claude API · model claude-sonnet-4.6</div>
+      </div>
+      <div class="ad-tokens-spark">
+        ${tokens.daily.map((c,i)=>{
+          const pct = maxDaily>0 ? Math.round(c/maxDaily*100) : 0;
+          const isToday = i===6;
+          return `<div class="ad-tokens-spark-bar ${isToday?'today':''}" style="height:${Math.max(3,pct)}%" title="$${c.toFixed(2)}"></div>`;
+        }).join("")}
+      </div>
+      <div class="ad-tokens-days">
+        <span>před 7d</span><span>6d</span><span>5d</span><span>4d</span><span>3d</span><span>2d</span><span>dnes</span>
+      </div>
+      <div class="ad-tokens-row">
+        <div class="ad-tokens-stat">
+          <div class="ad-tokens-lab">Cena dnes</div>
+          <div class="ad-tokens-val">${Math.round(tokens.daily[6]*24).toLocaleString("cs-CZ")} Kč <span style="font-size:11px;font-weight:500;color:var(--text-muted)">$ ${tokens.daily[6].toFixed(2)}</span></div>
+        </div>
+        <div class="ad-tokens-stat">
+          <div class="ad-tokens-lab">Cena za 1 000 volání</div>
+          <div class="ad-tokens-val">${(tokens.avg*24).toFixed(2)} Kč <span style="font-size:11px;font-weight:500;color:var(--text-muted)">$ ${tokens.avg}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-grid">
+      <div class="ad-card">
+        <div class="ad-card-head">
+          <div class="ad-card-title">Aktuální úkoly</div>
+          <div class="ad-card-meta">${tasks.length} běží</div>
+        </div>
+        <div class="ad-tasks">
+          ${tasks.map((t,i)=>`<div class="ad-task"><span class="ad-task-dot ${i===0?'':i<2?'pending':'next'}"></span><span>${t}</span></div>`).join("")}
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <div class="ad-card-head">
+          <div class="ad-card-title">Log akcí · posledních 7 dní</div>
+          <div class="ad-card-meta">${Object.values(logDays).flat().length} záznamů</div>
+        </div>
+        <div class="ad-log">
+          ${Object.entries(logDays).map(([day,entries])=>`
+            <div class="ad-log-day">${day}</div>
+            ${entries.map(r=>`<div class="ad-run"><div class="ad-run-time">${r[0]}</div><div class="ad-run-status">${r[1]}</div><div class="ad-run-msg">${r[2]}</div></div>`).join("")}
+          `).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-card" style="margin-bottom:14px">
+      <div class="ad-card-head">
+        <div class="ad-card-title">MCP / API · využití za 7 dní</div>
+        <div class="ad-card-meta">${mcps.length} integrací · seřazeno dle počtu volání</div>
+      </div>
+      <div class="ad-mcps-table">
+        ${mcpUsage.map(u=>`
+          <div class="ad-mcp-row">
+            <div class="ad-mcp-name">${u.name}</div>
+            <div class="ad-mcp-bar"><div class="ad-mcp-fill ${u.status!=='ok'?u.status:''}" style="width:${u.pct}%"></div></div>
+            <div class="ad-mcp-calls">${u.calls.toLocaleString("cs-CZ")}</div>
+            <div class="ad-mcp-last">${u.lastUsed}</div>
+            <div class="ad-mcp-stat ${u.status}" title="${u.status==='ok'?'OK':u.status==='warn'?'Rate-limit / warning':'Error / down'}">${u.statusIcon}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+
+    <div class="ad-card">
+      <div class="ad-card-head">
+        <div class="ad-card-title">System prompt · preview</div>
+        <div class="ad-card-meta">read-only · pro úpravy klikni Konfigurace</div>
+      </div>
+      <div class="ad-prompt">${prompt}</div>
+    </div>
+  `;
+}
+
+function resetAgentEdits(){
+  if(!confirm("Vrátit všechny názvy, popisy, MCP a skryté agenty do výchozího stavu?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  renderAgentsList();
+  showSavedPill();
+}
+
+/* search filter */
+document.addEventListener("DOMContentLoaded", ()=>{
+  const s = document.getElementById("ag-search");
+  if (s) s.addEventListener("input", e=>{
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll(".ag-item").forEach(el=>{
+      el.style.display = el.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
+});
+
+/* Objednávky podle období — denní průměr × dny */
+const ORDERS_PER_DAY = { CZ:184, SK:62, PL:128, HU:38, RO:18 };
+const PERIOD_DAYS    = { "7 dní":7, "30 dní":30, "90 dní":90, "od začátku roku":127, "vlastní rozsah":30 };
+function formatNum(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," "); }
+function getOrders(){
+  const ps   = getPeriodShort();
+  const days = PERIOD_DAYS[ps] || 30;
+  return formatNum((ORDERS_PER_DAY[current] || 0) * days);
+}
+
+/* Krátký label období pro dynamické popisky */
+const PERIOD_SHORT = {
+  "Posledních 7 dní": "7 dní",
+  "Posledních 30 dní": "30 dní",
+  "Posledních 90 dní": "90 dní",
+  "Od začátku roku": "od začátku roku",
+  "Vlastní rozsah…": "vlastní rozsah"
+};
+function getPeriodShort(){
+  const txt = (document.getElementById("date-label")?.textContent || "Posledních 30 dní").trim();
+  return PERIOD_SHORT[txt] || txt;
+}
+
 function renderSectionSummary(d){
-  const skuValue = d.agents.katalog.metrics[0][1];
+  const skuValue   = d.agents.katalog.metrics[0][1];
+  const missingDesc= d.agents.katalog.metrics[1][1];
+
+  // CSAT (z agenta podpory) → stars
   const csatRaw = parseFloat((d.agents.servis.metrics[1][1] || "0").replace(",","."));
   const csatPct = Math.max(0, Math.min(100, csatRaw / 5 * 100));
   const csatStr = csatRaw.toFixed(1).replace(".",",");
+  const periodShort = getPeriodShort();
+
+  // Objednávky podle vybraného období (period-aware, komplementární k Tržbám)
+  const ordersTotal = getOrders();
+
+  // Hvězdičky pod každou kartou (kvalita / efektivita)
+  const locPct  = Math.max(0, Math.min(100, (LOC_QUALITY[current]   || 0) / 5 * 100));
+  const shipPct = Math.max(0, Math.min(100, (SHIP_QUALITY[current]  || 0) / 5 * 100));
+  const adPct   = Math.max(0, Math.min(100, (AD_EFFICIENCY[current] || 0) / 5 * 100));
+
+  // Sub-info hodnoty
+  const shipTime = SHIP_TIME[current]   || "—";
+  const retRate  = RETURN_RATE[current] || "—";
+  const roasAvg  = ROAS_AVG[current]    || "—";
+  const paidRev  = (CHANNELS[current]?.paid?.fmt) || "—";
+  const ticketsTotal = parseInt((d.agents.servis.metrics[0][1] || "0").replace(/\s/g,""), 10) || 0;
+  const ticketsAuto  = (d.agents.servis.last.match(/\d+/) || ["0"])[0];
+  const aiSolvedPct  = ticketsTotal>0 ? Math.round(ticketsAuto/ticketsTotal*100) : 0;
+
+  // MoM trendy pro aktuální mutaci
+  const mom = MOM[current] || {};
 
   const SECTION_DEF = [
     {key:"store",     label:"E-shop",    metricBlock:`
-      <div class="num">${d.biz.revenue}</div>
-      <div class="lab">Tržby (dle období)</div>`},
+      <div class="num-row"><div class="num">${ordersTotal}</div>${trendPill(mom.store)}</div>
+      <div class="lab">Objednávky</div>
+      <div class="sub-grid">
+        <div><div class="m-lab">prům. doba odeslání</div><div class="m-val">${shipTime}</div></div>
+        <div><div class="m-lab">reklamace</div><div class="m-val">${retRate}</div></div>
+      </div>`},
     {key:"products",  label:"Produkty",  metricBlock:`
-      <div class="num">${skuValue}</div>
-      <div class="lab">Aktivní SKU</div>`},
-    {key:"marketing", label:"Marketing", metricBlock:`
-      <div class="num">${PNCO[current]}</div>
-      <div class="lab">Náklady ku tržbám</div>`},
-    {key:"customers", label:"Zákazníci", metricBlock:`
-      <div class="num">${INTERACTIONS[current]}</div>
-      <div class="lab">Interakce dnes</div>
-      <div class="stars-row">
-        <div class="stars">
-          <div class="stars-track">★★★★★</div>
-          <div class="stars-fill" style="width:${csatPct}%">★★★★★</div>
+      <div class="num-row"><div class="num">${skuValue}</div>${trendPill(mom.products)}</div>
+      <div class="lab">Aktivní SKU</div>
+      <div class="sub-grid">
+        <div><div class="m-lab">neaktivní</div><div class="m-val">${INACTIVE_SKU[current] || "—"} SKU</div></div>
+        <div>
+          <div class="m-lab">stav lokalizace</div>
+          <div class="stars-row" style="margin-top:2px">
+            <div class="stars">
+              <div class="stars-track">★★★★★</div>
+              <div class="stars-fill" style="width:${locPct}%">★★★★★</div>
+            </div>
+          </div>
         </div>
-        <span class="stars-num">CSAT ${csatStr}</span>
+      </div>`},
+    {key:"marketing", label:"Marketing", metricBlock:`
+      <div class="num-row"><div class="num">${PNCO[current]}</div>${trendPill(mom.marketing)}</div>
+      <div class="lab">Náklady ku tržbám</div>
+      <div class="sub-grid">
+        <div><div class="m-lab">obrat z reklam</div><div class="m-val">${paidRev}</div></div>
+        <div><div class="m-lab">ROAS</div><div class="m-val">${roasAvg}</div></div>
+      </div>`},
+    {key:"customers", label:"Zákazníci", metricBlock:`
+      <div class="num-row"><div class="num">${INTERACTIONS[current]}</div>${trendPill(mom.customers)}</div>
+      <div class="lab">Interakce dnes</div>
+      <div class="sub-grid">
+        <div><div class="m-lab">AI vyřešilo</div><div class="m-val">${aiSolvedPct} % ticketů</div></div>
+        <div>
+          <div class="m-lab">CSAT — ${csatStr}</div>
+          <div class="stars-row" style="margin-top:2px">
+            <div class="stars">
+              <div class="stars-track">★★★★★</div>
+              <div class="stars-fill" style="width:${csatPct}%">★★★★★</div>
+            </div>
+          </div>
+        </div>
       </div>`}
   ];
 
@@ -1036,18 +2256,24 @@ function renderSectionSummary(d){
       return `<div class="ag-row ${a.status}"><span class="dot"></span><span class="name">${def.n}</span></div>`;
     }).join("");
 
+    // Prohozené pořadí: agents nahoru (hned pod section header), KPI dolů
     return `
       <div class="sec-sum-card sec-${s.key}">
         <div class="sec-sum-head">${s.label}</div>
-        <div class="sec-sum-metric">${s.metricBlock}</div>
         <div class="sec-sum-agents">${agentsList}</div>
+        <div class="sec-sum-metric">${s.metricBlock}</div>
       </div>`;
   }).join("");
 
   document.getElementById("sec-summary").innerHTML = html;
+
+  // Activity banner — aktualizace dle mutace
+  document.getElementById("ab-actions").textContent = ACTIONS_24H[current];
+  document.getElementById("ab-saved").textContent   = HOURS_SAVED[current];
 }
 
 function renderStrategyBox(d){
+  // Top approvals — first N
   const list = document.getElementById("strat-approvals");
   list.innerHTML = d.approvals.map(item=>{
     const def = AGENT_DEF[item.a];
@@ -1066,6 +2292,7 @@ function renderStrategyBox(d){
       </div>`;
   }).join("");
 
+  // Growth signals
   const sigs = document.getElementById("strat-signals");
   sigs.innerHTML = d.growth.map(g=>`
     <div class="signal-row">
@@ -1074,6 +2301,7 @@ function renderStrategyBox(d){
       <div class="v">${g.v}</div>
     </div>`).join("");
 
+  // Meta line
   document.getElementById("strat-meta").textContent =
     `${d.approvals.length} ke schválení · ${d.growth.length} růstových signálů`;
 }
@@ -1145,22 +2373,29 @@ document.querySelectorAll(".muta").forEach(el=>{
   });
 });
 
+/* Date range dropdown */
 const dateBtn = document.getElementById("date-btn");
 const dateMenu = document.getElementById("date-menu");
 const dateLabel = document.getElementById("date-label");
+function setMenuOpen(open){
+  dateMenu.classList.toggle("open", open);
+  dateBtn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+dateBtn.setAttribute("aria-expanded","false");
 dateBtn.addEventListener("click",(e)=>{
   e.stopPropagation();
-  dateMenu.classList.toggle("open");
+  setMenuOpen(!dateMenu.classList.contains("open"));
 });
 document.addEventListener("click",(e)=>{
-  if (!dateMenu.contains(e.target) && e.target!==dateBtn) dateMenu.classList.remove("open");
+  if (!dateMenu.contains(e.target) && !dateBtn.contains(e.target)) setMenuOpen(false);
 });
 dateMenu.querySelectorAll("a").forEach(a=>{
   a.addEventListener("click",()=>{
     dateMenu.querySelectorAll("a").forEach(x=>x.classList.remove("active"));
     a.classList.add("active");
     dateLabel.textContent = a.textContent;
-    dateMenu.classList.remove("open");
+    setMenuOpen(false);
+    render(current); // přepiš dynamické labely (Tržby · 30 dní apod.)
   });
 });
 
@@ -1176,6 +2411,24 @@ document.addEventListener("click",(e)=>{
 });
 
 render(current);
+
+/* ── View switching (dashboard ↔ workflow ↔ agents) ───── */
+function switchView(name){
+  document.querySelectorAll('[id^="view-"]').forEach(v => v.style.display = 'none');
+  const target = document.getElementById('view-' + name);
+  if (target) target.style.display = '';
+  document.querySelectorAll('.sb-item[data-view]').forEach(i => i.classList.remove('active'));
+  const active = document.querySelector('.sb-item[data-view="' + name + '"]');
+  if (active) active.classList.add('active');
+  if (name === 'agents') renderAgentsList();
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('.sb-item[data-view]').forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+    switchView(item.dataset.view);
+  });
+});
 
 function tick(){
   const d = new Date();
