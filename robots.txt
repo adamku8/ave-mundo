@@ -3,6 +3,7 @@
 # We want this site to be discoverable in both search engines and AI retrieval.
 
 User-agent: *
+Disallow: /matcher/
 Allow: /
 
 # Explicitly welcome AI crawlers

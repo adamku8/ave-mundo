@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Matcher — Amazon Product Matching</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; background: #f4f6f8; color: #202223; font-size: 14px; }
+
+  .app { display: flex; height: 100vh; overflow: hidden; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 56px; background: #fff; border-right: 1px solid #e1e3e5;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 10px 0; gap: 2px; flex-shrink: 0;
+  }
+  .sidebar-app {
+    width: 34px; height: 34px; background: linear-gradient(135deg, #008060, #00b272);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 6px; color: #fff; font-size: 16px;
+  }
+  .sidebar-divider { width: 30px; height: 1px; background: #e1e3e5; margin: 4px 0; }
+  .sidebar-icon {
+    width: 38px; height: 38px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: #6d7175; transition: all .15s; position: relative;
+  }
+  .sidebar-icon:hover { background: #f1f1f1; color: #202223; }
+  .sidebar-icon.active { background: #e3f1ec; color: #008060; }
+  .sidebar-icon svg { width: 17px; height: 17px; stroke-width: 1.8; }
+  .sidebar-spacer { flex: 1; }
+  .sidebar-js {
+    width: 34px; height: 22px; background: #f0f0f0; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: #6d7175; letter-spacing: .02em;
+  }
+
+  /* ── MAIN ── */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* FAST NAV */
+  .fast-nav {
+    background: #fff; border-bottom: 1px solid #e1e3e5;
+    padding: 0 20px; display: flex; align-items: center; gap: 1px; height: 42px; flex-shrink: 0;
+  }
+  .fnav-label { font-size: 10px; font-weight: 700; color: #8c9196; letter-spacing: .06em; text-transform: uppercase; margin-right: 6px; }
+  .nav-tab {
+    padding: 5px 11px; border-radius: 5px; cursor: pointer;
+    font-size: 12.5px; color: #6d7175; font-weight: 500; transition: all .12s; white-space: nowrap;
+  }
+  .nav-tab:hover { background: #f1f1f1; color: #202223; }
+  .nav-tab.active { background: #e3f1ec; color: #008060; font-weight: 600; }
+
+  /* CONTENT */
+  .content { flex: 1; overflow-y: auto; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── SCREEN: INSTALL ── */
+  .install-wrap { max-width: 600px; margin: 0 auto; padding: 40px 24px; }
+  .install-hero-icon {
+    width: 52px; height: 52px; background: #e3f1ec; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+  }
+  .install-hero-icon svg { width: 26px; height: 26px; color: #008060; stroke-width: 2; }
+  .install-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .install-title span { color: #2c6ecb; }
+  .install-subtitle { font-size: 14px; color: #6d7175; text-align: center; line-height: 1.6; margin-bottom: 24px; }
+  .install-card { background: #fff; border: 1px solid #e1e3e5; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+  .install-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; color: #202223; }
+  .market-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .market-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px; background: #f6f6f7; border: 1.5px solid #e1e3e5;
+    border-radius: 20px; font-size: 12.5px; cursor: pointer; transition: all .12s; color: #202223;
+  }
+  .market-chip:hover { border-color: #008060; background: #f0faf5; }
+  .market-chip.selected { border-color: #008060; background: #e3f1ec; color: #008060; font-weight: 600; }
+  .market-chip .flag { font-size: 14px; }
+  .region-label { font-size: 11px; font-weight: 700; color: #8c9196; text-transform: uppercase; letter-spacing: .06em; margin: 12px 0 6px; }
+  .install-opportunity {
+    background: #f0f7ff; border: 1px solid #b3d4f5; border-radius: 8px;
+    padding: 12px 16px; font-size: 13px; color: #1a5276; margin-bottom: 20px;
+  }
+  .install-opportunity strong { font-weight: 600; }
+  .btn-primary {
+    background: #008060; color: #fff; border: none; padding: 11px 24px;
+    border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all .15s; display: inline-block;
+  }
+  .btn-primary:hover { background: #006e52; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,128,96,.25); }
+  .btn-secondary {
+    background: #fff; color: #202223; border: 1px solid #d4d4d4;
+    padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all .15s;
+  }
+  .btn-secondary:hover { background: #f9f9f9; }
+
+  /* ── SCREEN: ANALYSIS ── */
+  .analysis-hero {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; min-height: calc(100vh - 42px); padding: 48px 24px; text-align: center;
+  }
+  .analysis-icon { width: 54px; height: 54px; background: #e3f1ec; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+  .analysis-icon svg { width: 27px; height: 27px; color: #008060; stroke-width: 2; }
+  .analysis-title { font-size: 36px; font-weight: 800; line-height: 1.18; margin-bottom: 14px; max-width: 500px; }
+  .analysis-title span { color: #2c6ecb; }
+  .analysis-sub { font-size: 15px; color: #6d7175; max-width: 400px; line-height: 1.65; margin-bottom: 24px; }
+  .analysis-callout { background: #f0f7ff; border: 1px solid #b3d4f5; border-radius: 8px; padding: 11px 20px; font-size: 13px; color: #1a5276; margin-bottom: 30px; max-width: 400px; }
+  .analysis-markets-label { font-size: 12.5px; color: #6d7175; margin-bottom: 16px; }
+  .analysis-markets { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 540px; margin-bottom: 32px; }
+
+  /* ── SCREEN: CONNECT ── */
+  .connect-wrap { max-width: 480px; margin: 60px auto; padding: 0 24px; }
+  .connect-card { background: #fff; border: 1px solid #e1e3e5; border-radius: 12px; padding: 36px 32px; text-align: center; }
+  .connect-title { font-size: 22px; font-weight: 700; color: #202223; margin-bottom: 8px; }
+  .connect-sub { font-size: 14px; color: #6d7175; line-height: 1.6; margin-bottom: 32px; }
+  .amazon-logo { font-size: 26px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 32px; }
+  .amazon-logo .orange { color: #FF9900; }
+  .btn-amazon { background: #FF9900; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; margin-bottom: 12px; transition: all .15s; }
+  .btn-amazon:hover { background: #e88a00; }
+  .connect-check { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12.5px; color: #6d7175; margin-bottom: 20px; }
+  .connect-check svg { width: 14px; height: 14px; color: #008060; }
+  .connect-info { background: #eff6ff; border-radius: 8px; padding: 14px 16px; display: flex; gap: 10px; text-align: left; }
+  .connect-info svg { width: 16px; height: 16px; color: #2c6ecb; flex-shrink: 0; margin-top: 1px; }
+  .connect-info p { font-size: 12.5px; color: #1a4074; line-height: 1.55; }
+
+  /* ── SCREEN: DASHBOARD ── */
+  .page-pad { padding: 24px 26px 28px; }
+  .page-title { font-size: 20px; font-weight: 700; color: #202223; margin-bottom: 20px; }
+  .card { background: #fff; border: 1px solid #e1e3e5; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+  .card-title { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+  .legend { display: flex; gap: 14px; font-size: 11.5px; color: #6d7175; }
+  .ldot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 3px; vertical-align: middle; }
+  .mrow { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .mrow:last-of-type { margin-bottom: 0; }
+  .mflag { font-size: 17px; width: 24px; }
+  .mcode { font-size: 11.5px; font-weight: 600; width: 22px; color: #374151; }
+  .bar-track { flex: 1; height: 18px; background: #f1f1f1; border-radius: 4px; overflow: hidden; position: relative; }
+  .bar-opp { height: 100%; background: #95d5b2; border-radius: 4px; position: absolute; left: 0; top: 0; }
+  .bar-act { height: 100%; background: #008060; border-radius: 4px; position: absolute; left: 0; top: 0; }
+  .bval { font-size: 11px; color: #8c9196; width: 32px; text-align: right; }
+  .add-market { font-size: 12.5px; color: #2c6ecb; cursor: pointer; margin-top: 10px; display: inline-block; }
+  .add-market:hover { text-decoration: underline; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .stat-card { background: #fff; border: 1px solid #e1e3e5; border-radius: 10px; padding: 18px; }
+  .stat-card.green { background: #f0faf5; border-color: #b7dfc8; }
+  .stat-head { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+  .badge { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 20px; letter-spacing: .04em; }
+  .badge-g { background: #cff0db; color: #108043; }
+  .badge-p { background: #e8e0fc; color: #6046b2; }
+  .stat-num { font-size: 38px; font-weight: 800; line-height: 1; color: #202223; }
+  .stat-opp { font-size: 13.5px; font-weight: 600; color: #008060; margin: 3px 0 6px; }
+  .stat-desc { font-size: 11.5px; color: #6d7175; margin-bottom: 14px; }
+  .btn-g { background: #008060; color: #fff; border: none; padding: 8px 14px; border-radius: 7px; font-size: 12.5px; font-weight: 600; cursor: pointer; width: 100%; transition: all .15s; }
+  .btn-g:hover { background: #006e52; }
+  .btn-outline { background: #fff; color: #202223; border: 1px solid #c9cccf; padding: 8px 14px; border-radius: 7px; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all .15s; }
+  .btn-outline:hover { background: #f9f9f9; }
+  .mlist { margin-top: 8px; }
+  .mitem { display: flex; align-items: center; margin-bottom: 8px; }
+  .mitem-lbl { font-size: 11.5px; color: #6d7175; width: 90px; }
+  .mitem-bar { flex: 1; height: 5px; background: #f1f1f1; border-radius: 3px; overflow: hidden; margin: 0 10px; }
+  .mitem-fill { height: 100%; border-radius: 3px; }
+  .mitem-val { font-size: 11.5px; font-weight: 600; color: #374151; width: 26px; text-align: right; }
+
+  /* ── SCREEN: CHECKPAGE ── */
+  .tabs { display: flex; border-radius: 8px; overflow: hidden; border: 1px solid #e1e3e5; margin-bottom: 18px; }
+  .tab { flex: 1; padding: 9px; font-size: 12.5px; font-weight: 500; color: #6d7175; background: #f9f9f9; border: none; cursor: pointer; transition: all .12s; }
+  .tab.active { background: #008060; color: #fff; font-weight: 700; }
+  .tab.tomatch { background: #b7dfc8; color: #108043; font-weight: 600; }
+  .tab:hover:not(.active):not(.tomatch) { background: #f1f1f1; }
+  .sum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .sum-card { background: #fff; border: 1px solid #e1e3e5; border-radius: 10px; padding: 18px; }
+  .sum-label { font-size: 12px; color: #6d7175; margin-bottom: 2px; }
+  .sum-num { font-size: 26px; font-weight: 800; color: #202223; }
+  .sum-num.green { color: #008060; }
+  .sum-note { font-size: 11px; color: #8c9196; margin-top: 3px; line-height: 1.5; }
+  .inactive-hdr { display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; }
+  .inactive-title { font-size: 15px; font-weight: 700; color: #202223; }
+  .inactive-sub { font-size: 12px; color: #8c9196; }
+
+  /* ── SCREEN: PRODUCT MATCHING ── */
+  .match-hdr { padding: 22px 26px 14px; display: flex; align-items: center; justify-content: space-between; }
+  .hdr-btns { display: flex; gap: 10px; }
+  .btn-dark { background: #202223; color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s; }
+  .btn-dark:hover { background: #111; }
+  .tbl-wrap { padding: 0 26px 28px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #e1e3e5; }
+  thead tr { border-bottom: 2px solid #e1e3e5; }
+  th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; color: #6d7175; text-transform: uppercase; letter-spacing: .05em; background: #fff; }
+  tbody tr { border-bottom: 1px solid #f1f1f1; transition: background .1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #fafafa; }
+  td { padding: 11px 12px; font-size: 12.5px; color: #374151; vertical-align: middle; }
+  .prod-cell { display: flex; align-items: center; gap: 8px; }
+  .prod-thumb { width: 32px; height: 32px; border-radius: 6px; background: linear-gradient(135deg, #e8e8e8, #d0d0d0); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 1px solid #e1e3e5; }
+  .prod-name { font-size: 11.5px; color: #2c6ecb; cursor: pointer; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .prod-name:hover { text-decoration: underline; }
+  .etag { display: inline-block; padding: 2px 5px; border-radius: 4px; font-size: 9.5px; font-weight: 700; margin-right: 2px; }
+  .etag-r { background: #ffd2d2; color: #c0392b; }
+  .etag-o { background: #ffe0b2; color: #e65100; }
+  .conf-wrap { display: flex; align-items: center; gap: 7px; }
+  .conf-track { width: 52px; height: 5px; background: #f1f1f1; border-radius: 3px; overflow: hidden; }
+  .conf-fill { height: 100%; border-radius: 3px; }
+  .c-hi { background: #008060; } .c-md { background: #f59e0b; } .c-lo { background: #e53e3e; }
+  .conf-val { font-size: 11.5px; font-weight: 700; }
+  .mkt-cell { display: flex; align-items: center; gap: 5px; font-size: 11.5px; }
+  .status-pill { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 600; }
+  .s-pub { background: #cff0db; color: #108043; } .s-unp { background: #f1f1f1; color: #6d7175; }
+  .s-pen { background: #fff0b3; color: #8a6116; } .s-err { background: #ffd2d2; color: #c0392b; }
+  .btn-rev { background: #fff; border: 1px solid #c9cccf; color: #374151; padding: 4px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 500; cursor: pointer; transition: all .12s; }
+  .btn-rev:hover { border-color: #008060; color: #008060; background: #f0faf5; }
+
+  /* ── SETTINGS ── */
+  .settings-wrap { max-width: 560px; padding: 24px 26px; }
+  .toast { position: fixed; bottom: 18px; right: 18px; background: #202223; color: #fff; padding: 8px 14px; border-radius: 8px; font-size: 12.5px; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 999; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-app">⚡</div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-icon" id="si-0" onclick="goTo('install')" title="Install">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <div class="sidebar-icon" id="si-1" onclick="goTo('analysis')" title="Initial Analysis">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+    </div>
+    <div class="sidebar-icon" id="si-2" onclick="goTo('connect')" title="Connect Amazon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22V12M5 12H2a10 10 0 0 0 20 0h-3"/><path d="M8 6v6M16 6v6M7 3v3M17 3v3"/></svg>
+    </div>
+    <div class="sidebar-icon" id="si-3" onclick="goTo('dashboard')" title="Dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    </div>
+    <div class="sidebar-icon" id="si-4" onclick="goTo('checkpage')" title="Checkpage">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-icon" id="si-5" onclick="goTo('settings')" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </div>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-js">JS</div>
+  </div>
+
+  <div class="main">
+    <div class="fast-nav">
+      <span class="fnav-label">Fast Nav:</span>
+      <div class="nav-tab" id="nt-0" onclick="goTo('install')">Install</div>
+      <div class="nav-tab" id="nt-1" onclick="goTo('analysis')">Initial Analysis</div>
+      <div class="nav-tab" id="nt-2" onclick="goTo('connect')">Connect Amazon</div>
+      <div class="nav-tab" id="nt-3" onclick="goTo('dashboard')">Dashboard</div>
+      <div class="nav-tab" id="nt-4" onclick="goTo('checkpage')">Checkpage</div>
+      <div class="nav-tab" id="nt-5" onclick="goTo('settings')">Settings</div>
+    </div>
+    <div class="content">
+
+      <!-- INSTALL -->
+      <div class="screen" id="s-install">
+        <div class="install-wrap">
+          <div style="text-align:center;padding:16px 0 24px;">
+            <div class="install-hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+            <div class="install-title">Set up <span>Matcher</span></div>
+            <p class="install-subtitle">Choose the Amazon marketplaces you want to sell on. We’ll find matching ASINs across all selected markets.</p>
+          </div>
+          <div class="install-card">
+            <h3>Select your marketplaces</h3>
+            <div class="region-label">🇪🇺 Europe</div>
+            <div class="market-grid">
+              <div class="market-chip selected" onclick="toggleChip(this)"><span class="flag">🇩🇪</span> Germany</div>
+              <div class="market-chip selected" onclick="toggleChip(this)"><span class="flag">🇬🇧</span> United Kingdom</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇫🇷</span> France</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇮🇹</span> Italy</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇪🇸</span> Spain</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇳🇱</span> Netherlands</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇵🇱</span> Poland</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇸🇪</span> Sweden</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇧🇪</span> Belgium</div>
+            </div>
+            <div class="region-label">🌎 North America</div>
+            <div class="market-grid">
+              <div class="market-chip selected" onclick="toggleChip(this)"><span class="flag">🇺🇸</span> United States</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇨🇦</span> Canada</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇲🇽</span> Mexico</div>
+            </div>
+            <div class="region-label">🌏 Far East</div>
+            <div class="market-grid">
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇯🇵</span> Japan</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇦🇺</span> Australia</div>
+              <div class="market-chip" onclick="toggleChip(this)"><span class="flag">🇸🇬</span> Singapore</div>
+            </div>
+          </div>
+          <div class="install-opportunity">Your opportunity: <strong>200 products</strong> with EAN ready to sell worth <strong>€95,450</strong></div>
+          <div style="display:flex;gap:10px;justify-content:center;">
+            <button class="btn-secondary">Skip for now</button>
+            <button class="btn-primary" onclick="goTo('analysis')">Continue →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYSIS -->
+      <div class="screen" id="s-analysis">
+        <div class="analysis-hero">
+          <div class="analysis-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h1 class="analysis-title">Quickly Match<br><span>Your 5035 Products</span><br>to 12 Amazon markets</h1>
+          <p class="analysis-sub">Matcher uses advanced AI to analyze your Shopify inventory and automatically find matching Amazon ASINs, streamlining your multi-channel sales strategy.</p>
+          <div class="analysis-callout">Your opportunity: <strong>200 products</strong> with EAN ready to sell worth <strong>€95,450.</strong></div>
+          <p class="analysis-markets-label">We will analyze your products on</p>
+          <div class="analysis-markets">
+            <div class="market-chip" style="background:#fff;">🇺🇸 Amazon US</div>
+            <div class="market-chip" style="background:#fff;">🇩🇪 Amazon DE</div>
+            <div class="market-chip" style="background:#fff;">🇬🇧 Amazon UK</div>
+            <div class="market-chip" style="background:#fff;">🇯🇵 Amazon JP</div>
+            <div class="market-chip" style="background:#fff;">🇫🇷 Amazon FR</div>
+            <div class="market-chip" style="background:#fff;">🇮🇹 Amazon IT</div>
+            <div class="market-chip" style="background:#fff;">🇪🇸 Amazon ES</div>
+            <div class="market-chip" style="background:#fff;">🇳🇱 Amazon NL</div>
+            <div class="market-chip" style="background:#fff;">🇵🇱 Amazon PL</div>
+            <div class="market-chip" style="background:#fff;">🇸🇪 Amazon SE</div>
+            <div class="market-chip" style="background:#fff;">🇧🇪 Amazon BE</div>
+            <div class="market-chip" style="background:#fff;">🇦🇺 Amazon AU</div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn-secondary" onclick="goTo('install')">&#8592; Back</button>
+            <button class="btn-primary" onclick="goTo('connect')">Start Analysis →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONNECT AMAZON -->
+      <div class="screen" id="s-connect">
+        <div class="connect-wrap">
+          <div class="connect-card">
+            <div class="connect-title">Connect Your Amazon Account</div>
+            <p class="connect-sub">Link your Amazon Seller Central account to enable product matching and inventory synchronization.</p>
+            <div class="amazon-logo">amazon<span class="orange">seller</span></div>
+            <button class="btn-amazon" onclick="goTo('dashboard')">Connect with Amazon</button>
+            <div class="connect-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Supports EU, US, and UK marketplaces
+            </div>
+            <div class="connect-info">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <p>You will be redirected to Amazon’s secure login page to authorize MATCHER. We only request access to Product Listings and Inventory.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD -->
+      <div class="screen" id="s-dashboard">
+        <div class="page-pad">
+          <div class="page-title">Dashboard</div>
+          <div class="card">
+            <div class="card-title">Active Listings by Marketplace
+              <div class="legend"><span><span class="ldot" style="background:#008060"></span>Active</span><span><span class="ldot" style="background:#95d5b2"></span>Opportunity</span></div>
+            </div>
+            <div class="mrow"><span class="mflag">🇺🇸</span><span class="mcode">US</span><div class="bar-track"><div class="bar-opp" style="width:74%"></div><div class="bar-act" style="width:51%"></div></div><span class="bval">892</span></div>
+            <div class="mrow"><span class="mflag">🇩🇪</span><span class="mcode">DE</span><div class="bar-track"><div class="bar-opp" style="width:59%"></div><div class="bar-act" style="width:41%"></div></div><span class="bval">716</span></div>
+            <div class="mrow"><span class="mflag">🇬🇧</span><span class="mcode">UK</span><div class="bar-track"><div class="bar-opp" style="width:50%"></div><div class="bar-act" style="width:35%"></div></div><span class="bval">601</span></div>
+            <div class="mrow"><span class="mflag">🇯🇵</span><span class="mcode">JP</span><div class="bar-track"><div class="bar-opp" style="width:34%"></div><div class="bar-act" style="width:22%"></div></div><span class="bval">340</span></div>
+            <span class="add-market" onclick="toast('Add marketplace — coming soon!')">+ Add marketplace</span>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card green">
+              <div class="stat-head"><span>🎯</span><span class="badge badge-g">95%+ MATCHES</span></div>
+              <div class="stat-num">892</div>
+              <div class="stat-opp">€139,650 opportunity</div>
+              <div class="stat-desc">Auto list all our 100% matches and gain more sales instantly</div>
+              <button class="btn-g" onclick="goTo('checkpage')">Review &amp; list</button>
+            </div>
+            <div class="stat-card">
+              <div class="stat-head"><span>🔮</span><span class="badge badge-p">MATCH SUGGESTIONS</span></div>
+              <div class="stat-num">236</div>
+              <div class="stat-opp">€12,500 opportunity</div>
+              <div class="mlist">
+                <div class="mitem"><span class="mitem-lbl">90-95% Match</span><div class="mitem-bar"><div class="mitem-fill c-hi" style="width:51%"></div></div><span class="mitem-val">120</span></div>
+                <div class="mitem"><span class="mitem-lbl">80-90% Match</span><div class="mitem-bar"><div class="mitem-fill c-md" style="width:36%"></div></div><span class="mitem-val">85</span></div>
+                <div class="mitem"><span class="mitem-lbl">70-80% Match</span><div class="mitem-bar"><div class="mitem-fill c-lo" style="width:13%"></div></div><span class="mitem-val">31</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHECKPAGE -->
+      <div class="screen" id="s-checkpage">
+        <div class="page-pad">
+          <div class="page-title">200 products of WEBSTORE NAME on Amazon Germany</div>
+          <div class="tabs">
+            <button class="tab active" onclick="setTab(this,'t-active')">Active (45)</button>
+            <button class="tab tomatch" onclick="setTab(this,'t-match')">To Match (115)</button>
+            <button class="tab" onclick="setTab(this,'t-rest')">Rest (40)</button>
+          </div>
+          <div class="sum-grid">
+            <div class="sum-card"><div class="sum-label">Total Analyzed</div><div class="sum-num">200</div><div class="sum-note">Out of <strong>5035</strong> products we have chosen the ones with stock and EAN / barcode.</div></div>
+            <div class="sum-card"><div class="sum-label">Value of inactive products</div><div class="sum-num green">€95,450</div></div>
+          </div>
+          <div id="t-active">
+            <div class="inactive-hdr"><div class="inactive-title">Inactive Listings (155)</div><div class="inactive-sub">Not offered value: €95,450</div></div>
+            <div class="stats-grid">
+              <div class="stat-card green">
+                <div class="stat-head"><span>🎯</span><span class="badge badge-g">95%+ MATCHES</span></div>
+                <div class="stat-num">60</div><div class="stat-opp">€139,650 opportunity</div>
+                <div class="stat-desc">Auto list all our 100% matches and gain more sales instantly</div>
+                <button class="btn-g" style="margin-bottom:8px" onclick="goTo('matching')">Review &amp; list</button>
+                <button class="btn-outline" style="width:100%">Auto publish</button>
+              </div>
+              <div class="stat-card">
+                <div class="stat-head"><span>🔮</span><span class="badge badge-p">MATCH SUGGESTIONS</span></div>
+                <div class="stat-num">236</div><div class="stat-opp">€12,500 opportunity</div>
+                <div class="mlist">
+                  <div class="mitem"><span class="mitem-lbl">90-95% Match</span><div class="mitem-bar"><div class="mitem-fill c-hi" style="width:51%"></div></div><span class="mitem-val">120</span></div>
+                  <div class="mitem"><span class="mitem-lbl">80-90% Match</span><div class="mitem-bar"><div class="mitem-fill c-md" style="width:36%"></div></div><span class="mitem-val">85</span></div>
+                  <div class="mitem"><span class="mitem-lbl">70-80% Match</span><div class="mitem-bar"><div class="mitem-fill c-lo" style="width:13%"></div></div><span class="mitem-val">31</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="t-match" style="display:none"><p style="color:#6d7175;text-align:center;padding:28px 0;font-size:14px;">115 products waiting to be matched to Amazon ASINs</p><div style="text-align:center"><button class="btn-primary" onclick="goTo('matching')">Review matches →</button></div></div>
+          <div id="t-rest" style="display:none"><p style="color:#6d7175;text-align:center;padding:28px 0;font-size:14px;">40 products without EAN or out of stock — cannot be matched automatically</p></div>
+        </div>
+      </div>
+
+      <!-- PRODUCT MATCHING -->
+      <div class="screen" id="s-matching">
+        <div class="match-hdr">
+          <div class="page-title" style="margin:0">Product Matching</div>
+          <div class="hdr-btns">
+            <button class="btn-outline">Export CSV</button>
+            <button class="btn-dark">Auto-Approve High Confidence</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th><input type="checkbox" onchange="toggleAll(this)"></th>
+            <th>SKU</th><th>Product</th><th>Error</th><th>Price</th><th>Stock</th><th>Confidence</th><th>Marketplace</th><th>Status</th><th></th>
+          </tr></thead><tbody id="ptbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="screen" id="s-settings">
+        <div class="settings-wrap">
+          <div class="page-title">Settings</div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:18px;font-size:14px;">Amazon Connection</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f1f1f1;">
+              <div><div style="font-weight:600;font-size:13px;">Amazon Seller Account</div><div style="color:#6d7175;font-size:11.5px;margin-top:2px;">seller@example.com</div></div>
+              <span class="status-pill s-pub">Connected</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f1f1f1;">
+              <div><div style="font-weight:600;font-size:13px;">Auto-approve threshold</div><div style="color:#6d7175;font-size:11.5px;margin-top:2px;">Matches above this confidence are auto-approved</div></div>
+              <div style="font-weight:700;color:#008060;font-size:15px;">95%</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
+              <div><div style="font-weight:600;font-size:13px;">Active marketplaces</div><div style="color:#6d7175;font-size:11.5px;margin-top:2px;">US, DE, UK, JP, FR, IT, ES, NL, PL, SE, BE, AU</div></div>
+              <button class="btn-outline" style="font-size:12px;padding:5px 12px;" onclick="goTo('install')">Edit</button>
+            </div>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <div class="card-title" style="margin-bottom:18px;font-size:14px;">Notifications</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f1f1;">
+              <div style="font-size:13px;font-weight:500;">New match suggestions</div>
+              <div onclick="toggleSwitch(this)" style="width:36px;height:20px;background:#008060;border-radius:20px;cursor:pointer;position:relative;transition:.2s;"><div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;right:2px;transition:.2s;"></div></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;">
+              <div style="font-size:13px;font-weight:500;">Weekly performance report</div>
+              <div onclick="toggleSwitch(this)" style="width:36px;height:20px;background:#e1e3e5;border-radius:20px;cursor:pointer;position:relative;transition:.2s;"><div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:.2s;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const products = [
+  { sku:'001', errors:['B084'],        price:'49.42 PLN', stock:12, conf:78, mkt:'🇵🇱 Amazon PL', status:'Published' },
+  { sku:'002', errors:['B084','99025'],price:'49.23 £',   stock:15, conf:77, mkt:'🇬🇧 Amazon UK', status:'Unpublished' },
+  { sku:'003', errors:['B084'],        price:'50.83 SEK', stock:3,  conf:74, mkt:'🇸🇪 Amazon SE', status:'Pending' },
+  { sku:'004', errors:['B084'],        price:'31.74 EUR', stock:5,  conf:76, mkt:'🇩🇪 Amazon DE', status:'Error' },
+  { sku:'005', errors:['B084','99025'],price:'32.31 PLN', stock:6,  conf:70, mkt:'🇫🇷 Amazon FR', status:'Published' },
+  { sku:'006', errors:['B084'],        price:'38.54 £',   stock:14, conf:90, mkt:'🇮🇹 Amazon IT', status:'Unpublished' },
+  { sku:'007', errors:['B084'],        price:'43.97 SEK', stock:11, conf:96, mkt:'🇪🇸 Amazon ES', status:'Pending' },
+  { sku:'008', errors:['B084','99025'],price:'29.01 EUR', stock:9,  conf:74, mkt:'🇳🇱 Amazon NL', status:'Error' },
+  { sku:'009', errors:['B081'],        price:'21.73 PLN', stock:4,  conf:82, mkt:'🇵🇱 Amazon PL', status:'Published' },
+];
+function cc(c){return c>=85?'c-hi':c>=70?'c-md':'c-lo';}
+function cv(c){return c>=85?'#008060':c>=70?'#d97706':'#c0392b';}
+function sc(s){return {Published:'s-pub',Unpublished:'s-unp',Pending:'s-pen',Error:'s-err'}[s]||'';}
+function renderTable(){
+  document.getElementById('ptbody').innerHTML=products.map(p=>`
+    <tr>
+      <td><input type="checkbox" style="width:13px;height:13px;cursor:pointer;"></td>
+      <td style="font-weight:600;">${p.sku}</td>
+      <td><div class="prod-cell"><div class="prod-thumb">📦</div><span class="prod-name">Professional Grade Tool...</span></div></td>
+      <td>${p.errors.map(e=>`<span class="etag etag-r">${e}</span>`).join('')}</td>
+      <td style="font-weight:500;white-space:nowrap;">${p.price}</td>
+      <td style="text-align:center;">${p.stock}</td>
+      <td><div class="conf-wrap"><div class="conf-track"><div class="conf-fill ${cc(p.conf)}" style="width:${p.conf}%"></div></div><span class="conf-val" style="color:${cv(p.conf)}">${p.conf}%</span></div></td>
+      <td><div class="mkt-cell">${p.mkt}</div></td>
+      <td><span class="status-pill ${sc(p.status)}">${p.status}</span></td>
+      <td><button class="btn-rev" onclick="toast('Reviewing SKU ${p.sku}')">Review</button></td>
+    </tr>`).join('');
+}
+function toggleAll(cb){document.querySelectorAll('#ptbody input[type=checkbox]').forEach(c=>c.checked=cb.checked);}
+const PAGE_MAP={
+  install:{screen:'s-install',nt:0,si:0},analysis:{screen:'s-analysis',nt:1,si:1},
+  connect:{screen:'s-connect',nt:2,si:2},dashboard:{screen:'s-dashboard',nt:3,si:3},
+  checkpage:{screen:'s-checkpage',nt:4,si:4},matching:{screen:'s-matching',nt:4,si:4},
+  settings:{screen:'s-settings',nt:5,si:5},
+};
+function goTo(page){
+  const cfg=PAGE_MAP[page];if(!cfg)return;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(cfg.screen).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('nt-'+cfg.nt).classList.add('active');
+  document.querySelectorAll('.sidebar-icon').forEach(i=>i.classList.remove('active'));
+  document.getElementById('si-'+cfg.si).classList.add('active');
+}
+function setTab(btn,tab){
+  document.querySelectorAll('.tabs .tab').forEach(b=>{b.classList.remove('active');if(b.textContent.includes('Match'))b.classList.add('tomatch');});
+  btn.classList.add('active');btn.classList.remove('tomatch');
+  ['t-active','t-match','t-rest'].forEach(t=>{const el=document.getElementById(t);if(el)el.style.display=t===tab?'':'none';});
+}
+function toggleChip(el){el.classList.toggle('selected');}
+function toggleSwitch(sw){
+  const on=sw.style.background==='rgb(0, 128, 96)';
+  sw.style.background=on?'#e1e3e5':'#008060';
+  sw.firstElementChild.style.right=on?'auto':'2px';
+  sw.firstElementChild.style.left=on?'2px':'auto';
+}
+let tid;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tid);tid=setTimeout(()=>t.classList.remove('show'),2200);}
+renderTable();
+goTo('install');
+</script>
+</body>
+</html>
