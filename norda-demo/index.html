@@ -36,6 +36,13 @@
   --sec-social: #db2777;       --sec-social-soft: #fdf2f8;
   --sec-expansion: #06b6d4;    --sec-expansion-soft: #ecfeff;
   --sec-operations: #475569;   --sec-operations-soft: #f1f5f9;
+  /* Marketplace sekce */
+  --sec-listings: #f97316;     --sec-listings-soft: #fff7ed;
+  --sec-pricing: #d97706;      --sec-pricing-soft: #fffbeb;
+  --sec-mpops: #0891b2;        --sec-mpops-soft: #ecfeff;
+  --sec-mpads: #be185d;        --sec-mpads-soft: #fdf2f8;
+  --sec-insights: #16a34a;     --sec-insights-soft: #f0fdf4;
+  --sec-mpstrat: #7c3aed;      --sec-mpstrat-soft: #f5f3ff;
 
   --paid: #8b5cf6;
   --organic: #10b981;
@@ -49,6 +56,17 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 /* ─── Sidebar ─────────────────────────────────────────── */
 .sidebar{background:#ffffff;border-right:1px solid var(--border);padding:18px 14px 24px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
 .sb-brand{display:flex;align-items:center;gap:10px;padding:6px 10px 14px;border-bottom:1px solid var(--border);margin-bottom:6px}
+/* ESHOP / MARKETPLACE switcher */
+.mode-switcher{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:4px;background:#f1f5f9;border-radius:10px;margin:0 6px 14px;position:relative}
+.mode-btn{font-size:11px;font-weight:700;letter-spacing:.4px;padding:7px 10px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;border-radius:7px;transition:all .2s;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:5px}
+.mode-btn:hover{color:var(--text-soft)}
+.mode-btn.active{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(15,18,34,.08)}
+.mode-btn.active.eshop{color:var(--sec-store)}
+.mode-btn.active.marketplace{color:var(--sec-listings)}
+.mode-btn .mode-ic{font-size:13px;line-height:1}
+.mode-badge-topbar{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:6px;margin-left:10px}
+.mode-badge-topbar.eshop{background:var(--sec-store-soft);color:var(--sec-store)}
+.mode-badge-topbar.marketplace{background:var(--sec-listings-soft);color:var(--sec-listings)}
 .sb-brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#0f1222,#3b3f5c);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;letter-spacing:.04em}
 .sb-brand .name{font-weight:700;font-size:15px;letter-spacing:-.01em}
 .sb-brand .name small{display:block;color:var(--text-soft);font-weight:500;font-size:11px;letter-spacing:.02em;margin-top:2px}
@@ -505,6 +523,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ag-item.sec-social    {border-left:3px solid var(--sec-social)}
 .ag-item.sec-expansion {border-left:3px solid var(--sec-expansion)}
 .ag-item.sec-operations{border-left:3px solid var(--sec-operations)}
+.ag-item.sec-listings  {border-left:3px solid var(--sec-listings)}
+.ag-item.sec-pricing   {border-left:3px solid var(--sec-pricing)}
+.ag-item.sec-mpops     {border-left:3px solid var(--sec-mpops)}
+.ag-item.sec-mpads     {border-left:3px solid var(--sec-mpads)}
+.ag-item.sec-insights  {border-left:3px solid var(--sec-insights)}
+.ag-item.sec-mpstrat   {border-left:3px solid var(--sec-mpstrat)}
 .ag-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;background:#f1f5f9}
 .ag-body{min-width:0}
 .ag-row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
@@ -519,6 +543,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ag-section-badge.social    {background:var(--sec-social)}
 .ag-section-badge.expansion {background:var(--sec-expansion)}
 .ag-section-badge.operations{background:var(--sec-operations)}
+.ag-section-badge.listings  {background:var(--sec-listings)}
+.ag-section-badge.pricing   {background:var(--sec-pricing)}
+.ag-section-badge.mpops     {background:var(--sec-mpops)}
+.ag-section-badge.mpads     {background:var(--sec-mpads)}
+.ag-section-badge.insights  {background:var(--sec-insights)}
+.ag-section-badge.mpstrat   {background:var(--sec-mpstrat)}
 .ag-status{font-size:9px;font-weight:700;padding:3px 7px;border-radius:5px;letter-spacing:.5px}
 .ag-status.auto {background:#d1fae5;color:#065f46}
 .ag-status.hitl {background:#fef3c7;color:#92400e}
@@ -552,6 +582,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ag-sec-dot.social    {background:var(--sec-social)}
 .ag-sec-dot.expansion {background:var(--sec-expansion)}
 .ag-sec-dot.operations{background:var(--sec-operations)}
+.ag-sec-dot.listings  {background:var(--sec-listings)}
+.ag-sec-dot.pricing   {background:var(--sec-pricing)}
+.ag-sec-dot.mpops     {background:var(--sec-mpops)}
+.ag-sec-dot.mpads     {background:var(--sec-mpads)}
+.ag-sec-dot.insights  {background:var(--sec-insights)}
+.ag-sec-dot.mpstrat   {background:var(--sec-mpstrat)}
 .ag-section-header .nm.store     {color:var(--sec-store)}
 .ag-section-header .nm.products  {color:var(--sec-products)}
 .ag-section-header .nm.marketing {color:var(--sec-marketing)}
@@ -560,6 +596,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ag-section-header .nm.social    {color:var(--sec-social)}
 .ag-section-header .nm.expansion {color:var(--sec-expansion)}
 .ag-section-header .nm.operations{color:var(--sec-operations)}
+.ag-section-header .nm.listings  {color:var(--sec-listings)}
+.ag-section-header .nm.pricing   {color:var(--sec-pricing)}
+.ag-section-header .nm.mpops     {color:var(--sec-mpops)}
+.ag-section-header .nm.mpads     {color:var(--sec-mpads)}
+.ag-section-header .nm.insights  {color:var(--sec-insights)}
+.ag-section-header .nm.mpstrat   {color:var(--sec-mpstrat)}
 .ag-sec-count{margin-left:auto;font-size:10px;color:var(--text-muted);background:#f1f5f9;padding:2px 8px;border-radius:5px;font-weight:600;letter-spacing:.04em}
 .ag-section-items{display:flex;flex-direction:column;gap:10px}
 /* MVP badge */
@@ -581,6 +623,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 .ad-header.sec-social::before    {background:var(--sec-social)}
 .ad-header.sec-expansion::before {background:var(--sec-expansion)}
 .ad-header.sec-operations::before{background:var(--sec-operations)}
+.ad-header.sec-listings::before  {background:var(--sec-listings)}
+.ad-header.sec-pricing::before   {background:var(--sec-pricing)}
+.ad-header.sec-mpops::before     {background:var(--sec-mpops)}
+.ad-header.sec-mpads::before     {background:var(--sec-mpads)}
+.ad-header.sec-insights::before  {background:var(--sec-insights)}
+.ad-header.sec-mpstrat::before   {background:var(--sec-mpstrat)}
 .ad-h-row{display:flex;align-items:flex-start;gap:18px}
 .ad-icon-lg{width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;background:#f1f5f9;flex-shrink:0}
 .ad-h-body{flex:1;min-width:0}
@@ -663,6 +711,71 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
   .ad-tokens-row{grid-template-columns:1fr}
 }
 
+/* ═══════════ SKILLS / CONTEXT LIBRARY PAGE ═══════════ */
+.sk-page{padding:24px 32px;max-width:1200px;margin:0 auto}
+.sk-callout{background:linear-gradient(135deg,#eef2ff 0%,#fef3c7 100%);border:1px solid #c7d2fe;border-radius:14px;padding:18px 22px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start}
+.sk-callout-ic{font-size:24px;flex-shrink:0;line-height:1}
+.sk-callout-body{flex:1;min-width:0}
+.sk-callout-body strong{display:block;font-size:14px;color:var(--text);margin-bottom:4px}
+.sk-callout-body p{margin:0;font-size:13px;color:var(--text-soft);line-height:1.5}
+.sk-callout code{background:#fff;padding:1px 6px;border-radius:4px;font-size:12px;color:#4338ca;border:1px solid #e0e7ff;font-family:'SF Mono',Menlo,Consolas,monospace}
+
+/* Top stats row */
+.sk-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.sk-stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-align:center}
+.sk-stat-num{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.sk-stat-num.exists{color:#059669}
+.sk-stat-num.quick{color:#d97706}
+.sk-stat-num.plan{color:#64748b}
+.sk-stat-num.total{color:var(--text)}
+.sk-stat-lab{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+
+/* Folder cards */
+.sk-folder{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;position:relative}
+.sk-folder::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--sk-color,#94a3b8)}
+.sk-folder-head{padding:18px 22px 14px;display:flex;align-items:center;gap:12px}
+.sk-folder-icon{font-size:22px;line-height:1}
+.sk-folder-name{font-size:15px;font-weight:700;color:var(--text);font-family:'SF Mono',Menlo,Consolas,monospace}
+.sk-folder-desc{font-size:12px;color:var(--text-muted);margin-left:auto}
+.sk-folder-meta{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);padding:3px 9px;background:#f1f5f9;border-radius:5px}
+
+/* Files inside folder */
+.sk-files{padding:0 22px 18px}
+.sk-file{display:grid;grid-template-columns:24px 200px 1fr 110px 100px;gap:14px;align-items:center;padding:10px 0;border-top:1px dashed #e5e7eb;font-size:13px}
+.sk-file:first-child{border-top:none;padding-top:6px}
+.sk-file-ic{font-size:13px;text-align:center;color:#94a3b8}
+.sk-file-name{font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;color:var(--text);font-weight:600}
+.sk-file-desc{font-size:12px;color:var(--text-soft);line-height:1.4}
+.sk-file-agents{font-size:10px;color:var(--text-muted);text-align:right;line-height:1.3}
+.sk-file-agents b{color:var(--text-soft);font-weight:600}
+.sk-file-status{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:5px;text-align:center;white-space:nowrap}
+.sk-file-status.exists{background:#d1fae5;color:#065f46}
+.sk-file-status.quick {background:#fed7aa;color:#9a3412}
+.sk-file-status.plan  {background:#f1f5f9;color:#475569}
+
+/* Subfolder (mutations/) */
+.sk-subfolder{display:grid;grid-template-columns:24px 1fr;gap:14px;padding:8px 0;border-top:1px dashed #e5e7eb;align-items:flex-start}
+.sk-subfolder-name{font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;color:var(--text-soft);font-weight:600;padding:2px 0}
+.sk-subfolder-items{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.sk-subfile{font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11px;background:#f8fafc;border:1px solid var(--border);padding:3px 8px;border-radius:5px;color:var(--text-soft)}
+
+/* Folder color variables */
+.sk-folder.sk-shared       { --sk-color:#f97316 }  /* orange */
+.sk-folder.sk-analytics    { --sk-color:#10b981 }  /* green */
+.sk-folder.sk-ads          { --sk-color:#ef4444 }  /* red */
+.sk-folder.sk-seo          { --sk-color:#8b5cf6 }  /* purple */
+.sk-folder.sk-retence      { --sk-color:#f59e0b }  /* amber */
+.sk-folder.sk-operations   { --sk-color:#06b6d4 }  /* cyan */
+.sk-folder.sk-promos       { --sk-color:#ec4899 }  /* pink */
+.sk-folder.sk-settings     { --sk-color:#14b8a6 }  /* teal */
+
+@media (max-width:900px){
+  .sk-stats{grid-template-columns:repeat(2,1fr)}
+  .sk-file{grid-template-columns:1fr 80px;gap:8px}
+  .sk-file-ic,.sk-file-name,.sk-file-agents{display:none}
+  .sk-file-desc{font-size:12px}
+}
+
 /* System prompt preview */
 .ad-prompt{background:#0f172a;color:#cbd5e1;border-radius:10px;padding:14px 16px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11.5px;line-height:1.6;white-space:pre-wrap;max-height:280px;overflow-y:auto}
 .ad-prompt .k{color:#a78bfa;font-weight:600}
@@ -684,34 +797,23 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
   <aside class="sidebar">
     <div class="sb-brand">
       <div class="mark">N</div>
-      <div class="name">NORDA <small>Autonomní OS pro eshop</small></div>
+      <div class="name">NORDA <small id="sb-brand-sub">Autonomní OS pro eshop</small></div>
+    </div>
+
+    <div class="mode-switcher" id="mode-switcher">
+      <button class="mode-btn eshop active"       data-mode="eshop"      onclick="setMode('eshop')"><span class="mode-ic">🛍️</span>E-shop</button>
+      <button class="mode-btn marketplace"        data-mode="marketplace" onclick="setMode('marketplace')"><span class="mode-ic">🏪</span>Marketplace</button>
     </div>
 
     <a class="sb-item active" data-view="dashboard"><span class="sb-ic">🏠</span>Přehled</a>
     <a class="sb-item" data-view="workflow"><span class="sb-ic">🧭</span>Workflow agentů</a>
     <a class="sb-item" data-view="agents"><span class="sb-ic">🤖</span>Seznam agentů &amp; MCP</a>
+    <a class="sb-item" data-view="skills"><span class="sb-ic">📁</span>Kontext &amp; skills</a>
     <a class="sb-item"><span class="sb-ic">📜</span>Historie akcí</a>
 
-    <div class="sb-section store"><span class="sec-pill"></span>E-shop</div>
-    <a class="sb-item" onclick="openAgentDetail('orders')"><span class="sb-ic">🛒</span>Strážce objednávek<span class="sb-dot green"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('analytics')"><span class="sb-ic">📊</span>Detektiv dat<span class="sb-dot red"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('logistika')"><span class="sb-ic">🚚</span>Dispečer dopravy<span class="sb-dot green"></span></a>
-
-    <div class="sb-section products"><span class="sec-pill"></span>Produkty</div>
-    <a class="sb-item" onclick="openAgentDetail('katalog')"><span class="sb-ic">📦</span>Kurátor katalogu<span class="sb-dot amber"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('pricing')"><span class="sb-ic">💰</span>Cenař<span class="sb-dot green"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('media')"><span class="sb-ic">📷</span>Vizuální producent<span class="sb-dot green"></span></a>
-
-    <div class="sb-section marketing"><span class="sec-pill"></span>Marketing</div>
-    <a class="sb-item" onclick="openAgentDetail('meta')"><span class="sb-ic">📘</span>Marketér Meta<span class="sb-dot green"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('google')"><span class="sb-ic">🔍</span>Marketér Google<span class="sb-dot green"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('tiktok')"><span class="sb-ic">🎵</span>TikTok creator<span class="sb-dot green"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('seo')"><span class="sb-ic">🔎</span>SEO copywriter<span class="sb-dot green"></span></a>
-
-    <div class="sb-section customers"><span class="sec-pill"></span>Zákazníci</div>
-    <a class="sb-item" onclick="openAgentDetail('servis')"><span class="sb-ic">💬</span>Operátor podpory<span class="sb-dot green"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('reviews')"><span class="sb-ic">⭐</span>Hlídač recenzí<span class="sb-dot amber"></span></a>
-    <a class="sb-item" onclick="openAgentDetail('email')"><span class="sb-ic">✉️</span>Specialista retence<span class="sb-dot green"></span></a>
+    <div id="sb-agents-container">
+      <!-- generated by renderSidebarAgents() podle aktuálního MODE -->
+    </div>
 
     <div class="sb-section strategy"><span class="sec-pill"></span>Strategie</div>
     <a class="sb-item"><span class="sb-ic">✅</span>Schválení<span class="sb-count" id="sb-approvals">5</span></a>
@@ -1014,6 +1116,19 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
       <!-- generated by renderAgentDetail() -->
     </div>
    </div><!-- /#view-agent-detail -->
+
+   <!-- ═══════════════════ VIEW: SKILLS / CONTEXT LIBRARY ═══════════════════ -->
+   <div id="view-skills" style="display:none">
+    <div class="topbar">
+      <h1>Kontext &amp; skills <small>sdílené MD soubory, ze kterých čerpá všech 26 agentů</small></h1>
+      <div class="grow"></div>
+      <div class="userchip"><div class="avatar">A</div><span>Adam · majitel</span></div>
+    </div>
+
+    <div class="sk-page" id="sk-page">
+      <!-- generated by renderSkillsLibrary() -->
+    </div>
+   </div><!-- /#view-skills -->
 
    <div id="ag-saved-pill">✓ Uloženo</div>
 
@@ -1646,6 +1761,159 @@ const SECTION_ORDER = ["store","products","marketing","customers","strategy","so
 /* MVP agenti dle autonomni-eshop-agent.md, kap. 6 */
 const MVP_AGENTS    = new Set(["analytics","email","google"]);
 
+/* ═══════════ MARKETPLACE MODE ═══════════ */
+const AGENT_DEF_MARKETPLACE = {
+  // 📦 Listings
+  mp_listing:    {n:"Listing manager",         i:"📦", c:"ic-listing"},
+  mp_aplus:      {n:"A+ Content designer",     i:"🎨", c:"ic-aplus"},
+  mp_mp_loc:     {n:"Listing lokalizace",      i:"🈯", c:"ic-localization"},
+  // 💰 Pricing
+  mp_pricing:    {n:"Pricing engine",          i:"💰", c:"ic-pricing"},
+  mp_buybox:     {n:"Buy Box watcher",         i:"📦", c:"ic-buybox"},
+  mp_competitor: {n:"Competitor monitor",      i:"🕵", c:"ic-competitor"},
+  // 🚚 Operations
+  mp_fba:        {n:"FBA inventory manager",   i:"📦", c:"ic-fba"},
+  mp_orders:     {n:"Multi-channel orders",    i:"🛒", c:"ic-orders"},
+  mp_returns:    {n:"Returns processor",       i:"↩️", c:"ic-returns"},
+  mp_health:     {n:"Account health monitor",  i:"🩺", c:"ic-health"},
+  // 🎯 Marketplace Ads
+  mp_amzn_sp:    {n:"Amazon Sponsored Products", i:"🎯", c:"ic-amzn"},
+  mp_amzn_sb:    {n:"Amazon Sponsored Brands",   i:"🏷️", c:"ic-amzn"},
+  mp_allegro_ads:{n:"Allegro promowane oferty",  i:"🇵🇱", c:"ic-allegro"},
+  mp_emag_ads:   {n:"eMag Marketplace Ads",      i:"🇷🇴", c:"ic-emag"},
+  // 📊 Insights
+  mp_analytics:  {n:"Cross-marketplace analytics", i:"📊", c:"ic-analytics"},
+  mp_reviews:    {n:"Reviews handler per platform", i:"⭐", c:"ic-reviews"},
+  // 🎯 Strategy
+  mp_strategist: {n:"Marketplace growth director", i:"🎯", c:"ic-growth"},
+  mp_expansion:  {n:"New marketplace launches",    i:"🚀", c:"ic-expansion"}
+};
+
+const AGENT_MCPS_MARKETPLACE = {
+  mp_listing:    ["Amazon SP-API","Allegro Smart!","eMag Marketplace","Anthropic Claude"],
+  mp_aplus:      ["Amazon SP-API","Nanobanana","Cloudinary","Anthropic Claude"],
+  mp_mp_loc:     ["LOCO","Amazon SP-API","eMag","Allegro","Anthropic Claude"],
+  mp_pricing:    ["Amazon SP-API","Allegro","eMag","Heureka","Pricesearch API"],
+  mp_buybox:     ["Amazon SP-API","Keepa","Helium 10"],
+  mp_competitor: ["SellerSprite","Helium 10","SimilarWeb","Pricesearch API"],
+  mp_fba:        ["Amazon SP-API","ShipBob","FlexiBee"],
+  mp_orders:     ["Amazon SP-API","Allegro","eMag","Shopify","FlexiBee"],
+  mp_returns:    ["Amazon SP-API","Allegro","eMag","Zendesk"],
+  mp_health:     ["Amazon SP-API","Account Health API","Slack"],
+  mp_amzn_sp:    ["Amazon Ads API","SellerSprite","Sponsored Products API"],
+  mp_amzn_sb:    ["Amazon Ads API","Sponsored Brands API","Nanobanana"],
+  mp_allegro_ads:["Allegro Ads API","Allegro Smart!"],
+  mp_emag_ads:   ["eMag Marketplace Ads","eMag Seller API"],
+  mp_analytics:  ["Amazon SP-API","Allegro","eMag","Looker Studio","BigQuery"],
+  mp_reviews:    ["Amazon SP-API","Trustpilot","Heureka","Allegro","Anthropic Claude"],
+  mp_strategist: ["Amazon SP-API","Allegro","eMag","Notion","Slack","Anthropic Claude"],
+  mp_expansion:  ["SimilarWeb","Amazon Brand Analytics","Marketplace research APIs","Notion"]
+};
+
+const AGENT_DESC_MARKETPLACE = {
+  mp_listing:    "Spravuje titles, bullets, search terms, backend keywords napříč marketplaces. Optimalizuje pro discovery.",
+  mp_aplus:      "Generuje A+ Content moduly pro Amazon Brand Store (visual storytelling, comparison tables, lifestyle).",
+  mp_mp_loc:     "Lokalizuje listings per marketplace + země. Native speaker review pro DE/PL/RO/HU.",
+  mp_pricing:    "Dynamic pricing per platform — Buy Box defense (Amazon), Smart! optimalizace (Allegro), promo (eMag).",
+  mp_buybox:     "Monitoruje Buy Box vlastnictví na Amazon. Detekuje ztráty, navrhuje cenovou strategii.",
+  mp_competitor: "Sleduje konkurenční listings + ceny napříč 5 marketplaces. Identifikuje hrozby a příležitosti.",
+  mp_fba:        "FBA inventory management — restock plánování, fee optimization, removal orders, aged inventory.",
+  mp_orders:     "Routing objednávek: FBA vs. FBM vs. DTC eshop. Optimalizuje fulfillment per SKU + region.",
+  mp_returns:    "Zpracovává returns napříč platformami. Klasifikuje důvody, eskaluje problémové SKU.",
+  mp_health:     "Hlídá Amazon Seller Performance metriky. Detekuje suspension risk, navrhuje akce předem.",
+  mp_amzn_sp:    "Bid optimalizace pro Sponsored Products. Negative keywords, search term reports, ACoS targety.",
+  mp_amzn_sb:    "Sponsored Brands kampaně — store spotlight, video ads, custom creative pro brand awareness.",
+  mp_allegro_ads:"Promowane oferty na Allegro. Bid optimalizace per kategorie, Smart! ranking boost.",
+  mp_emag_ads:   "eMag Marketplace Ads — listing promotion, category leadership, RO + BG + HU rozšíření.",
+  mp_analytics:  "Cross-marketplace P&L per SKU. Profit (po fees + COGS), velocity, channel mix, kanibalizace.",
+  mp_reviews:    "Reviews monitoring + response na Amazon, Allegro, eMag, Heureka. Eskaluje 1–2★ na lidi.",
+  mp_strategist: "Marketplace growth director — alokace mezi platformami, channel mix, SKU strategy per marketplace.",
+  mp_expansion:  "Nové platformy: Zalando Partner, About You, Amazon EU expansion, eMag BG. Onboarding + setup."
+};
+
+const AGENT_SECTION_MARKETPLACE = {
+  mp_listing:"listings", mp_aplus:"listings", mp_mp_loc:"listings",
+  mp_pricing:"pricing", mp_buybox:"pricing", mp_competitor:"pricing",
+  mp_fba:"mpops", mp_orders:"mpops", mp_returns:"mpops", mp_health:"mpops",
+  mp_amzn_sp:"mpads", mp_amzn_sb:"mpads", mp_allegro_ads:"mpads", mp_emag_ads:"mpads",
+  mp_analytics:"insights", mp_reviews:"insights",
+  mp_strategist:"mpstrat", mp_expansion:"mpstrat"
+};
+
+const SEC_LABEL_MARKETPLACE = {
+  listings:"Listings", pricing:"Pricing", mpops:"Operations",
+  mpads:"Marketplace ads", insights:"Insights", mpstrat:"Strategie"
+};
+
+const SECTION_ORDER_MARKETPLACE = ["listings","pricing","mpops","mpads","insights","mpstrat"];
+
+const MVP_AGENTS_MARKETPLACE = new Set(["mp_listing","mp_amzn_sp","mp_buybox"]);
+
+/* ═══════ MODE STATE ═══════ */
+let MODE = localStorage.getItem("norda-mode") || "eshop";
+
+function getDefs()      { return MODE === "marketplace" ? AGENT_DEF_MARKETPLACE      : AGENT_DEF; }
+function getMcps()      { return MODE === "marketplace" ? AGENT_MCPS_MARKETPLACE     : AGENT_MCPS; }
+function getDescs()     { return MODE === "marketplace" ? AGENT_DESC_MARKETPLACE     : AGENT_DESC; }
+function getSecMap()    { return MODE === "marketplace" ? AGENT_SECTION_MARKETPLACE  : AGENT_SECTION; }
+function getSecLabels() { return MODE === "marketplace" ? SEC_LABEL_MARKETPLACE      : SEC_LABEL; }
+function getSecOrder()  { return MODE === "marketplace" ? SECTION_ORDER_MARKETPLACE  : SECTION_ORDER; }
+function getMvpSet()    { return MODE === "marketplace" ? MVP_AGENTS_MARKETPLACE     : MVP_AGENTS; }
+
+function setMode(mode){
+  if (MODE === mode) return;
+  MODE = mode;
+  localStorage.setItem("norda-mode", mode);
+  // Refresh UI
+  document.querySelectorAll("#mode-switcher .mode-btn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.mode === mode);
+  });
+  const sub = document.getElementById("sb-brand-sub");
+  if (sub) sub.textContent = mode === "marketplace" ? "Autonomní OS pro marketplaces" : "Autonomní OS pro eshop";
+  renderSidebarAgents();
+  // Re-render aktivní view
+  const activeView = document.querySelector('.sb-item[data-view].active')?.dataset?.view;
+  if (activeView === "agents")  renderAgentsList();
+  if (activeView === "skills")  renderSkillsLibrary();
+  if (activeView === "dashboard"){
+    try { renderSectionSummary(DATA[current]); } catch(e){}
+  }
+}
+
+function renderSidebarAgents(){
+  const container = document.getElementById("sb-agents-container");
+  if (!container) return;
+  const defs = getDefs();
+  const secMap = getSecMap();
+  const secLabels = getSecLabels();
+  const secOrder = getSecOrder();
+
+  // Seskupit dle sekce
+  const grouped = {};
+  secOrder.forEach(s => grouped[s] = []);
+  Object.entries(defs).forEach(([key, def])=>{
+    const sec = secMap[key] || secOrder[0];
+    if (!grouped[sec]) grouped[sec] = [];
+    grouped[sec].push({key, def});
+  });
+
+  const html = secOrder.map(sec=>{
+    const items = grouped[sec] || [];
+    if (!items.length) return "";
+    return `
+      <div class="sb-section ${sec}"><span class="sec-pill"></span>${secLabels[sec]}</div>
+      ${items.map(({key,def})=>{
+        const dotColor = (DATA[current]?.agents?.[key]?.status === "alert") ? "red"
+                       : (DATA[current]?.agents?.[key]?.status === "hitl")  ? "amber"
+                       : "green";
+        return `<a class="sb-item" onclick="openAgentDetail('${key}')"><span class="sb-ic">${def.i}</span>${def.n}<span class="sb-dot ${dotColor}"></span></a>`;
+      }).join("")}
+    `;
+  }).join("");
+
+  container.innerHTML = html;
+}
+
 function _getEdits(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");}catch(e){return {};} }
 function _setEdits(o){ localStorage.setItem(STORAGE_KEY, JSON.stringify(o)); }
 
@@ -1662,24 +1930,27 @@ function renderAgentsList(){
   if(!list) return;
   const edits = _getEdits();
   const refData = (DATA[current] && DATA[current].agents) || {};
+  const defs = getDefs(), secMap = getSecMap(), secOrder = getSecOrder();
 
-  // 1) Sběr a seskupení agentů podle sekce (s fallbackem na AGENT_SECTION pro nové agenty bez DATA záznamu)
+  // 1) Sběr a seskupení agentů podle sekce
   const grouped = {};
-  SECTION_ORDER.forEach(s => grouped[s] = []);
-  Object.entries(AGENT_DEF).forEach(([key, def])=>{
+  secOrder.forEach(s => grouped[s] = []);
+  Object.entries(defs).forEach(([key, def])=>{
     const e = edits[key] || {};
     if (e.hidden) return;
-    const sec = e.sec || refData[key]?.sec || AGENT_SECTION[key] || "store";
+    const sec = e.sec || refData[key]?.sec || secMap[key] || secOrder[0];
     if (!grouped[sec]) grouped[sec] = [];
     grouped[sec].push({key, def, e, sec, status: e.status || refData[key]?.status || "auto"});
   });
 
+  const mcpsMap = getMcps(), descsMap = getDescs(), mvpSet = getMvpSet(), secLabels = getSecLabels();
+
   // 2) Render karet
   const renderCard = ({key, def, e, sec, status})=>{
-    const mcps = e.mcps || AGENT_MCPS[key] || [];
-    const desc = e.desc || AGENT_DESC[key] || "";
+    const mcps = e.mcps || mcpsMap[key] || [];
+    const desc = e.desc || descsMap[key] || "";
     const name = e.name || def.n;
-    const isMvp = MVP_AGENTS.has(key);
+    const isMvp = mvpSet.has(key);
     const mcpHtml = mcps.map(m =>
       `<span class="ag-mcp">${m}<span class="x" title="Odebrat" onclick="removeMcp('${key}','${m.replace(/'/g,"\\'")}')">×</span></span>`
     ).join("");
@@ -1689,6 +1960,7 @@ function renderAgentsList(){
         <div class="ag-body">
           <div class="ag-row1">
             <span class="ag-name" contenteditable="true" data-field="name" data-key="${key}">${name}</span>
+            <span class="ag-section-badge ${sec}">${secLabels[sec]||sec}</span>
             ${isMvp ? '<span class="ag-mvp">MVP · 2 týdny</span>' : ''}
             <span class="ag-status ${status}">${STATUS_LABEL[status]}</span>
           </div>
@@ -1706,15 +1978,15 @@ function renderAgentsList(){
       </div>`;
   };
 
-  // 3) Render sekcí v pořadí E-shop → Produkty → Marketing → Zákazníci
-  const html = SECTION_ORDER.map(sec=>{
+  // 3) Render sekcí v pořadí dle mode
+  const html = secOrder.map(sec=>{
     const agents = grouped[sec] || [];
     if (!agents.length) return "";
-    const mvpCount = agents.filter(a=>MVP_AGENTS.has(a.key)).length;
+    const mvpCount = agents.filter(a=>mvpSet.has(a.key)).length;
     return `
       <div class="ag-section-header">
         <span class="ag-sec-dot ${sec}"></span>
-        <span class="nm ${sec}">${SEC_LABEL[sec]}</span>
+        <span class="nm ${sec}">${secLabels[sec]||sec}</span>
         <span class="ag-sec-count">${agents.length} ${agents.length===1?'agent':agents.length<5?'agenti':'agentů'}${mvpCount?' · '+mvpCount+'× MVP':''}</span>
       </div>
       <div class="ag-section-items">${agents.map(renderCard).join("")}</div>
@@ -1949,6 +2221,169 @@ function mockRuns(key, def){
   ];
 }
 
+/* ═══════════ SKILLS / CONTEXT LIBRARY ═══════════ */
+/* Stav: exists = už máme, quick = quick win (tento týden), plan = roadmapa */
+const SKILL_STRUCTURE = [
+  {
+    key:"shared", icon:"📦", name:"shared/", desc:"Single source of truth — sdílený kontext napříč agenty",
+    files:[
+      {name:"brand.md",            status:"exists", desc:"NORDA brand voice, positioning, claims (v1.0)",   agents:"používá všech 26"},
+      {name:"offers.md",           status:"plan",  desc:"Aktuální akce, slevy, kampaně",                  agents:"Cenař · Marketing · Email"},
+      {name:"creative-briefs.md",  status:"plan",  desc:"Hooks, angles, variants, UGC briefs",            agents:"Vizuální producent · UGC · Meta"},
+      {name:"products.csv",        status:"plan",  desc:"Produktový feed pro ads / SEO / email",          agents:"Kurátor · Marketing · SEO"},
+      {name:"customers.csv",       status:"plan",  desc:"Segmenty, LTV, repeat purchase behavior",         agents:"Specialista retence · Věrnostní"}
+    ],
+    subfolders:[
+      {name:"mutations/", items:["cz.md","sk.md","pl.md","hu.md","ro.md"], desc:"Per-mutace pravidla (měna, doprava, lokální specifika)"}
+    ]
+  },
+  {
+    key:"analytics", icon:"📊", name:"analytics/", desc:"KPI a reporting — formalizuje výstup Detektiva dat",
+    files:[
+      {name:"north-star.md",   status:"exists", desc:"MER jako jediná hvězda · POAS, CAC, LTV targety (v1.0)", agents:"Detektiv dat · Strategický partner"},
+      {name:"kpis.md",         status:"plan",  desc:"Denní hodnoty s targety per mutace",              agents:"Detektiv dat"},
+      {name:"weekly-report.md",status:"plan",  desc:"Template AI-generovaného týdenního reportu",      agents:"Detektiv dat (pondělí 7:00)"}
+    ]
+  },
+  {
+    key:"ads", icon:"📣", name:"ads/", desc:"Paid media command center — brief per platforma",
+    files:[
+      {name:"meta.md",      status:"plan", desc:"Meta Ads struktura, budget, A/B testy, audiences",     agents:"Marketér Meta"},
+      {name:"google.md",    status:"plan", desc:"Search, Shopping, PMax, YouTube · KW management",      agents:"Marketér Google (MVP)"},
+      {name:"tiktok.md",    status:"plan", desc:"TikTok scripts, creative hooks, Spark Ads",            agents:"TikTok creator"},
+      {name:"sklik.md",     status:"plan", desc:"Sklik Search + Zboží.cz feed (CZ)",                   agents:"Sklik & Zboží"},
+      {name:"local-ppc.md", status:"plan", desc:"Allegro PL, eMag RO, OLX bid optimization",            agents:"Lokální PPC"},
+      {name:"feeds.md",     status:"plan", desc:"Heureka, Ceneo, Glami, Compari · bidy + PNO",          agents:"Srovnávače & feedy"}
+    ]
+  },
+  {
+    key:"seo", icon:"🔎", name:"seo/", desc:"Organic traffic engine — pro SEO copywriter",
+    files:[
+      {name:"keywords.md",             status:"plan", desc:"Klíčová slova per kategorie + per mutace",       agents:"SEO copywriter"},
+      {name:"blog-plan.md",            status:"plan", desc:"Editorial kalendář na další 3 měsíce",          agents:"SEO copywriter"},
+      {name:"product-descriptions.md", status:"plan", desc:"SEO-optimized PDP copy templates",              agents:"SEO copywriter · Kurátor"}
+    ]
+  },
+  {
+    key:"retence", icon:"✉️", name:"retence/", desc:"Lifecycle flows — pro Specialistu retence",
+    files:[
+      {name:"welcome.md",        status:"plan", desc:"First-purchase education flow (5 e-mailů)",         agents:"Specialista retence (MVP)"},
+      {name:"abandoned-cart.md", status:"plan", desc:"Recover lost carts — timing + copy variants",       agents:"Specialista retence"},
+      {name:"post-purchase.md",  status:"plan", desc:"Upsells, winbacks, referrals po nákupu",            agents:"Specialista retence"},
+      {name:"winback.md",        status:"plan", desc:"Reactivace 90+ dní neaktivních zákazníků",          agents:"Specialista retence"},
+      {name:"loyalty.md",        status:"plan", desc:"Tier systém, body, odměny, VIP segmenty",           agents:"Věrnostní program & LTV"}
+    ]
+  },
+  {
+    key:"operations", icon:"⚙️", name:"operations/", desc:"E-shop běhové pravidla — pro store agenty",
+    files:[
+      {name:"inventory.md", status:"plan", desc:"Stock thresholds, reorder pravidla, deadstock",          agents:"Kurátor katalogu · Cenař"},
+      {name:"shipping.md",  status:"plan", desc:"Dopravci per region, SLA, eskalace zpoždění",            agents:"Dispečer dopravy"},
+      {name:"fraud.md",     status:"plan", desc:"Fraud detection rules, payment health, escalace",         agents:"Strážce objednávek"}
+    ]
+  },
+  {
+    key:"promos", icon:"🎁", name:"promos/", desc:"Offer calendar — pro Cenař + Marketing",
+    files:[
+      {name:"bfcm.md",            status:"plan", desc:"Black Friday + Cyber Monday plán per mutace",   agents:"Cenař · Marketing celá sekce"},
+      {name:"bundles.md",         status:"plan", desc:"GWG (gift-with-purchase) + value boosters",     agents:"Cenař · Marketing"},
+      {name:"retention-offers.md",status:"plan", desc:"VIP loyalty offers, churn prevention nabídky",  agents:"Věrnostní program · Email"}
+    ]
+  },
+  {
+    key:"settings", icon:"🛠️", name:"settings.json", desc:"Global config — models, budgets, MCPs per agent",
+    files:[
+      {name:"model_per_agent",   status:"exists", desc:"Opus (3 strat.) / Sonnet (18) / Haiku (6 rutina) · měs. budget 2 172 USD", agents:"všech 26"},
+      {name:"token_budget",      status:"exists", desc:"Daily USD limit per agent · auto-pause triggers", agents:"všech 26"},
+      {name:"mutations_enabled", status:"plan",  desc:"Per-agent whitelist mutací (CZ/SK/PL/HU/RO)",   agents:"všech 26"},
+      {name:"active_mcps",       status:"plan",  desc:"Per-agent whitelist napojených MCP serverů",   agents:"všech 26"}
+    ]
+  }
+];
+
+function renderSkillsLibrary(){
+  const page = document.getElementById("sk-page");
+  if(!page) return;
+
+  // Spočti stats
+  let total=0, exists=0, quick=0, plan=0;
+  SKILL_STRUCTURE.forEach(f=>{
+    f.files.forEach(file=>{
+      total++;
+      if(file.status==="exists") exists++;
+      else if(file.status==="quick") quick++;
+      else plan++;
+    });
+    (f.subfolders||[]).forEach(sf=>{ total += sf.items.length; plan += sf.items.length; });
+  });
+
+  const statusBadge = s => {
+    const label = s==="exists"?"Existuje":s==="quick"?"Quick win":"Plánováno";
+    return `<span class="sk-file-status ${s}">${label}</span>`;
+  };
+
+  const renderFolder = f => `
+    <div class="sk-folder sk-${f.key}">
+      <div class="sk-folder-head">
+        <span class="sk-folder-icon">${f.icon}</span>
+        <span class="sk-folder-name">${f.name}</span>
+        <span class="sk-folder-desc">${f.desc}</span>
+        <span class="sk-folder-meta">${f.files.length + (f.subfolders?f.subfolders.reduce((a,s)=>a+s.items.length,0):0)} souborů</span>
+      </div>
+      <div class="sk-files">
+        ${f.files.map(file=>`
+          <div class="sk-file">
+            <span class="sk-file-ic">📄</span>
+            <span class="sk-file-name">${file.name}</span>
+            <span class="sk-file-desc">${file.desc}</span>
+            <span class="sk-file-agents">${file.agents ? `<b>→</b> ${file.agents}` : ""}</span>
+            ${statusBadge(file.status)}
+          </div>
+        `).join("")}
+        ${(f.subfolders||[]).map(sf=>`
+          <div class="sk-subfolder">
+            <span class="sk-file-ic">📁</span>
+            <div>
+              <span class="sk-subfolder-name">${sf.name}</span>
+              <span style="font-size:11px;color:var(--text-muted);margin-left:8px">${sf.desc}</span>
+              <div class="sk-subfolder-items">
+                ${sf.items.map(i=>`<span class="sk-subfile">${i}</span>`).join("")}
+              </div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
+  page.innerHTML = `
+    <div class="sk-callout">
+      <span class="sk-callout-ic">🏗️</span>
+      <div class="sk-callout-body">
+        <strong>Architektura: skills-mcp + sdílený kontext</strong>
+        <p>Všech 26 agentů čte tyto MD/CSV soubory přes <code>skills-mcp</code> (GCS bucket <code>skills-mcp-content</code>). Místo aby každý agent znovu definoval kontext, čerpají z jedné kanonické knihovny. Strukturu jsme adoptovali z <em>Shopify Growth OS</em> patternu a adaptovali na 5 mutací + 26 agentů.</p>
+      </div>
+    </div>
+
+    <div class="sk-stats">
+      <div class="sk-stat"><div class="sk-stat-num total">${total}</div><div class="sk-stat-lab">Celkem souborů</div></div>
+      <div class="sk-stat"><div class="sk-stat-num exists">${exists}</div><div class="sk-stat-lab">Existuje ✅</div></div>
+      <div class="sk-stat"><div class="sk-stat-num quick">${quick}</div><div class="sk-stat-lab">Quick win ⏳</div></div>
+      <div class="sk-stat"><div class="sk-stat-num plan">${plan}</div><div class="sk-stat-lab">Plánováno 📋</div></div>
+    </div>
+
+    ${SKILL_STRUCTURE.map(renderFolder).join("")}
+
+    <div class="sk-callout" style="margin-top:24px;background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border-color:#6ee7b7">
+      <span class="sk-callout-ic">✅</span>
+      <div class="sk-callout-body">
+        <strong>Quick wins HOTOVÉ (v0.9, 12. 5. 2026)</strong>
+        <p><code>shared/brand.md</code> · <code>analytics/north-star.md</code> · <code>settings.json</code> — všechny 3 quick win soubory založeny v repu. Brand voice s 8 sekcemi pro 5 mutací, MER targets per kvartál, model split Opus(3) / Sonnet(18) / Haiku(6) = <b>měsíční budget 2 172 USD</b> (vs. 5 800 USD na samém Opus). <b>Další krok:</b> nahrát do GCS bucketu <code>skills-mcp-content</code>, pak je agenti automaticky vidí přes <code>get_skill()</code>.</p>
+      </div>
+    </div>
+  `;
+}
+
 function generatePrompt(key, def, desc, mcps){
   return `<span class="c"># Identity</span>
 <span class="k">Name:</span> <span class="s">${key.toUpperCase()}</span>
@@ -1977,17 +2412,19 @@ function openAgentDetail(key){
 }
 
 function renderAgentDetail(key){
-  const def = AGENT_DEF[key];
+  const defs = getDefs();
+  const def = defs[key];
   if(!def){ document.getElementById("ad-page").innerHTML=`<div class="ag-footer-note">Agent „${key}" nenalezen.</div>`; return; }
   const edits = _getEdits();
   const e = edits[key] || {};
   const refData = (DATA[current] && DATA[current].agents) || {};
+  const secMap = getSecMap(), secLabels = getSecLabels();
   const name   = e.name   || def.n;
-  const desc   = e.desc   || AGENT_DESC[key] || "";
-  const mcps   = e.mcps   || AGENT_MCPS[key] || [];
-  const sec    = e.sec    || refData[key]?.sec || AGENT_SECTION[key] || "store";
+  const desc   = e.desc   || getDescs()[key] || "";
+  const mcps   = e.mcps   || getMcps()[key] || [];
+  const sec    = e.sec    || refData[key]?.sec || secMap[key] || getSecOrder()[0];
   const status = e.status || refData[key]?.status || "auto";
-  const isMvp  = MVP_AGENTS.has(key);
+  const isMvp  = getMvpSet().has(key);
 
   const tasks    = AGENT_TASKS[key] || ["Sledování KPI per sekce", "Reporting do dashboardu", "Eskalace na CEO"];
   const todayRuns= AGENT_RUNS[key]  || mockRuns(key, def);
@@ -2015,7 +2452,7 @@ function renderAgentDetail(key){
             ${isMvp ? '<span class="ag-mvp">MVP · 2 týdny</span>' : ''}
           </div>
           <div class="ad-h-badges">
-            <span class="ag-section-badge ${sec}">${SEC_LABEL[sec]}</span>
+            <span class="ag-section-badge ${sec}">${secLabels[sec]||sec}</span>
             <span class="ag-status ${status}">${STATUS_LABEL[status]}</span>
           </div>
           <div class="ad-h-desc">${desc}</div>
@@ -2173,6 +2610,10 @@ function getPeriodShort(){
 }
 
 function renderSectionSummary(d){
+  // V marketplace mode renderujeme placeholder se 4 marketplace KPI místo eshop sekcí
+  if (MODE === "marketplace") {
+    return renderSectionSummaryMarketplace(d);
+  }
   const skuValue   = d.agents.katalog.metrics[0][1];
   const missingDesc= d.agents.katalog.metrics[1][1];
 
@@ -2268,6 +2709,84 @@ function renderSectionSummary(d){
   document.getElementById("sec-summary").innerHTML = html;
 
   // Activity banner — aktualizace dle mutace
+  document.getElementById("ab-actions").textContent = ACTIONS_24H[current];
+  document.getElementById("ab-saved").textContent   = HOURS_SAVED[current];
+}
+
+/* ═══════ Marketplace mode — section summary ═══════ */
+function renderSectionSummaryMarketplace(d){
+  // Mock data pro marketplace přehled
+  const MP_KPI = {
+    CZ:{ amzn:"412 000 Kč", allegro:"—", emag:"—", heureka:"248 000 Kč", buybox:84, listings:128 },
+    SK:{ amzn:"—", allegro:"—", emag:"—", heureka:"82 000 Kč", buybox:79, listings:96 },
+    PL:{ amzn:"320 000 zł", allegro:"480 000 zł", emag:"—", heureka:"—", buybox:71, listings:142 },
+    HU:{ amzn:"—", allegro:"—", emag:"—", heureka:"—", buybox:0, listings:0 },
+    RO:{ amzn:"—", allegro:"—", emag:"180 000 lei", heureka:"—", buybox:0, listings:88 }
+  };
+  const m = MP_KPI[current] || MP_KPI.CZ;
+  const html = `
+    <div class="sec-sum-card sec-listings">
+      <div class="sec-sum-head" style="color:var(--sec-listings)">Listings</div>
+      <div class="sec-sum-agents">
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Listing manager</span></div>
+        <div class="ag-row auto"><span class="dot"></span><span class="name">A+ Content designer</span></div>
+        <div class="ag-row hitl"><span class="dot"></span><span class="name">Listing lokalizace</span></div>
+      </div>
+      <div class="sec-sum-metric">
+        <div class="num-row"><div class="num">${m.listings}</div><span class="trend-pill up">▲ 12 %</span></div>
+        <div class="lab">Aktivní listings</div>
+        <div class="sub-grid">
+          <div><div class="m-lab">Bez A+ contentu</div><div class="m-val">42 listings</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sec-sum-card sec-pricing">
+      <div class="sec-sum-head" style="color:var(--sec-pricing)">Pricing</div>
+      <div class="sec-sum-agents">
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Pricing engine</span></div>
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Buy Box watcher</span></div>
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Competitor monitor</span></div>
+      </div>
+      <div class="sec-sum-metric">
+        <div class="num-row"><div class="num">${m.buybox} %</div><span class="trend-pill ${m.buybox>=80?'up':'dn'}">▼ 3 %</span></div>
+        <div class="lab">Buy Box ownership (AMZN)</div>
+        <div class="sub-grid">
+          <div><div class="m-lab">Cenové změny dnes</div><div class="m-val">14 SKU</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sec-sum-card sec-mpads">
+      <div class="sec-sum-head" style="color:var(--sec-mpads)">Marketplace ads</div>
+      <div class="sec-sum-agents">
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Amazon Sponsored Products</span></div>
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Allegro promowane oferty</span></div>
+        <div class="ag-row hitl"><span class="dot"></span><span class="name">eMag Ads</span></div>
+      </div>
+      <div class="sec-sum-metric">
+        <div class="num-row"><div class="num">4,2×</div><span class="trend-pill up">▲ 0,4×</span></div>
+        <div class="lab">Avg ROAS (paid)</div>
+        <div class="sub-grid">
+          <div><div class="m-lab">ACoS (Amazon SP)</div><div class="m-val">18,4 %</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sec-sum-card sec-insights">
+      <div class="sec-sum-head" style="color:var(--sec-insights)">Insights</div>
+      <div class="sec-sum-agents">
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Cross-marketplace analytics</span></div>
+        <div class="ag-row auto"><span class="dot"></span><span class="name">Reviews handler</span></div>
+      </div>
+      <div class="sec-sum-metric">
+        <div class="num-row"><div class="num">${m.amzn}</div><span class="trend-pill up">▲ 18 %</span></div>
+        <div class="lab">Obrat AMZN 7d</div>
+        <div class="sub-grid">
+          <div><div class="m-lab">Profit margin (po fees)</div><div class="m-val">22,4 %</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById("sec-summary").innerHTML = html;
+  // Activity banner zachovat
   document.getElementById("ab-actions").textContent = ACTIONS_24H[current];
   document.getElementById("ab-saved").textContent   = HOURS_SAVED[current];
 }
@@ -2421,6 +2940,7 @@ function switchView(name){
   const active = document.querySelector('.sb-item[data-view="' + name + '"]');
   if (active) active.classList.add('active');
   if (name === 'agents') renderAgentsList();
+  if (name === 'skills') renderSkillsLibrary();
   window.scrollTo(0, 0);
 }
 document.querySelectorAll('.sb-item[data-view]').forEach(item => {
@@ -2438,6 +2958,16 @@ function tick(){
   document.getElementById("datestr").textContent = s;
 }
 tick(); setInterval(tick,30000);
+
+/* Init MODE state on page load */
+(function initMode(){
+  document.querySelectorAll("#mode-switcher .mode-btn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.mode === MODE);
+  });
+  const sub = document.getElementById("sb-brand-sub");
+  if (sub) sub.textContent = MODE === "marketplace" ? "Autonomní OS pro marketplaces" : "Autonomní OS pro eshop";
+  renderSidebarAgents();
+})();
 </script>
 </body>
 </html>
