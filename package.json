@@ -1,0 +1,18 @@
+{
+  "name": "ave-mundo-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Test suite for the avemundo.com static site (inline JS logic, contact form, consent).",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "jsdom": "^25.0.1",
+    "vitest": "^2.1.5"
+  }
+}
